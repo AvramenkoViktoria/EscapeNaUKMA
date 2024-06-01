@@ -11,11 +11,11 @@ public class RoomOption extends ImageButton {
     private static String pickImage(Status status) {
         String path = null;
         switch (status) {
-            case BLOCKED -> path = "C:\\Users\\ACER\\IdeaProjects\\EscapeNaUKMA\\Images\\Blocked.jpg";
-            case CURRENT -> path = "C:\\Users\\ACER\\IdeaProjects\\EscapeNaUKMA\\Images\\Current.jpg";
-            case PECHKUROVA -> path = "C:\\Users\\ACER\\IdeaProjects\\EscapeNaUKMA\\Images\\Pechkurova.jpg";
-            case VOZNIUK -> path = "C:\\Users\\ACER\\IdeaProjects\\EscapeNaUKMA\\Images\\Vozniuk.jpg";
-            case GLYBOVETS -> path = "C:\\Users\\ACER\\IdeaProjects\\EscapeNaUKMA\\Images\\Glybovets.jpg";
+            case BLOCKED -> path = "Images\\Blocked.jpg";
+            case CURRENT -> path = "Images\\Current.jpg";
+            case PECHKUROVA -> path = "Images\\Pechkurova.jpg";
+            case VOZNIUK -> path = "Images\\Vozniuk.jpg";
+            case GLYBOVETS -> path = "Images\\Glybovets.jpg";
         }
 
         return path;

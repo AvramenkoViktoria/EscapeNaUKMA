@@ -1,19 +1,22 @@
 import Enums.Status;
 import SuperSwing.RoundedButton;
+import SuperSwing.Warning;
 
 import javax.swing.*;
 
 import java.util.LinkedList;
 
 public class RoomMenu extends JFrame {
-    private static final int FRAME_WIDTH = 1300;
-    private static final int FRAME_HEIGHT = 900;
+    private static final int FRAME_WIDTH = 1200;
+    private static final int FRAME_HEIGHT = 800;
     private LinkedList<RoomOption> rooms = new LinkedList<>();
     private JPanel clarificationPanel;
     public RoomMenu() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
+        setResizable(false);
+        setLocationRelativeTo(null);
         addRoomText();
         addRooms();
         setVisible(true);
@@ -47,7 +50,7 @@ public class RoomMenu extends JFrame {
                 case BLOCKED:
                     if (clarificationPanel != null)
                         clarificationPanel.setVisible(false);
-                    Warning warning = new Warning("You cunt", this);
+                    Warning warning = new Warning("Previous room wasn't passed", 230, this);
                     break;
                 case PECHKUROVA, VOZNIUK, GLYBOVETS:
                     if (clarificationPanel != null) {

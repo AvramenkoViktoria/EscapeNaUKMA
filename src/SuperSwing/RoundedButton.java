@@ -8,23 +8,25 @@ public class RoundedButton extends JButton {
 
     public RoundedButton(String text) {
         super(text);
-        // Уберите установку границы по умолчанию
         setContentAreaFilled(false);
         setFocusPainted(false);
+        setOpaque(false);
+        setHorizontalAlignment(SwingConstants.CENTER);
+        setVerticalAlignment(SwingConstants.CENTER);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
-        // Включаем антиалиасинг для плавных углов
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Задаем цвет фона кнопки
+        // Draw the button background
         g2.setColor(getBackground());
         g2.fill(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 20, 20));
 
-        // Рисуем текст кнопки
-        super.paintComponent(g2);
+        // Call the superclass method to ensure the text is painted
+        super.paintComponent(g);
+
         g2.dispose();
     }
 
@@ -32,10 +34,9 @@ public class RoundedButton extends JButton {
     protected void paintBorder(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Задаем цвет границы кнопки
-        g2.setColor(getForeground());
-        g2.draw(new RoundRectangle2D.Float(0, 0, getWidth(), getHeight(), 20, 20));
+        g2.setColor(Color.DARK_GRAY);
+        g2.setStroke(new BasicStroke(2));
+        g2.draw(new RoundRectangle2D.Float(1, 1, getWidth() - 2, getHeight() - 2, 20, 20));
         g2.dispose();
     }
 
@@ -45,5 +46,3 @@ public class RoundedButton extends JButton {
         return shape.contains(x, y);
     }
 }
-
-
