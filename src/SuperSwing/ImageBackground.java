@@ -8,18 +8,23 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ImageBackground extends JPanel {
-    private BufferedImage image;
+    protected BufferedImage image;
 
     public ImageBackground(String imagePath) {
-        try {
-            image = ImageIO.read(new File(imagePath));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        loadImage(imagePath);
     }
 
     public ImageBackground(Color color) {
         setBackground(color);
+    }
+
+    protected void loadImage(String imagePath) {
+        try {
+            image = ImageIO.read(new File(imagePath));
+            repaint();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
