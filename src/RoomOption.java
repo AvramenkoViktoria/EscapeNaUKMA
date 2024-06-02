@@ -14,7 +14,7 @@ public class RoomOption extends ImageButton {
             case BLOCKED -> path = "Images\\Blocked.jpg";
             case CURRENT -> path = "Images\\Current.jpg";
             case PECHKUROVA -> path = "Images\\Pechkurova.jpg";
-            case VOZNIUK -> path = "Images\\Vozniuk.jpg";
+            case VOZNIUK -> path = "Images\\VozniukA.jpg";
             case GLYBOVETS -> path = "Images\\Glybovets.jpg";
         }
 
