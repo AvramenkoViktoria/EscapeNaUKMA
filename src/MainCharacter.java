@@ -1,6 +1,8 @@
 import Enums.Direction;
 import SceneObjects.Decoration;
+import SceneObjects.Desk;
 import SceneObjects.Door;
+import SceneObjects.PortalDesk;
 import SuperSwing.ImageBackground;
 
 import java.awt.*;
@@ -74,23 +76,27 @@ public class MainCharacter extends ImageBackground {
 
     public boolean canMoveForward(Decoration[] decorations) {
         Rectangle nextPosition = getNextPosition(5);
-        for (Decoration decoration : decorations) {
-            if (nextPosition.intersects(decoration.getBounds())) {
-                if (decoration instanceof Door && isEKeyPressed) {
-                    System.out.println("Going out");
-                }
-                return false;
-            }
-        }
-        return true;
+        return interactWithDecoration(decorations, nextPosition);
     }
 
     public boolean canMoveBackward(Decoration[] decorations) {
         Rectangle nextPosition = getNextPosition(-5);
+        return interactWithDecoration(decorations, nextPosition);
+    }
+    private boolean interactWithDecoration(Decoration[] decorations, Rectangle nextPosition) {
         for (Decoration decoration : decorations) {
             if (nextPosition.intersects(decoration.getBounds())) {
-                if (decoration instanceof Door && isEKeyPressed) {
-                    System.out.println("Going out");
+                switch (decoration) {
+                    case Door door when isEKeyPressed -> System.out.println("Going out");
+                    case Desk desk when isEKeyPressed -> {
+                        String message = desk.getThought();
+                        if (message != null) {
+                            System.out.println(message);
+                        }
+                    }
+                    case PortalDesk portalDesk when isEKeyPressed -> System.out.println("U sure?");
+                    default -> {
+                    }
                 }
                 return false;
             }

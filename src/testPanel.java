@@ -2,6 +2,7 @@ import Pechkurova.Pechkurova;
 import SceneObjects.Decoration;
 import SceneObjects.Desk;
 import SceneObjects.Door;
+import SceneObjects.PortalDesk;
 import SuperSwing.ImageBackground;
 
 import javax.swing.*;
@@ -29,25 +30,25 @@ public class testPanel extends ImageBackground implements ActionListener {
 
         mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 750);
 
-        decorations[0] = new Desk(-15, -15, 25, 1015);
-        decorations[1] = new Desk(-15, -15, 1315, 25);
-        decorations[2] = new Desk(-15, 990, 1315, 25);
-        decorations[3] = new Desk(1290, -15, 25, 1015);
+        decorations[0] = new Desk(-15, -15, 25, 1015, null);
+        decorations[1] = new Desk(-15, -15, 1315, 25, null);
+        decorations[2] = new Desk(-15, 990, 1315, 25, null);
+        decorations[3] = new Desk(1290, -15, 25, 1015, null);
         //Walls
         decorations[4] = new Door(945, 10, 213, 12);
         //Door
-        decorations[5] = new Desk(170, 122, 221, 301);
-        decorations[6] = new Desk(170, 577, 221, 303);
-        decorations[7] = new Desk(575, 123, 216, 300);
-        decorations[8] = new Desk(575, 577, 218, 301);
+        decorations[5] = new Desk(170, 122, 221, 301, "Message");
+        decorations[6] = new PortalDesk(170, 577, 221, 303, "Message"); //Needs to be PortalDesk
+        decorations[7] = new Desk(575, 123, 216, 300, "Message");
+        decorations[8] = new Desk(575, 577, 218, 301, "Message");
         //Desks
-        decorations[9] = new Desk(954, 456, 160, 423);
+        decorations[9] = new Desk(954, 456, 160, 423, "Message");
         //Pechkurova's table
-        decorations[10] = new Desk(1228, 57, 70, 354);
+        decorations[10] = new Desk(1228, 57, 70, 354, "Message");
         //Cabinet
-        decorations[11] = new Desk(1158, 10, 62, 48);
+        decorations[11] = new Desk(1158, 10, 62, 48, null);
         //Additional decoration
-        decorations[12] = new Desk(1118, 612, 20, 100);
+        decorations[12] = new Desk(1118, 612, 20, 100, "Message");
         //Pechkurova's chair
 
 

@@ -14,6 +14,7 @@ public class TestPanelMainCh extends JPanel {
     public TestPanelMainCh() {
         setLayout(null);
         mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 50);
+        /*
         decorations[0] = new Desk(850, 5, 5, 890);
         decorations[1] = new Desk(5, 5, 10, 890);
         decorations[2] = new Desk(5, 10, 890, 5);
@@ -23,6 +24,8 @@ public class TestPanelMainCh extends JPanel {
         decorations[6] = new Desk(600, 450, 100, 100);
         decorations[7] = new Desk(200, 450, 100, 100);
         decorations[8] = new Door(20, 30, 10, 90);
+
+         */
 
         add(mainCharacter);
         setFocusable(true);
