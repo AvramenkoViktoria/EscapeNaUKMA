@@ -1,4 +1,6 @@
-
+import SceneObjects.Decoration;
+import SceneObjects.Desk;
+import SceneObjects.Door;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,19 +9,20 @@ import java.awt.event.KeyEvent;
 
 public class TestPanelMainCh extends JPanel {
     private MainCharacter mainCharacter;
-    private Decoration[] decorations = new Decoration[8];
+    private Decoration[] decorations = new Decoration[9];
 
     public TestPanelMainCh() {
         setLayout(null);
         mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 50);
-        decorations[0] = new Decoration(850, 5, 5, 890);
-        decorations[1] = new Decoration(5, 5, 10, 890);
-        decorations[2] = new Decoration(5, 10, 890, 5);
-        decorations[3] = new Decoration(5, 800, 890, 5);
-        decorations[4] = new Decoration(200, 200, 100, 100);
-        decorations[5] = new Decoration(600, 200, 100, 100);
-        decorations[6] = new Decoration(600, 450, 100, 100);
-        decorations[7] = new Decoration(200, 450, 100, 100);
+        decorations[0] = new Desk(850, 5, 5, 890);
+        decorations[1] = new Desk(5, 5, 10, 890);
+        decorations[2] = new Desk(5, 10, 890, 5);
+        decorations[3] = new Desk(5, 800, 890, 5);
+        decorations[4] = new Desk(200, 200, 100, 100);
+        decorations[5] = new Desk(600, 200, 100, 100);
+        decorations[6] = new Desk(600, 450, 100, 100);
+        decorations[7] = new Desk(200, 450, 100, 100);
+        decorations[8] = new Door(20, 30, 10, 90);
 
         add(mainCharacter);
         setFocusable(true);

@@ -1,6 +1,8 @@
+package SceneObjects;
+
 import java.awt.*;
 
-public class Decoration {
+public abstract class Decoration {
     private int x;
     private int y;
     private int width;
@@ -34,7 +36,10 @@ public class Decoration {
     }
 
     public void draw(Graphics g) {
-        g.setColor(Color.RED); // или любой другой цвет
+        /*
+        g.setColor(Color.RED);
         g.fillRect(x, y, width, height);
+
+         */
     }
 }

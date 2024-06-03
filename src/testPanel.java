@@ -1,53 +1,104 @@
+import Pechkurova.Pechkurova;
+import SceneObjects.Decoration;
+import SceneObjects.Desk;
+import SceneObjects.Door;
+import SuperSwing.ImageBackground;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class testPanel extends JPanel implements ActionListener {
+public class testPanel extends ImageBackground implements ActionListener {
     private Timer timer;
     private LinkedList<Pechkurova> pechkurovas = new LinkedList<>();
-    private Decoration[] decorations = new Decoration[8];
-    private int collisionCounter = 0;  // Счетчик столкновений первой Pechkurova
+    private Decoration[] decorations = new Decoration[13];
+    private int collisionCounter = 0;
     private final Random random = new Random();
+    private MainCharacter mainCharacter;
 
-    public testPanel() {
+    public testPanel(String imagePath) {
+        super(imagePath);
+        setLayout(null);
         timer = new Timer(18, this);
-        Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.png", 100, 100);
+        Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.jpg", 1100, 100);
         pechkurovas.add(pechkurova);
         pechkurova.setxVelocity(3);
         pechkurova.setyVelocity(3);
 
-        decorations[0] = new Decoration(850, 5, 5, 890);
-        decorations[1] = new Decoration(5, 5, 10, 890);
-        decorations[2] = new Decoration(5, 10, 890, 5);
-        decorations[3] = new Decoration(5, 800, 890, 5);
-        decorations[4] = new Decoration(200, 200, 100, 100);
-        decorations[5] = new Decoration(600, 200, 100, 100);
-        decorations[6] = new Decoration(600, 450, 100, 100);
-        decorations[7] = new Decoration(200, 450, 100, 100);
+        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 750);
+
+        decorations[0] = new Desk(-15, -15, 25, 1015);
+        decorations[1] = new Desk(-15, -15, 1315, 25);
+        decorations[2] = new Desk(-15, 990, 1315, 25);
+        decorations[3] = new Desk(1290, -15, 25, 1015);
+        //Walls
+        decorations[4] = new Door(945, 10, 213, 12);
+        //Door
+        decorations[5] = new Desk(170, 122, 221, 301);
+        decorations[6] = new Desk(170, 577, 221, 303);
+        decorations[7] = new Desk(575, 123, 216, 300);
+        decorations[8] = new Desk(575, 577, 218, 301);
+        //Desks
+        decorations[9] = new Desk(954, 456, 160, 423);
+        //Pechkurova's table
+        decorations[10] = new Desk(1228, 57, 70, 354);
+        //Cabinet
+        decorations[11] = new Desk(1158, 10, 62, 48);
+        //Additional decoration
+        decorations[12] = new Desk(1118, 612, 20, 100);
+        //Pechkurova's chair
+
 
         add(pechkurova);
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 handleMousePress(e);
             }
         });
+        add(mainCharacter);
+        setFocusable(true);
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_W -> {
+                        if (mainCharacter.canMoveForward(decorations)) {
+                            mainCharacter.moveForward();
+                        }
+                    }
+                    case KeyEvent.VK_S -> {
+                        if (mainCharacter.canMoveBackward(decorations)) {
+                            mainCharacter.moveBackward();
+                        }
+                    }
+                    case KeyEvent.VK_D -> mainCharacter.turnRight();
+                    case KeyEvent.VK_A -> mainCharacter.turnLeft();
+                    case KeyEvent.VK_E -> mainCharacter.setEKeyPressed(true);
+                }
+                repaint();
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_E) {
+                    mainCharacter.setEKeyPressed(false);
+                }
+            }
+        });
+
 
         timer.start();
     }
 
     private void handleMousePress(MouseEvent e) {
         if (pechkurovas.size() <= 1) {
-            return;  // Не удаляем первую Pechkurova
+            return;
         }
 
-        for (int i = 1; i < pechkurovas.size(); i++) { // Начинаем с 1, чтобы не удалить первую Pechkurova
+        for (int i = 1; i < pechkurovas.size(); i++) {
             Pechkurova pechkurova = pechkurovas.get(i);
             if (pechkurova.getBounds().contains(e.getPoint())) {
                 pechkurovas.remove(i);
@@ -67,28 +118,44 @@ public class testPanel extends JPanel implements ActionListener {
             Pechkurova pechkurova = pechkurovas.get(i);
             pechkurova.move(decorations);
 
-            // Проверяем только для первого объекта в списке
+
             if (i == 0 && pechkurova.collides) {
                 firstPechkurovaCollided = true;
                 collisionCounter++;
-                pechkurova.collides = false; // сбрасываем флаг столкновения
+                pechkurova.collides = false;
             }
 
             pechkurova.setBounds(pechkurova.getXForMove(), pechkurova.getYForMove(), Pechkurova.SIZE, Pechkurova.SIZE);
         }
 
         if (firstPechkurovaCollided && collisionCounter >= 3) {
-            collisionCounter = 0;  // Сбрасываем счетчик после создания новой Pechkurova
+            collisionCounter = 0;
             Pechkurova firstPechkurova = pechkurovas.get(0);
-            Pechkurova newPechkurova = new Pechkurova("Images\\Pechkurova.png", firstPechkurova.getXForMove(), firstPechkurova.getYForMove());
-            newPechkurova.setxVelocity(random.nextInt(4) + 1);  // Рандомное значение от 1 до 4
-            newPechkurova.setyVelocity(random.nextInt(4) + 1);  // Рандомное значение от 1 до 4
+            Pechkurova newPechkurova = new Pechkurova("Images\\Pechkurova.jpg", firstPechkurova.getXForMove(), firstPechkurova.getYForMove());
+            newPechkurova.setxVelocity(random.nextInt(4) + 1);
+            newPechkurova.setyVelocity(random.nextInt(4) + 1);
             newPechkurovas.add(newPechkurova);
             add(newPechkurova);
         }
 
         pechkurovas.addAll(newPechkurovas);
+
+        for (Pechkurova pechkurova : pechkurovas) {
+            if (collide(mainCharacter, pechkurova)) {
+                handleCollision(mainCharacter, pechkurova);
+            }
+        }
         repaint();
+    }
+
+    private boolean collide(MainCharacter mainCharacter, Pechkurova pechkurova) {
+        return mainCharacter.getBounds().intersects(pechkurova.getBounds());
+    }
+
+    private void handleCollision(MainCharacter mainCharacter, Pechkurova pechkurova) {
+        System.out.println("OH NO!");
+        remove(mainCharacter);
+        mainCharacter.setBounds(-500, -500, 10, 10);
     }
 
     @Override

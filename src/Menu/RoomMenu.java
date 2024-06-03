@@ -1,4 +1,7 @@
+package Menu;
+
 import Enums.Status;
+import Pechkurova.PechkurovaLevel;
 import SuperSwing.ImageBackground;
 import SuperSwing.RoundedButton;
 import SuperSwing.RoundedPanel;

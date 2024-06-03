@@ -1,12 +1,14 @@
 import Enums.Direction;
+import SceneObjects.Decoration;
+import SceneObjects.Door;
 import SuperSwing.ImageBackground;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class MainCharacter extends ImageBackground {
     private int x, y;
     private Direction direction;
+    private boolean isEKeyPressed = false;
 
     public MainCharacter(String imagePath, int x, int y) {
         super(imagePath);
@@ -66,10 +68,17 @@ public class MainCharacter extends ImageBackground {
         loadImage(imagePath);
     }
 
+    public void setEKeyPressed(boolean isEKeyPressed) {
+        this.isEKeyPressed = isEKeyPressed;
+    }
+
     public boolean canMoveForward(Decoration[] decorations) {
         Rectangle nextPosition = getNextPosition(5);
         for (Decoration decoration : decorations) {
             if (nextPosition.intersects(decoration.getBounds())) {
+                if (decoration instanceof Door && isEKeyPressed) {
+                    System.out.println("Going out");
+                }
                 return false;
             }
         }
@@ -80,11 +89,15 @@ public class MainCharacter extends ImageBackground {
         Rectangle nextPosition = getNextPosition(-5);
         for (Decoration decoration : decorations) {
             if (nextPosition.intersects(decoration.getBounds())) {
+                if (decoration instanceof Door && isEKeyPressed) {
+                    System.out.println("Going out");
+                }
                 return false;
             }
         }
         return true;
     }
+
 
     private Rectangle getNextPosition(int step) {
         switch (direction) {

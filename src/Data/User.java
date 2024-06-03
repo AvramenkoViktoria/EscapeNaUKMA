@@ -1,3 +1,5 @@
+package Data;
+
 import Enums.Level;
 
 public class User {

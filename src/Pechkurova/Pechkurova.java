@@ -1,4 +1,6 @@
+package Pechkurova;
 
+import SceneObjects.Decoration;
 import SuperSwing.ImageBackground;
 
 
@@ -6,7 +8,7 @@ import java.util.Random;
 import java.util.Timer;
 
 public class Pechkurova extends ImageBackground {
-    public static final int SIZE = 100;
+    public static final int SIZE = 90;
     private int x;
     private int y;
     private int xVelocity;
@@ -53,7 +55,7 @@ public class Pechkurova extends ImageBackground {
             x = decoration.getX() + decoration.getWidth() + 1;
             xVelocityNeg = true;
             yVelocityNeg = false;
-            System.out.println("Left touch");
+            //System.out.println("Left touch");
             return true;
         }
         return false;
@@ -66,7 +68,7 @@ public class Pechkurova extends ImageBackground {
             x = decoration.getX() - SIZE - 1;
             xVelocityNeg = true;
             yVelocityNeg = false;
-            System.out.println("Right touch");
+            //System.out.println("Right touch");
             return true;
         }
         return false;
@@ -79,7 +81,7 @@ public class Pechkurova extends ImageBackground {
             y = decoration.getY() + decoration.getHeight() + 1;
             xVelocityNeg = false;
             yVelocityNeg = true;
-            System.out.println("Up touch");
+            //System.out.println("Up touch");
             return true;
         }
         return false;
@@ -92,7 +94,7 @@ public class Pechkurova extends ImageBackground {
             y = decoration.getY() - SIZE - 1;
             xVelocityNeg = false;
             yVelocityNeg = true;
-            System.out.println("Down touch");
+            //System.out.println("Down touch");
             return true;
         }
         return false;
