@@ -13,7 +13,7 @@ public class TestPanelMainCh extends JPanel {
 
     public TestPanelMainCh() {
         setLayout(null);
-        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 50);
+        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 50,100,100);
         /*
         decorations[0] = new Desk(850, 5, 5, 890);
         decorations[1] = new Desk(5, 5, 10, 890);

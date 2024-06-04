@@ -1,8 +1,5 @@
 import Pechkurova.Pechkurova;
-import SceneObjects.Decoration;
-import SceneObjects.Desk;
-import SceneObjects.Door;
-import SceneObjects.PortalDesk;
+import SceneObjects.*;
 import SuperSwing.ImageBackground;
 
 import javax.swing.*;
@@ -28,7 +25,7 @@ public class testPanel extends ImageBackground implements ActionListener {
         pechkurova.setxVelocity(3);
         pechkurova.setyVelocity(3);
 
-        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 750);
+        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 750, 100,100);
 
         decorations[0] = new Desk(-15, -15, 25, 1015, null);
         decorations[1] = new Desk(-15, -15, 1315, 25, null);
@@ -37,18 +34,18 @@ public class testPanel extends ImageBackground implements ActionListener {
         //Walls
         decorations[4] = new Door(945, 10, 213, 12);
         //Door
-        decorations[5] = new Desk(170, 122, 221, 301, "Message");
-        decorations[6] = new PortalDesk(170, 577, 221, 303, "Message"); //Needs to be PortalDesk
-        decorations[7] = new Desk(575, 123, 216, 300, "Message");
-        decorations[8] = new Desk(575, 577, 218, 301, "Message");
+        decorations[5] = new Desk(170, 122, 221, 301, "Litachok have seen his better days...");
+        decorations[6] = new PortalDesk(170, 577, 221, 303, "Be sure to check everything, because the moment you seat next task will start! Press E to seat."); //Needs to be PortalDesk
+        decorations[7] = new Desk(575, 123, 216, 300, "Are they going to create an altar for Karel?");
+        decorations[8] = new Desk(575, 577, 218, 301, "Java book? One day I will finally sit and learn how to code...");
         //Desks
-        decorations[9] = new Desk(954, 456, 160, 423, "Message");
+        decorations[9] = new Desk(954, 456, 160, 423, "Hmm, I see a big cup of coffee. But pani Olena just went out for one...");
         //Pechkurova's table
-        decorations[10] = new Desk(1228, 57, 70, 354, "Message");
+        decorations[10] = new Desk(1228, 57, 70, 354, "I am surprised that flowers are still alive in ecosystem of FI..");
         //Cabinet
         decorations[11] = new Desk(1158, 10, 62, 48, null);
         //Additional decoration
-        decorations[12] = new Desk(1118, 612, 20, 100, "Message");
+        decorations[12] = new Desk(1118, 612, 20, 100, "I don't think that it's a place for me...");
         //Pechkurova's chair
 
 
@@ -93,6 +90,7 @@ public class testPanel extends ImageBackground implements ActionListener {
 
         timer.start();
     }
+
 
     private void handleMousePress(MouseEvent e) {
         if (pechkurovas.size() <= 1) {

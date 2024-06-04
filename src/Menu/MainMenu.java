@@ -3,7 +3,7 @@ package Menu;
 import Data.FileManager;
 import Enums.Level;
 import SuperSwing.ImageBackground;
-import SuperSwing.TransparentButton;
+import SuperSwing.HoverButton;
 import SuperSwing.Warning;
 
 import javax.swing.*;
@@ -36,7 +36,7 @@ public class MainMenu extends JFrame {
     }
 
     private void addNewGameButton(ImageBackground background) {
-        TransparentButton button = new TransparentButton("New Game", new Color(171, 43, 44));
+        HoverButton button = new HoverButton("New Game", new Color(171, 43, 44));
         button.setBounds(890, 25, 245, 50);
         Font buttonFont = new Font("Chiller", Font.PLAIN, 70);
         button.setFont(buttonFont);
@@ -48,7 +48,7 @@ public class MainMenu extends JFrame {
     }
 
     private void addContinueButton(ImageBackground background) {
-        TransparentButton button = new TransparentButton("Continue", new Color(171, 43, 44));
+        HoverButton button = new HoverButton("Continue", new Color(171, 43, 44));
         button.setBounds(890, 95, 245, 50);
         Font buttonFont = new Font("Chiller", Font.PLAIN, 70);
         button.setFont(buttonFont);
@@ -65,7 +65,7 @@ public class MainMenu extends JFrame {
     }
 
     private void addExitButton(ImageBackground background) {
-        TransparentButton button = new TransparentButton("Exit", new Color(171, 43, 44));
+        HoverButton button = new HoverButton("Exit", new Color(171, 43, 44));
         button.setBounds(890,165, 245, 50);
         Font buttonFont = new Font("Chiller", Font.PLAIN, 70);
         button.setFont(buttonFont);

@@ -12,12 +12,10 @@ public class MainCharacter extends ImageBackground {
     private Direction direction;
     private boolean isEKeyPressed = false;
 
-    public MainCharacter(String imagePath, int x, int y) {
+    public MainCharacter(String imagePath, int x, int y, int width, int height) {
         super(imagePath);
-        this.x = x;
-        this.y = y;
         this.direction = Direction.UP; // Initial direction is UP
-        setBounds(x, y, 100, 100);
+        setBounds(x, y, width, height);
     }
 
     public void moveForward() {
