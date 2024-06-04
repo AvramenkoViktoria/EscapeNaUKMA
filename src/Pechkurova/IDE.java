@@ -113,7 +113,7 @@ public class IDE extends JFrame {
         background.repaint();
          */
         Method method9 = new Method("Images\\KarelMethods\\Method9.png", 432, 100, 800, 813);
-        method9.setBreak(new Break("Images\\break.png", 80, 10));
+        method9.setBreak(new Break("Images\\break.png", 150, 100));
         method9.setComment(new Comment("Images\\Comment.png", 30, 20));
         methods.add(method9);
         background.add(method9);

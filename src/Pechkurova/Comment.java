@@ -11,6 +11,8 @@ public class Comment extends ImageButtonSimple {
 
     public Comment(String path, int x, int y) {
         super(path);
+        this.x = x;
+        this.y = y;
     }
 
     public void move(int step) {

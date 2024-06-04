@@ -30,6 +30,7 @@ public class Method extends ImageBackground {
         breake.setBounds(breake.getX(), breake.getY(), 100, 30);
         add(breake);
         breaks.add(breake);
+        revalidate();
         repaint();
     }
 

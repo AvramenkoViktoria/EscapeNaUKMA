@@ -10,6 +10,8 @@ public class Break extends ImageButtonSimple {
     private int y;
     public Break (String path, int x, int y) {
         super(path);
+        this.x = x;
+        this.y = y;
     }
     public void move(int step) {
         y += step;
