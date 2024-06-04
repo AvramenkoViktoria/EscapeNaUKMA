@@ -3,7 +3,7 @@ import javax.swing.*;
 
 
 public class tempTest{
-    public static testPanel testPanel;
+    public static testPanel testPanel; 
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
