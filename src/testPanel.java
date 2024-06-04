@@ -1,3 +1,4 @@
+import Enums.SpeakerType;
 import Pechkurova.Pechkurova;
 import SceneObjects.*;
 import SuperSwing.ImageBackground;
@@ -25,7 +26,7 @@ public class testPanel extends ImageBackground implements ActionListener {
         pechkurova.setxVelocity(3);
         pechkurova.setyVelocity(3);
 
-        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 50, 750, 100,100);
+        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 40, 750, 100, 100);
 
         decorations[0] = new Desk(-15, -15, 25, 1015, null);
         decorations[1] = new Desk(-15, -15, 1315, 25, null);
@@ -63,18 +64,26 @@ public class testPanel extends ImageBackground implements ActionListener {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_W -> {
-                        if (mainCharacter.canMoveForward(decorations)) {
+                        if (mainCharacter.canMoveForward(decorations).isAbleToMove()) {
                             mainCharacter.moveForward();
                         }
                     }
                     case KeyEvent.VK_S -> {
-                        if (mainCharacter.canMoveBackward(decorations)) {
+                        if (mainCharacter.canMoveBackward(decorations).isAbleToMove()) {
                             mainCharacter.moveBackward();
                         }
                     }
                     case KeyEvent.VK_D -> mainCharacter.turnRight();
                     case KeyEvent.VK_A -> mainCharacter.turnLeft();
-                    case KeyEvent.VK_E -> mainCharacter.setEKeyPressed(true);
+                    case KeyEvent.VK_E -> {
+                        mainCharacter.setEKeyPressed(true);
+                        InteractiveObject interaction = mainCharacter.canMoveForward(decorations);
+                        if (interaction.IsDoor()) {
+                            System.out.println("Going out");
+                        } else if (interaction.getMessage() != null) {
+                            addDialogWindow(interaction);
+                        }
+                    }
                 }
                 repaint();
             }
@@ -89,6 +98,18 @@ public class testPanel extends ImageBackground implements ActionListener {
 
 
         timer.start();
+    }
+
+    private void addDialogWindow(InteractiveObject interaction) {
+        int x = tempTest.testPanel.getX() + tempTest.testPanel.getWidth() - DialogWindow.WIDTH;
+        int y = tempTest.testPanel.getY() + tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
+        DialogWindow dialogWindow;
+        if (interaction.getSpeakerType().equals(SpeakerType.FRIEND)) {
+            dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.FRIEND);
+        } else {
+            dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.USER);
+        }
+        add(dialogWindow);
     }
 
 

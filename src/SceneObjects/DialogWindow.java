@@ -7,12 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class DialogWindow extends JFrame {
+public class DialogWindow extends JPanel {
     private SpeakerType type;
     private int x;
     private int y;
-    private static final int WIDTH = 450; // Adjusted for better space
-    private static final int HEIGHT = 188; // Adjusted for better space
+    public static final int WIDTH = 450; // Adjusted for better space
+    public static final int HEIGHT = 188; // Adjusted for better space
     private JPanel panel;
     private JTextArea textArea;
     private String textToType;
@@ -33,18 +33,18 @@ public class DialogWindow extends JFrame {
         }
         currentIndex = 0;
 
-        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setResizable(false);
         setBounds(x, y, WIDTH, HEIGHT);
-
+        /*
         panel = new JPanel();
         panel.setLayout(null); // Using null layout to manually place components
         panel.setBounds(0, 0, WIDTH, HEIGHT);
         add(panel);
 
+         */
+
         // Set up the text area
         addTextArea();
-        panel.add(textArea);
+        add(textArea);
 
         // Add image label
         addImageLabel();
@@ -118,7 +118,7 @@ public class DialogWindow extends JFrame {
         Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         imageLabel.setIcon(new ImageIcon(image));
         imageLabel.setBounds(x, y, width, height); // Adjust bounds for better placement
-        panel.add(imageLabel);
+        add(imageLabel);
     }
 
     private void typeText(ActionEvent e) {
@@ -129,5 +129,7 @@ public class DialogWindow extends JFrame {
             ((Timer) e.getSource()).stop();
         }
     }
+
+
 }
 

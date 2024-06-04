@@ -1,8 +1,6 @@
 import Enums.Direction;
-import SceneObjects.Decoration;
-import SceneObjects.Desk;
-import SceneObjects.Door;
-import SceneObjects.PortalDesk;
+import Enums.SpeakerType;
+import SceneObjects.*;
 import SuperSwing.ImageBackground;
 
 import java.awt.*;
@@ -15,6 +13,8 @@ public class MainCharacter extends ImageBackground {
     public MainCharacter(String imagePath, int x, int y, int width, int height) {
         super(imagePath);
         this.direction = Direction.UP; // Initial direction is UP
+        this.x = x;
+        this.y = y;
         setBounds(x, y, width, height);
     }
 
@@ -72,34 +72,35 @@ public class MainCharacter extends ImageBackground {
         this.isEKeyPressed = isEKeyPressed;
     }
 
-    public boolean canMoveForward(Decoration[] decorations) {
+    public InteractiveObject canMoveForward(Decoration[] decorations) {
         Rectangle nextPosition = getNextPosition(5);
         return interactWithDecoration(decorations, nextPosition);
     }
 
-    public boolean canMoveBackward(Decoration[] decorations) {
+    public InteractiveObject canMoveBackward(Decoration[] decorations) {
         Rectangle nextPosition = getNextPosition(-5);
         return interactWithDecoration(decorations, nextPosition);
     }
-    private boolean interactWithDecoration(Decoration[] decorations, Rectangle nextPosition) {
+    private InteractiveObject interactWithDecoration(Decoration[] decorations, Rectangle nextPosition) {
         for (Decoration decoration : decorations) {
             if (nextPosition.intersects(decoration.getBounds())) {
                 switch (decoration) {
-                    case Door door when isEKeyPressed -> System.out.println("Going out");
-                    case Desk desk when isEKeyPressed -> {
-                        String message = desk.getThought();
-                        if (message != null) {
-                            System.out.println(message);
-                        }
+                    case Door door when isEKeyPressed -> {
+                        return new InteractiveObject(false, true, null, null);
                     }
-                    case PortalDesk portalDesk when isEKeyPressed -> System.out.println("U sure?");
+                    case Desk desk when isEKeyPressed -> {
+                        return new InteractiveObject(false, false, desk.getThought(), SpeakerType.USER);
+                    }
+                    case PortalDesk portalDesk when isEKeyPressed -> {
+                        return new InteractiveObject(false, false, portalDesk.getMessage(), SpeakerType.FRIEND);
+                    }
                     default -> {
                     }
                 }
-                return false;
+                return new InteractiveObject(false, false, null, null);
             }
         }
-        return true;
+        return new InteractiveObject(true, false, null, null);
     }
 
 
