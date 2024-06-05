@@ -40,5 +40,6 @@ public abstract class Decoration {
         g.setColor(Color.RED);
         g.fillRect(x, y, width, height);
 
+
     }
 }

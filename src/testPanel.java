@@ -28,8 +28,8 @@ public class testPanel extends ImageBackground implements ActionListener {
 
         mainCharacter = new MainCharacter("Images\\MainCharUp.png", 40, 750, 100, 100);
 
-        decorations[0] = new Desk(-15, -15, 25, 1015, null);
-        decorations[1] = new Desk(-15, -15, 1315, 25, null);
+        decorations[0] = new Desk(-30, -30, 40, 885, null);
+        decorations[1] = new Desk(-30, -30, 1200, 40, null);
         decorations[2] = new Desk(-15, 990, 1315, 25, null);
         decorations[3] = new Desk(1290, -15, 25, 1015, null);
         //Walls

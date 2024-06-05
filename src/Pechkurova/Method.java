@@ -27,7 +27,7 @@ public class Method extends ImageBackground {
     }
 
     public void setBreak(Break breake) {
-        breake.setBounds(breake.getX(), breake.getY(), 100, 30);
+        breake.setBounds(breake.getX(), breake.getY(), breake.getWidth(), breake.getHeight());
         add(breake);
         breaks.add(breake);
         revalidate();
@@ -36,7 +36,7 @@ public class Method extends ImageBackground {
 
     public void setComment(Comment comment) {
         this.comment = comment;
-        comment.setBounds(comment.getX(), comment.getY(), 200, 30);
+        comment.setBounds(comment.getX(), comment.getY(),comment.getWidth(), comment.getHeight());
         add(comment);
         repaint();
     }
