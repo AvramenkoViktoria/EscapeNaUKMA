@@ -36,16 +36,16 @@ public class DialogWindow extends RoundedPanel {
         setLayout(null); // Using null layout to manually place components
         setBounds(x, y, WIDTH, HEIGHT);
 
-        // Set up the text area
+
         addTextArea();
         add(textArea);
 
-        // Add image label
+
         addImageLabel();
 
         addOKButton();
 
-        // Set up a timer to simulate typing
+
         typingTimer = new Timer(50, new ActionListener() { // Faster typing
             @Override
             public void actionPerformed(ActionEvent e) {
