@@ -1,21 +1,24 @@
 import Enums.Direction;
 import Enums.SpeakerType;
 import SceneObjects.*;
-import SuperSwing.ImageBackground;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class MainCharacter extends ImageBackground {
+public class MainCharacter extends JLabel {
     private int x, y;
     private Direction direction;
     private boolean isEKeyPressed = false;
+    private int width, height; // Store the desired width and height of the image
 
     public MainCharacter(String imagePath, int x, int y, int width, int height) {
-        super(imagePath);
         this.direction = Direction.UP; // Initial direction is UP
         this.x = x;
         this.y = y;
-        setBounds(x, y, width, height);
+        this.width = width;
+        this.height = height;
+        setIcon(resizeImage(imagePath, width, height));
+        setBounds(x, y, width-5, height);
     }
 
     public void moveForward() {
@@ -60,12 +63,12 @@ public class MainCharacter extends ImageBackground {
 
     private void updateImage() {
         String imagePath = switch (direction) {
-            case UP -> "Images\\MainCharUp.png";
-            case RIGHT -> "Images\\MainCharRight.png";
-            case DOWN -> "Images\\MainCharDown.png";
-            case LEFT -> "Images\\MainCharLeft.png";
+            case UP -> "Images/MainCharUp.png";
+            case RIGHT -> "Images/MainCharRight.png";
+            case DOWN -> "Images/MainCharDown.png";
+            case LEFT -> "Images/MainCharLeft.png";
         };
-        loadImage(imagePath);
+        setIcon(resizeImage(imagePath, width, height));
     }
 
     public void setEKeyPressed(boolean isEKeyPressed) {
@@ -81,6 +84,7 @@ public class MainCharacter extends ImageBackground {
         Rectangle nextPosition = getNextPosition(-5);
         return interactWithDecoration(decorations, nextPosition);
     }
+
     private InteractiveObject interactWithDecoration(Decoration[] decorations, Rectangle nextPosition) {
         for (Decoration decoration : decorations) {
             if (nextPosition.intersects(decoration.getBounds())) {
@@ -103,7 +107,6 @@ public class MainCharacter extends ImageBackground {
         return new InteractiveObject(true, false, null, null);
     }
 
-
     private Rectangle getNextPosition(int step) {
         switch (direction) {
             case UP -> {
@@ -120,5 +123,12 @@ public class MainCharacter extends ImageBackground {
             }
         }
         return getBounds();
+    }
+
+    private ImageIcon resizeImage(String imagePath, int width, int height) {
+        ImageIcon originalIcon = new ImageIcon(imagePath);
+        Image originalImage = originalIcon.getImage();
+        Image resizedImage = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
     }
 }

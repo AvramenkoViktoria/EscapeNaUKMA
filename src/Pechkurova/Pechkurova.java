@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Timer;
 
 public class Pechkurova extends ImageBackground {
-    public static final int SIZE = 90;
+    public static final int SIZE = 80;
     private int x;
     private int y;
     private int xVelocity;
