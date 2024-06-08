@@ -19,7 +19,6 @@ public class Pechkurova extends ImageBackground {
     private boolean yVelocityNeg = false;
     private final Random random = new Random();
     public boolean collides = false;
-    private Timer timer;
 
     public Pechkurova(String imagePath, int x, int y) {
         super(imagePath);

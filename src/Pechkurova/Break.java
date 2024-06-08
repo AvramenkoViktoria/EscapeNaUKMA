@@ -1,22 +1,42 @@
 package Pechkurova;
 
-import SuperSwing.ImageButton;
 import SuperSwing.ImageButtonSimple;
 
-public class Break extends ImageButtonSimple {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class Break extends ImageButtonSimple{
     private static final int WIDTH = 60;
     private static final int HEIGHT = 16;
-    private int x;
-    private int y;
-    public Break (String path, int x, int y) {
-        super(path);
-        setBounds(x, y, WIDTH, HEIGHT);
+    private final int x;
+    private final int y;
+    private boolean crashed;
+
+    public Break(String imagePath, int x, int y) {
+        super(imagePath);
         this.x = x;
         this.y = y;
-    }
-    public void move(int step) {
-        y += step;
+        this.crashed = false;
         setBounds(x, y, WIDTH, HEIGHT);
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                removeBreak();
+            }
+        });
+    }
+
+    private void removeBreak() {
+        Container parent = SwingUtilities.getAncestorOfClass(Container.class, this);
+        if (parent != null) {
+            crashed = true;
+            setVisible(false);
+            parent.revalidate();
+            parent.repaint();
+        }
     }
 
     @Override
@@ -28,4 +48,23 @@ public class Break extends ImageButtonSimple {
     public int getY() {
         return y;
     }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
+    }
+
+    public void setCrashed(boolean crashed){
+        this.crashed = crashed;
+    }
+
+    public boolean isCrashed(){
+        return crashed;
+    }
+
 }

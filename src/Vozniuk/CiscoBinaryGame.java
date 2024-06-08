@@ -254,9 +254,7 @@ public class CiscoBinaryGame extends JFrame {
                     secNumValue == Integer.parseInt(secTextField.getText()) &&
                     thirdNumValue == Integer.parseInt(thirdTextField.getText()))
                 return true;
-        } catch (NumberFormatException ignored) {
-
-        }
+        } catch (NumberFormatException ignored) {}
         return false;
     }
 }
