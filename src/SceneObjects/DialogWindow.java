@@ -1,64 +1,72 @@
 package SceneObjects;
 
 import Enums.SpeakerType;
+import SuperSwing.RoundedButton;
+import SuperSwing.RoundedPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-public class DialogWindow extends JPanel {
+public class DialogWindow extends RoundedPanel {
     private SpeakerType type;
     private int x;
     private int y;
-    public static final int WIDTH = 450; // Adjusted for better space
-    public static final int HEIGHT = 188; // Adjusted for better space
-    private JPanel panel;
+    public static final int WIDTH = 450;
+    public static final int HEIGHT = 150;
     private JTextArea textArea;
     private String textToType;
     private int currentIndex;
-    private final String friendImagePath = "Images/friend.png"; // Ensure this path is correct
-    private final String userImagePath = "Images/MainCharDown.png"; // Ensure this path is correct
-    private final String pechkurovaImagePath = "Images/PechkurovaMess.png"; // Ensure this path is correct
+    private final String friendImagePath = "Images/friend.png";
+    private final String userImagePath = "Images/MainCharDown.png";
+    private final String pechkurovaImagePath = "Images/PechkurovaMess.png";
+    public RoundedButton OKButton;
+    private Timer typingTimer;
+    private Timer disappearanceTimer;
 
     public DialogWindow(int x, int y, String textToType, SpeakerType type) {
+        super(20); // Set the corner radius to 20
         this.x = x;
         this.y = y;
         this.type = type;
-        if (textToType!=null) {
-            this.textToType = textToType;
-        }
-        else{
-            this.textToType = "Let's continue our journey!";
-        }
-        currentIndex = 0;
+        this.textToType = (textToType != null) ? textToType : "Let's continue our journey!";
+        this.currentIndex = 0;
 
+        setLayout(null); // Using null layout to manually place components
         setBounds(x, y, WIDTH, HEIGHT);
-        /*
-        panel = new JPanel();
-        panel.setLayout(null); // Using null layout to manually place components
-        panel.setBounds(0, 0, WIDTH, HEIGHT);
-        add(panel);
 
-         */
 
-        // Set up the text area
         addTextArea();
         add(textArea);
 
-        // Add image label
+
         addImageLabel();
 
-        // Set up a timer to simulate typing
-        Timer timer = new Timer(50, new ActionListener() { // Faster typing
+        addOKButton();
+
+
+        typingTimer = new Timer(50, new ActionListener() { // Faster typing
             @Override
             public void actionPerformed(ActionEvent e) {
                 typeText(e);
             }
         });
-        timer.start();
+        typingTimer.start();
 
         setVisible(true);
+    }
+
+    private void addOKButton() {
+        if (type == SpeakerType.FRIEND) {
+            OKButton = new RoundedButton("OK");
+            int buttonWidth = 60;
+            int buttonHeight = 30;
+            int buttonX = textArea.getX() + (textArea.getWidth() - buttonWidth) / 2;
+            int buttonY = textArea.getY() + textArea.getHeight(); // 10 pixels below the text area
+            OKButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
+            add(OKButton);
+        }
     }
 
     private void addTextArea() {
@@ -68,56 +76,48 @@ public class DialogWindow extends JPanel {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
-        int x = 150;
-        int y = 5;
-        switch (type) {
-            case FRIEND:
-                break;
-            case USER:
-                break;
-            case PECHKUROVA:
-                break;
-            default:
-        }
-        textArea.setBackground(new Color(238, 238, 238)); // Set background color to black
-        textArea.setForeground(Color.BLACK); // Set text color to green
-        textArea.setBounds(x, y, WIDTH - 160, HEIGHT - 20); // Adjust bounds for better placement
+        textArea.setBackground(new Color(238, 238, 238)); // Set background color
+        textArea.setForeground(Color.BLACK); // Set text color
+
+        int textX = 160;
+        int textY = 10;
+        int textWidth = WIDTH - 170; // Adjusted width for better placement
+        int textHeight = HEIGHT - 65; // Adjusted height for better placement
+
+        textArea.setBounds(textX, textY, textWidth, textHeight);
     }
 
     private void addImageLabel() {
         JLabel imageLabel = new JLabel();
         ImageIcon icon;
-        int x = 0;
-        int y = 0;
-        int width;
-        int height;
+        int imageX = 0;
+        int imageY = 0;
+        int imageWidth;
+        int imageHeight;
 
         switch (type) {
             case FRIEND:
                 icon = new ImageIcon(friendImagePath);
-                x = -55;
-                y = 5;
-                width = 200;
-                height = 150;
+                imageWidth = 150;
+                imageHeight = 150;
                 break;
             case USER:
                 icon = new ImageIcon(userImagePath);
-                y = 0;
-                width = 150;
-                height = 150;
+                imageWidth = 150;
+                imageHeight = 150;
                 break;
             case PECHKUROVA:
                 icon = new ImageIcon(pechkurovaImagePath);
-                width = 140;
-                height = 140;
+                imageWidth = 140;
+                imageHeight = 140;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
 
-        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        Image image = icon.getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH);
         imageLabel.setIcon(new ImageIcon(image));
-        imageLabel.setBounds(x, y, width, height); // Adjust bounds for better placement
+        imageLabel.setBounds(imageX, imageY, imageWidth, imageHeight); // Adjust bounds for better placement
         add(imageLabel);
     }
 
@@ -126,10 +126,25 @@ public class DialogWindow extends JPanel {
             textArea.append(String.valueOf(textToType.charAt(currentIndex)));
             currentIndex++;
         } else {
-            ((Timer) e.getSource()).stop();
+            typingTimer.stop();
+            startDisappearanceTimer();
         }
     }
 
-
+    private void startDisappearanceTimer() {
+        disappearanceTimer = new Timer(2000, new ActionListener() { // Window disappears after 2 seconds
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Container parent = getParent();
+                if (parent != null) {
+                    parent.remove(DialogWindow.this);
+                    parent.repaint();
+                    parent.revalidate();
+                }
+                disappearanceTimer.stop();
+            }
+        });
+        disappearanceTimer.setRepeats(false);
+        disappearanceTimer.start();
+    }
 }
-

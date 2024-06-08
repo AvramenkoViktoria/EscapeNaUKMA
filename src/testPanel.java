@@ -16,6 +16,7 @@ public class testPanel extends ImageBackground implements ActionListener {
     private int collisionCounter = 0;
     private final Random random = new Random();
     private MainCharacter mainCharacter;
+    private DialogWindow dialogWindow;
 
     public testPanel(String imagePath) {
         super(imagePath);
@@ -26,27 +27,27 @@ public class testPanel extends ImageBackground implements ActionListener {
         pechkurova.setxVelocity(3);
         pechkurova.setyVelocity(3);
 
-        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 40, 750, 100, 100);
+        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 40, 650, 80, 80);
 
         decorations[0] = new Desk(-30, -30, 40, 885, null);
-        decorations[1] = new Desk(-30, -30, 1200, 40, null);
-        decorations[2] = new Desk(-15, 990, 1315, 25, null);
-        decorations[3] = new Desk(1290, -15, 25, 1015, null);
+        decorations[1] = new Desk(-30, -30, 1300, 40, null);
+        decorations[2] = new Desk(-30, 845, 1300, 50, null);
+        decorations[3] = new Desk(1191, -30, 100, 1015, null);
         //Walls
-        decorations[4] = new Door(945, 10, 213, 12);
+        decorations[4] = new Door(870, 10, 203, 12);
         //Door
-        decorations[5] = new Desk(170, 122, 221, 301, "Litachok have seen his better days...");
-        decorations[6] = new PortalDesk(170, 577, 221, 303, "Be sure to check everything, because the moment you seat next task will start! Press E to seat."); //Needs to be PortalDesk
-        decorations[7] = new Desk(575, 123, 216, 300, "Are they going to create an altar for Karel?");
-        decorations[8] = new Desk(575, 577, 218, 301, "Java book? One day I will finally sit and learn how to code...");
+        decorations[5] = new Desk(160, 103, 202, 260, "Litachok have seen his better days... Now next students will have to deal with him");
+        decorations[6] = new PortalDesk(160, 490, 202, 260, "Be sure to check everything, because the moment you seat next task will start! Press OK to start"); //Needs to be PortalDesk
+        decorations[7] = new Desk(530, 103, 202, 260, "Are they going to create an altar for Karel? I hope it will be a pyramid");
+        decorations[8] = new Desk(530, 490, 202, 260, "Java book? One day I will finally sit and learn how to code... But not today of course, not today");
         //Desks
-        decorations[9] = new Desk(954, 456, 160, 423, "Hmm, I see a big cup of coffee. But pani Olena just went out for one...");
+        decorations[9] = new Desk(880, 388, 152, 363, "Hmm, I see a big cup of coffee. But pani Olena just went out for one...");
         //Pechkurova's table
-        decorations[10] = new Desk(1228, 57, 70, 354, "I am surprised that flowers are still alive in ecosystem of FI..");
+        decorations[10] = new Desk(1140, 50, 70, 301, "I am surprised that flowers are still alive in ecosystem of FI..");
         //Cabinet
-        decorations[11] = new Desk(1158, 10, 62, 48, null);
+        decorations[11] = new Desk(1073, 10, 200, 40, null);
         //Additional decoration
-        decorations[12] = new Desk(1118, 612, 20, 100, "I don't think that it's a place for me...");
+        decorations[12] = new Desk(1035, 520, 20, 90, "I don't think that it's a place for me...");
         //Pechkurova's chair
 
 
@@ -101,9 +102,12 @@ public class testPanel extends ImageBackground implements ActionListener {
     }
 
     private void addDialogWindow(InteractiveObject interaction) {
-        int x = tempTest.testPanel.getX() + tempTest.testPanel.getWidth() - DialogWindow.WIDTH;
-        int y = tempTest.testPanel.getY() + tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
-        DialogWindow dialogWindow;
+        if (dialogWindow != null) {
+            remove(dialogWindow);
+            dialogWindow = null;
+        }
+        int x = 0;
+        int y =tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
         if (interaction.getSpeakerType().equals(SpeakerType.FRIEND)) {
             dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.FRIEND);
         } else {
