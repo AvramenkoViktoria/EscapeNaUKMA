@@ -1,3 +1,5 @@
+package Pechkurova;
+
 import Enums.SpeakerType;
 import Pechkurova.Pechkurova;
 import SceneObjects.DialogWindow;
