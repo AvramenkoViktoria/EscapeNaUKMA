@@ -1,10 +1,15 @@
 package Menu;
 
 import Enums.Status;
+import Pechkurova.PechkurovaDialogScene;
 import SuperSwing.ImageButton;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RoomOption extends ImageButton {
     private Status status;
+
     public RoomOption(Status status) {
         super(pickImage(status));
         this.status = status;
@@ -21,13 +26,13 @@ public class RoomOption extends ImageButton {
         }
 
         return path;
-     }
+    }
 
     public void setStatus(Status status) {
         this.status = status;
     }
 
-     private Status getStatus() {
+    private Status getStatus() {
         return status;
-     }
+    }
 }

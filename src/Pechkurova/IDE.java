@@ -22,6 +22,7 @@ public class IDE extends JFrame implements ActionListener {
     private Random random;
     private int lastMethodNum;
     private ArrayList<Integer> numbersOfMethodsOnScreen = new ArrayList<>();
+    private JFrame upperIDE;
 
     public IDE() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -58,7 +59,7 @@ public class IDE extends JFrame implements ActionListener {
 
     private void addUpperFrame() {
         int height = 110;
-        JFrame upperIDE = new JFrame();
+        upperIDE = new JFrame();
         upperIDE.setAlwaysOnTop(true);
         upperIDE.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         upperIDE.setResizable(false);
@@ -186,8 +187,10 @@ public class IDE extends JFrame implements ActionListener {
 
         for (Method method : methodsOnScreen) {
             method.move(step);
-            if (checkForLoss(method))
+            if (checkForLoss(method)) {
                 timer.stop();
+                loadBattleScene();
+            }
         }
 
         background.revalidate();
@@ -214,5 +217,25 @@ public class IDE extends JFrame implements ActionListener {
         }
         return method.getY() + method.getComment().getY() <= background.getY() &&
                 !method.getComment().getCurrentState().equals(CommentState.COMMENT);
+    }
+
+    private static JFrame battleFrame;
+    private void loadBattleScene() {
+        setVisible(false);
+        upperIDE.setVisible(false);
+        battleFrame = new JFrame();
+        battleFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        battleFrame.setLayout(null);
+        battleFrame.setSize(1214, 890);
+        battleFrame.setLocationRelativeTo(null);
+        BattleScene testPanel = new BattleScene("Images\\PechkurovaRoom.png");
+        testPanel.setBounds(0, 0, 1200, 853);
+        battleFrame.add(testPanel);
+        battleFrame.setLocationRelativeTo(null);
+        battleFrame.setVisible(true);
+    }
+
+    public static void closeBattleFrame() {
+        battleFrame.setVisible(false);
     }
 }

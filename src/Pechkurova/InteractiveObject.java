@@ -1,3 +1,5 @@
+package Pechkurova;
+
 import Enums.SpeakerType;
 
 public class InteractiveObject {

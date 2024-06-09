@@ -1,5 +1,6 @@
+package Pechkurova;
+
 import Enums.SpeakerType;
-import Pechkurova.Pechkurova;
 import SceneObjects.*;
 import SuperSwing.ImageBackground;
 
@@ -9,7 +10,7 @@ import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class testPanel extends ImageBackground implements ActionListener {
+public class BattleScene extends ImageBackground implements ActionListener {
     private Timer timer;
     private LinkedList<Pechkurova> pechkurovas = new LinkedList<>();
     private Decoration[] decorations = new Decoration[13];
@@ -18,7 +19,7 @@ public class testPanel extends ImageBackground implements ActionListener {
     private MainCharacter mainCharacter;
     private DialogWindow dialogWindow;
 
-    public testPanel(String imagePath) {
+    public BattleScene(String imagePath) {
         super(imagePath);
         setLayout(null);
         timer = new Timer(18, this);
@@ -80,7 +81,10 @@ public class testPanel extends ImageBackground implements ActionListener {
                         mainCharacter.setEKeyPressed(true);
                         InteractiveObject interaction = mainCharacter.canMoveForward(decorations);
                         if (interaction.IsDoor()) {
-                            System.out.println("Going out");
+                            remove(mainCharacter);
+                            IDE.closeBattleFrame();
+                            timer.stop();
+                            System.out.println("Yippie");
                         } else if (interaction.getMessage() != null) {
                             addDialogWindow(interaction);
                         }
@@ -101,13 +105,19 @@ public class testPanel extends ImageBackground implements ActionListener {
         timer.start();
     }
 
+    private void loadWinWindow() {
+        Container parent = SwingUtilities.getAncestorOfClass(Container.class, this);
+        if (parent != null)
+            parent.setVisible(false);
+    }
+
     private void addDialogWindow(InteractiveObject interaction) {
         if (dialogWindow != null) {
             remove(dialogWindow);
             dialogWindow = null;
         }
         int x = 0;
-        int y =tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
+        int y = tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
         if (interaction.getSpeakerType().equals(SpeakerType.FRIEND)) {
             dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.FRIEND);
         } else {
