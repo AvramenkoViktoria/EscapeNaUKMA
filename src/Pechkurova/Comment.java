@@ -18,12 +18,12 @@ public class Comment extends ImageButtonSimple {
     private final int y;
     private int changeCounter;
     private CommentState currentState;
-    private static final String FRAME_PATH = "Images\\Comment.png";
-    private static final String COMMENT_PATH = "Images\\Contract.png";
-    private static final String W_PATH = "Images\\Glybovets.jpg";
-    private static final String A_PATH = "Images\\Pechkurova.jpg";
-    private static final String S_PATH = "Images\\VozniukA.jpg";
-    private static final String D_PATH = "Images\\Budget.png";
+    private static final String FRAME_PATH = "Images\\Comm.png";
+    private static final String COMMENT_PATH = "Images\\Comment.png";
+    private static final String W_PATH = "Images\\W.png";
+    private static final String A_PATH = "Images\\A.png";
+    private static final String S_PATH = "Images\\S.png";
+    private static final String D_PATH = "Images\\D.png";
     private final Random random = new Random();
 
     public Comment(String path, int x, int y) {

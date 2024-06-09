@@ -24,12 +24,12 @@ public class BattleScene extends ImageBackground implements ActionListener {
         super(imagePath);
         setLayout(null);
         timer = new Timer(18, this);
-        Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.jpg", 1100, 100);
+        Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.jpg", 960, 20);
         pechkurovas.add(pechkurova);
         pechkurova.setxVelocity(3);
         pechkurova.setyVelocity(3);
 
-        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 40, 650, 80, 80);
+        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 40, 650, 90, 90);
 
         decorations[0] = new Desk(-30, -30, 40, 885, null);
         decorations[1] = new Desk(-30, -30, 1300, 40, null);
@@ -100,7 +100,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
         });
 
 
-        timer.start();
+        ///timer.start();
     }
 
     private void addDialogWindow(InteractiveObject interaction) {

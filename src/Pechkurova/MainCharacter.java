@@ -20,7 +20,7 @@ public class MainCharacter extends JLabel {
         this.width = width;
         this.height = height;
         setIcon(resizeImage(imagePath, width, height));
-        setBounds(x, y, width-5, height);
+        setBounds(x, y, width, height);
     }
 
     public void moveForward() {

@@ -80,7 +80,7 @@ public class IDE extends JFrame implements ActionListener {
         method1.setBreak(new Break("Images\\break.png", 197, 257));
         method1.setBreak(new Break("Images\\break.png", 117, 433));
         method1.setBreak(new Break("Images\\break.png", 117, 490));
-        method1.setComment(new Comment("Images\\Comment.png", 35, 25));
+        method1.setComment(new Comment("Images\\Comm.png", 35, 25));
         methods.add(method1);
 
         Method method2 = new Method("Images\\KarelMethods\\Method2.png", 434, -100, 800, 695);
@@ -88,14 +88,14 @@ public class IDE extends JFrame implements ActionListener {
         method2.setBreak(new Break("Images\\break.png", 195, 235));
         method2.setBreak(new Break("Images\\break.png", 118, 408));
         method2.setBreak(new Break("Images\\break.png", 155, 585));
-        method2.setComment(new Comment("Images\\Comment.png", 35, 29));
+        method2.setComment(new Comment("Images\\Comm.png", 35, 29));
         methods.add(method2);
 
         Method method3 = new Method("Images\\KarelMethods\\Method3.png", 433, -100, 800, 782);
         method3.setBreak(new Break("Images\\break.png", 156, 198));
         method3.setBreak(new Break("Images\\break.png", 238, 315));
         method3.setBreak(new Break("Images\\break.png", 238, 460));
-        method3.setComment(new Comment("Images\\Comment.png", 35, 22));
+        method3.setComment(new Comment("Images\\Comm.png", 35, 22));
         methods.add(method3);
 
         Method method4 = new Method("Images\\KarelMethods\\Method4.png", 433, -100, 800, 723);
@@ -103,21 +103,21 @@ public class IDE extends JFrame implements ActionListener {
         method4.setBreak(new Break("Images\\break.png", 157, 355));
         method4.setBreak(new Break("Images\\break.png", 125, 530));
         method4.setBreak(new Break("Images\\break.png", 85, 650));
-        method4.setComment(new Comment("Images\\Comment.png", 35, 30));
+        method4.setComment(new Comment("Images\\Comm.png", 35, 30));
         methods.add(method4);
 
         Method method5 = new Method("Images\\KarelMethods\\Method5.png", 432, -100, 800, 738);
         method5.setBreak(new Break("Images\\break.png", 87, 195));
         method5.setBreak(new Break("Images\\break.png", 87, 340));
         method5.setBreak(new Break("Images\\break.png", 87, 517));
-        method5.setComment(new Comment("Images\\Comment.png", 35, 50));
+        method5.setComment(new Comment("Images\\Comm.png", 35, 50));
         methods.add(method5);
 
         Method method6 = new Method("Images\\KarelMethods\\Method6.png", 433, -100, 800, 811);
         method6.setBreak(new Break("Images\\break.png", 88, 150));
         method6.setBreak(new Break("Images\\break.png", 160, 355));
         method6.setBreak(new Break("Images\\break.png", 88, 595));
-        method6.setComment(new Comment("Images\\Comment.png", 35, 33));
+        method6.setComment(new Comment("Images\\Comm.png", 35, 33));
         methods.add(method6);
 
         Method method7 = new Method("Images\\KarelMethods\\Method7.png", 433, -100, 800, 815);
@@ -125,7 +125,7 @@ public class IDE extends JFrame implements ActionListener {
         method7.setBreak(new Break("Images\\break.png", 127, 305));
         method7.setBreak(new Break("Images\\break.png", 127, 545));
         method7.setBreak(new Break("Images\\break.png", 90, 753));
-        method7.setComment(new Comment("Images\\Comment.png", 35, 13));
+        method7.setComment(new Comment("Images\\Comm.png", 35, 13));
         methods.add(method7);
 
         Method method8 = new Method("Images\\KarelMethods\\Method8.png", 433, -100, 800, 806);
@@ -133,7 +133,7 @@ public class IDE extends JFrame implements ActionListener {
         method8.setBreak(new Break("Images\\break.png", 167, 355));
         method8.setBreak(new Break("Images\\break.png", 88, 533));
         method8.setBreak(new Break("Images\\break.png", 127, 710));
-        method8.setComment(new Comment("Images\\Comment.png", 35, 30));
+        method8.setComment(new Comment("Images\\Comm.png", 35, 30));
         methods.add(method8);
 
         Method method9 = new Method("Images\\KarelMethods\\Method9.png", 405, -100, 800, 813);
@@ -141,7 +141,7 @@ public class IDE extends JFrame implements ActionListener {
         method9.setBreak(new Break("Images\\break.png", 125, 455));
         method9.setBreak(new Break("Images\\break.png", 85, 605));
         method9.setBreak(new Break("Images\\break.png", 85, 722));
-        method9.setComment(new Comment("Images\\Comment.png", 35, 13));
+        method9.setComment(new Comment("Images\\Comm.png", 35, 13));
         methods.add(method9);
     }
 
