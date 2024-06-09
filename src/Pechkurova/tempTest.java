@@ -1,9 +1,12 @@
+package Pechkurova;
+
+import Pechkurova.BattleScene;
 
 import javax.swing.*;
 
 
 public class tempTest{
-    public static testPanel testPanel; 
+    public static PechkurovaMonologue testPanel;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
@@ -11,7 +14,8 @@ public class tempTest{
         frame.setLayout(null);
         frame.setSize(1214, 890);
         frame.setLocationRelativeTo(null);
-        testPanel = new testPanel("Images\\PechkurovaRoom.png");
+        //testPanel = new BattleScene("Images\\PechkurovaRoom.png");
+        testPanel = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
         testPanel.setBounds(0, 0, 1200, 853);
         frame.add(testPanel);
         frame.setLocationRelativeTo(null);

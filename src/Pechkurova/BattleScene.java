@@ -1,3 +1,5 @@
+package Pechkurova;
+
 import Enums.SpeakerType;
 import Pechkurova.Pechkurova;
 import SceneObjects.*;
@@ -9,7 +11,7 @@ import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class testPanel extends ImageBackground implements ActionListener {
+public class BattleScene extends ImageBackground implements ActionListener {
     private Timer timer;
     private LinkedList<Pechkurova> pechkurovas = new LinkedList<>();
     private Decoration[] decorations = new Decoration[13];
@@ -18,7 +20,7 @@ public class testPanel extends ImageBackground implements ActionListener {
     private MainCharacter mainCharacter;
     private DialogWindow dialogWindow;
 
-    public testPanel(String imagePath) {
+    public BattleScene(String imagePath) {
         super(imagePath);
         setLayout(null);
         timer = new Timer(18, this);
@@ -107,7 +109,7 @@ public class testPanel extends ImageBackground implements ActionListener {
             dialogWindow = null;
         }
         int x = 0;
-        int y =tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
+        int y = tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
         if (interaction.getSpeakerType().equals(SpeakerType.FRIEND)) {
             dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.FRIEND);
         } else {
