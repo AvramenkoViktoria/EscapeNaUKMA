@@ -1,3 +1,4 @@
+import Pechkurova.MainCharacter;
 import SceneObjects.Decoration;
 import SceneObjects.Desk;
 import SceneObjects.Door;

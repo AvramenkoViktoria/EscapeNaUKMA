@@ -1,7 +1,7 @@
 package Menu;
 
 import Enums.Status;
-import Pechkurova.PechkurovaLevel;
+import Pechkurova.PechkurovaDialogScene;
 import SuperSwing.ImageBackground;
 import SuperSwing.RoundedButton;
 import SuperSwing.RoundedPanel;
@@ -50,8 +50,8 @@ public class RoomMenu extends JFrame {
     }
 
     private void addRooms(ImageBackground background) {
-        addRoom(Status.PECHKUROVA, (FRAME_WIDTH-300)/2+350, 200, 300, 300, background);
-        addRoom(Status.CURRENT, (FRAME_WIDTH-300)/2, 200, 300, 300, background);
+        addRoom(Status.CURRENT, (FRAME_WIDTH-300)/2+350, 200, 300, 300, background);
+        addRoom(Status.BLOCKED, (FRAME_WIDTH-300)/2, 200, 300, 300, background);
         addRoom(Status.BLOCKED, (FRAME_WIDTH-300)/2-350,200, 300, 300, background);
     }
 
@@ -77,7 +77,7 @@ public class RoomMenu extends JFrame {
                     if (clarificationPanel != null)
                         clarificationPanel.setVisible(false);
                     setVisible(false);
-                    PechkurovaLevel level = new PechkurovaLevel();
+                    PechkurovaDialogScene level = new PechkurovaDialogScene();
             }
         });
         add(room);
@@ -99,7 +99,7 @@ public class RoomMenu extends JFrame {
         button.setBounds(240, 90, 80, 40);
         button.addActionListener(e -> {
             setVisible(false);
-            PechkurovaLevel level = new PechkurovaLevel();
+            PechkurovaDialogScene level = new PechkurovaDialogScene();
         });
         clarificationPanel.add(text1);
         clarificationPanel.add(text2);

@@ -1,3 +1,5 @@
+package Pechkurova;
+
 import Enums.Direction;
 import Enums.SpeakerType;
 import SceneObjects.*;

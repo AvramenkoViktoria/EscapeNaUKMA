@@ -2,7 +2,6 @@ package SuperSwing;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,11 +11,7 @@ public class ImageButtonSimple extends JButton {
     private BufferedImage image;
 
     public ImageButtonSimple(String imagePath) {
-        try {
-            image = ImageIO.read(new File(imagePath));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        setPath(imagePath);
 
         setContentAreaFilled(false);
         setFocusPainted(false);
@@ -50,5 +45,16 @@ public class ImageButtonSimple extends JButton {
     @Override
     protected void paintBorder(Graphics g) {
         // Do not paint the default border
+    }
+
+    public void setPath(String imagePath) {
+        try {
+            image = ImageIO.read(new File(imagePath));
+            // Revalidate and repaint to ensure the component updates its appearance
+            revalidate();
+            repaint();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }

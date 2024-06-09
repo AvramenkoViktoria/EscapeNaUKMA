@@ -22,7 +22,7 @@ public class testPanel extends ImageBackground implements ActionListener {
         super(imagePath);
         setLayout(null);
         timer = new Timer(18, this);
-        Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.jpg", 950, 20);
+        Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.jpg", 1100, 100);
         pechkurovas.add(pechkurova);
         pechkurova.setxVelocity(3);
         pechkurova.setyVelocity(3);
@@ -101,27 +101,20 @@ public class testPanel extends ImageBackground implements ActionListener {
         timer.start();
     }
 
-
     private void addDialogWindow(InteractiveObject interaction) {
         if (dialogWindow != null) {
             remove(dialogWindow);
             dialogWindow = null;
         }
-
         int x = 0;
-        int y = getHeight() - DialogWindow.HEIGHT; // Position at the bottom
-
+        int y =tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
         if (interaction.getSpeakerType().equals(SpeakerType.FRIEND)) {
-            dialogWindow = new Hint(x, y, interaction.getMessage());
+            dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.FRIEND);
         } else {
-            dialogWindow = new Thought(x, y, interaction.getMessage(), SpeakerType.USER);
+            dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.USER);
         }
-
         add(dialogWindow);
-        setComponentZOrder(dialogWindow, 0); // Bring the dialogWindow to the front
-        dialogWindow.setVisible(true); // This will trigger the bringToFront method in DialogWindow
     }
-
 
 
     private void handleMousePress(MouseEvent e) {
