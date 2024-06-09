@@ -1,7 +1,7 @@
 package Menu;
 
 import Enums.Status;
-import Pechkurova.PechkurovaDialogScene;
+import Pechkurova.PechkurovaMonologue;
 import SuperSwing.ImageBackground;
 import SuperSwing.RoundedButton;
 import SuperSwing.RoundedPanel;
@@ -55,6 +55,8 @@ public class RoomMenu extends JFrame {
         addRoom(Status.BLOCKED, (FRAME_WIDTH-300)/2-350,200, 300, 300, background);
     }
 
+    public static JFrame monologueFrame;
+
     private void addRoom(Status status, int x, int y, int width, int height, ImageBackground background) {
         RoomOption room = new RoomOption(status);
         room.setBounds(x, y, width, height);
@@ -77,7 +79,16 @@ public class RoomMenu extends JFrame {
                     if (clarificationPanel != null)
                         clarificationPanel.setVisible(false);
                     setVisible(false);
-                    PechkurovaDialogScene level = new PechkurovaDialogScene();
+                    monologueFrame = new JFrame();
+                    monologueFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    monologueFrame.setLayout(null);
+                    monologueFrame.setSize(1214, 890);
+                    monologueFrame.setLocationRelativeTo(null);
+                    PechkurovaMonologue testPanel = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
+                    testPanel.setBounds(0, 0, 1200, 853);
+                    monologueFrame.add(testPanel);
+                    monologueFrame.setLocationRelativeTo(null);
+                    monologueFrame.setVisible(true);
             }
         });
         add(room);
@@ -95,11 +106,10 @@ public class RoomMenu extends JFrame {
         text2.setFont(font);
         text2.setBounds(20, 80, 340, 60);
         RoundedButton button = new RoundedButton("Yes");
-        //button.setFont();
         button.setBounds(240, 90, 80, 40);
         button.addActionListener(e -> {
             setVisible(false);
-            PechkurovaDialogScene level = new PechkurovaDialogScene();
+            PechkurovaMonologue monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
         });
         clarificationPanel.add(text1);
         clarificationPanel.add(text2);

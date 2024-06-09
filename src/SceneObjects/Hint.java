@@ -1,6 +1,8 @@
 package SceneObjects;
 
 import Enums.SpeakerType;
+import Pechkurova.IDE;
+import Pechkurova.PechkurovaMonologue;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,6 +23,8 @@ public class Hint extends DialogWindow {
                         parent.remove(Hint.this);
                         parent.repaint();
                         parent.revalidate();
+                        PechkurovaMonologue.sceneFrame.setVisible(false);
+                        IDE ide = new IDE();
                     }
                     disappearanceTimer.stop();
                 }

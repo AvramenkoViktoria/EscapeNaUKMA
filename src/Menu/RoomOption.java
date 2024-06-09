@@ -1,11 +1,7 @@
 package Menu;
 
 import Enums.Status;
-import Pechkurova.PechkurovaDialogScene;
 import SuperSwing.ImageButton;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class RoomOption extends ImageButton {
     private Status status;

@@ -1,6 +1,7 @@
 package Pechkurova;
 
 import Enums.SpeakerType;
+import Menu.RoomMenu;
 import Pechkurova.Pechkurova;
 import SceneObjects.DialogWindow;
 import SceneObjects.Thought;
@@ -70,6 +71,7 @@ public class PechkurovaMonologue extends ImageBackground {
         endY = tempY;
     }
 
+    public static JFrame sceneFrame;
     private void pechkurovaGoOut(ActionEvent e) {
         // Calculate the current position based on progress
         int currentX = (int) (startX + (endX - startX) * progress);
@@ -86,6 +88,17 @@ public class PechkurovaMonologue extends ImageBackground {
             progress = 1;
             timer.stop();
             remove(pechkurova);
+            sceneFrame = new JFrame();
+            sceneFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            sceneFrame.setLayout(null);
+            sceneFrame.setSize(1214, 890);
+            sceneFrame.setLocationRelativeTo(null);
+            PechkurovaScene scene = new PechkurovaScene("Images\\PechkurovaRoom.png");
+            scene.setBounds(0, 0, 1200, 853);
+            sceneFrame.add(scene);
+            sceneFrame.setLocationRelativeTo(null);
+            sceneFrame.setVisible(true);
+            RoomMenu.monologueFrame.setVisible(false);
         }
     }
 
@@ -94,7 +107,7 @@ public class PechkurovaMonologue extends ImageBackground {
         int y = getHeight() - DialogWindow.HEIGHT; // Позиція внизу
         Thought thought = new Thought(x, y, "I am going to buy coffee! Prepare your works!", SpeakerType.PECHKUROVA);
         add(thought);
-        thought.setVisible(true);
+        thought.bringToFront();
 
         // Створення таймера для приховування діалогу та початку виходу через 3 секунди
         Timer dialogTimer = new Timer(3000, e -> {
@@ -109,5 +122,4 @@ public class PechkurovaMonologue extends ImageBackground {
         dialogTimer.setRepeats(false); // Виконати тільки один раз
         dialogTimer.start();
     }
-
 }

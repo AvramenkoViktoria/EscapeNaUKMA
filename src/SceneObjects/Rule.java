@@ -1,6 +1,7 @@
 package SceneObjects;
 
 import Enums.SpeakerType;
+import Pechkurova.IDE;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class Rule extends DialogWindow {
 
-    public Rule(int x, int y, String textToType) {
+    public Rule(int x, int y, String textToType, boolean ide) {
         super(x, y, textToType, SpeakerType.FRIEND);
 
         // Override OKButton action to remove window on click
@@ -21,6 +22,12 @@ public class Rule extends DialogWindow {
                         parent.remove(Rule.this);
                         parent.repaint();
                         parent.revalidate();
+                        if (ide) {
+                            IDE.startTimer();
+                        } else {
+                            IDE.testPanel.addKeyListeners();
+                            IDE.testPanel.startTimer();
+                        }
                     }
                 }
             });

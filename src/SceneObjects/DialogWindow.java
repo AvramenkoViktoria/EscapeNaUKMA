@@ -156,7 +156,7 @@ public class DialogWindow extends RoundedPanel {
         }
     }
 
-    private void bringToFront() {
+    public void bringToFront() {
         Container parent = getParent();
         if (parent != null) {
             parent.setComponentZOrder(this, 0); // Bring this DialogWindow to the front

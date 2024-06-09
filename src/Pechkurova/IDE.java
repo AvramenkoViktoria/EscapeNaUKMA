@@ -1,6 +1,9 @@
 package Pechkurova;
 
+import Data.FileManager;
 import Enums.CommentState;
+import SceneObjects.DialogWindow;
+import SceneObjects.Rule;
 import SuperSwing.ImageBackground;
 
 import javax.swing.*;
@@ -18,7 +21,7 @@ public class IDE extends JFrame implements ActionListener {
     private LinkedList<Method> methods = new LinkedList<Method>();
     private LinkedList<Method> methodsOnScreen = new LinkedList<Method>();
     private ImageBackground background;
-    private Timer timer;
+    private static Timer timer;
     private Random random;
     private int lastMethodNum;
     private ArrayList<Integer> numbersOfMethodsOnScreen = new ArrayList<>();
@@ -42,7 +45,12 @@ public class IDE extends JFrame implements ActionListener {
 
         addUpperFrame();
         initializeMethodsList();
-        timer = new Timer(15, this);
+        int delay = 0;
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT -> delay = 15;
+            case BUDGET, GRANT -> delay = 13;
+        }
+        timer = new Timer(delay, this);
         random = new Random();
         int newMethodNum = random.nextInt(9);
         lastMethodNum = newMethodNum;
@@ -54,6 +62,18 @@ public class IDE extends JFrame implements ActionListener {
         background.revalidate();
         background.repaint();
         methodsOnScreen.add(newMethod);
+        addRuleWindow();
+    }
+
+    private void addRuleWindow() {
+        DialogWindow window = new Rule(getX() - 310, getY() + getHeight() - DialogWindow.HEIGHT - 200, "U cunt", true);
+        background.add(window);
+        window.bringToFront();
+        background.revalidate();
+        background.repaint();
+    }
+
+    public static void startTimer() {
         timer.start();
     }
 
@@ -219,7 +239,9 @@ public class IDE extends JFrame implements ActionListener {
                 !method.getComment().getCurrentState().equals(CommentState.COMMENT);
     }
 
-    private static JFrame battleFrame;
+    public static JFrame battleFrame;
+    public static BattleScene testPanel;
+
     private void loadBattleScene() {
         setVisible(false);
         upperIDE.setVisible(false);
@@ -228,14 +250,11 @@ public class IDE extends JFrame implements ActionListener {
         battleFrame.setLayout(null);
         battleFrame.setSize(1214, 890);
         battleFrame.setLocationRelativeTo(null);
-        BattleScene testPanel = new BattleScene("Images\\PechkurovaRoom.png");
+        testPanel = new BattleScene("Images\\PechkurovaRoom.png");
         testPanel.setBounds(0, 0, 1200, 853);
         battleFrame.add(testPanel);
+        testPanel.addRuleWindow();
         battleFrame.setLocationRelativeTo(null);
         battleFrame.setVisible(true);
-    }
-
-    public static void closeBattleFrame() {
-        battleFrame.setVisible(false);
     }
 }

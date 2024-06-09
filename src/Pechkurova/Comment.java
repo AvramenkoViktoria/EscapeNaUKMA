@@ -1,5 +1,6 @@
 package Pechkurova;
 
+import Data.FileManager;
 import Enums.CommentState;
 import SuperSwing.ImageButtonSimple;
 
@@ -17,6 +18,7 @@ public class Comment extends ImageButtonSimple {
     private final int x;
     private final int y;
     private int changeCounter;
+    private int changeBound;
     private CommentState currentState;
     private static final String FRAME_PATH = "Images\\Comm.png";
     private static final String COMMENT_PATH = "Images\\Comment.png";
@@ -33,7 +35,10 @@ public class Comment extends ImageButtonSimple {
         this.y = y;
         this.changeCounter = 0;
         this.currentState = CommentState.FRAME;
-
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT, BUDGET -> changeBound = 2;
+            case GRANT -> changeBound = 3;
+        }
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -72,7 +77,7 @@ public class Comment extends ImageButtonSimple {
     }
 
     public void changeImage() {
-        if (changeCounter > 1) {
+        if (changeCounter >= changeBound) {
             setImagePath(COMMENT_PATH);
             setCurrentState(CommentState.COMMENT);
         } else {

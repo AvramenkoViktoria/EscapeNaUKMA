@@ -17,6 +17,7 @@ public class tempTest{
         testPanel = new BattleScene("Images\\PechkurovaRoom.png");
         testPanel.setBounds(0, 0, 1200, 853);
         frame.add(testPanel);
+        testPanel.addRuleWindow();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

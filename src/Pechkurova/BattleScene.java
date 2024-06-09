@@ -1,7 +1,6 @@
 package Pechkurova;
 
-import Enums.SpeakerType;
-import Pechkurova.Pechkurova;
+import Data.FileManager;
 import SceneObjects.*;
 import SuperSwing.ImageBackground;
 
@@ -12,18 +11,32 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class BattleScene extends ImageBackground implements ActionListener {
-    private Timer timer;
-    private LinkedList<Pechkurova> pechkurovas = new LinkedList<>();
-    private Decoration[] decorations = new Decoration[13];
+    private final Timer timer;
+    private final LinkedList<Pechkurova> pechkurovas = new LinkedList<>();
+    private final Decoration[] decorations = new Decoration[13];
     private int collisionCounter = 0;
     private final Random random = new Random();
-    private MainCharacter mainCharacter;
-    private DialogWindow dialogWindow;
+    private final MainCharacter mainCharacter;
+    private int mitosisNumber = 0;
 
     public BattleScene(String imagePath) {
         super(imagePath);
         setLayout(null);
-        timer = new Timer(18, this);
+        int delay = 0;
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT:
+                delay = 20;
+                mitosisNumber = 3;
+                break;
+            case BUDGET:
+                delay = 16;
+                mitosisNumber = 2;
+                break;
+            case GRANT:
+                delay = 16;
+                mitosisNumber = 1;
+        }
+        timer = new Timer(delay, this);
         Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.jpg", 960, 20);
         pechkurovas.add(pechkurova);
         pechkurova.setxVelocity(3);
@@ -62,6 +75,17 @@ public class BattleScene extends ImageBackground implements ActionListener {
         });
         add(mainCharacter);
         setFocusable(true);
+    }
+
+    public void addRuleWindow() {
+        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT , "U cunt", false);
+        add(window);
+        window.bringToFront();
+        revalidate();
+        repaint();
+    }
+
+    public void addKeyListeners() {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -83,8 +107,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
                         InteractiveObject interaction = mainCharacter.canMoveForward(decorations);
                         if (interaction.IsDoor()) {
                             System.out.println("Going out");
-                        } else if (interaction.getMessage() != null) {
-                            addDialogWindow(interaction);
+                            IDE.battleFrame.setVisible(false);
                         }
                     }
                 }
@@ -98,26 +121,11 @@ public class BattleScene extends ImageBackground implements ActionListener {
                 }
             }
         });
-
-
-        ///timer.start();
     }
 
-    private void addDialogWindow(InteractiveObject interaction) {
-        if (dialogWindow != null) {
-            remove(dialogWindow);
-            dialogWindow = null;
-        }
-        int x = 0;
-        int y = tempTest.testPanel.getHeight() - DialogWindow.HEIGHT;
-        if (interaction.getSpeakerType().equals(SpeakerType.FRIEND)) {
-            dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.FRIEND);
-        } else {
-            dialogWindow = new DialogWindow(x, y, interaction.getMessage(), SpeakerType.USER);
-        }
-        add(dialogWindow);
+    public void startTimer() {
+        timer.start();
     }
-
 
     private void handleMousePress(MouseEvent e) {
         if (pechkurovas.size() <= 1) {
@@ -154,9 +162,9 @@ public class BattleScene extends ImageBackground implements ActionListener {
             pechkurova.setBounds(pechkurova.getXForMove(), pechkurova.getYForMove(), Pechkurova.SIZE, Pechkurova.SIZE);
         }
 
-        if (firstPechkurovaCollided && collisionCounter >= 3) {
+        if (firstPechkurovaCollided && collisionCounter >= mitosisNumber) {
             collisionCounter = 0;
-            Pechkurova firstPechkurova = pechkurovas.get(0);
+            Pechkurova firstPechkurova = pechkurovas.getFirst();
             Pechkurova newPechkurova = new Pechkurova("Images\\Pechkurova.jpg", firstPechkurova.getXForMove(), firstPechkurova.getYForMove());
             newPechkurova.setxVelocity(random.nextInt(4) + 1);
             newPechkurova.setyVelocity(random.nextInt(4) + 1);
@@ -168,7 +176,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
 
         for (Pechkurova pechkurova : pechkurovas) {
             if (collide(mainCharacter, pechkurova)) {
-                handleCollision(mainCharacter, pechkurova);
+                handleCollision(mainCharacter);
             }
         }
         repaint();
@@ -178,10 +186,11 @@ public class BattleScene extends ImageBackground implements ActionListener {
         return mainCharacter.getBounds().intersects(pechkurova.getBounds());
     }
 
-    private void handleCollision(MainCharacter mainCharacter, Pechkurova pechkurova) {
+    private void handleCollision(MainCharacter mainCharacter) {
         System.out.println("OH NO!");
         remove(mainCharacter);
         mainCharacter.setBounds(-500, -500, 10, 10);
+        IDE.battleFrame.setVisible(false);
     }
 
     @Override
