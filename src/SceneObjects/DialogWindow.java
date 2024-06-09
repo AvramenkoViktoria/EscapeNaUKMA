@@ -23,7 +23,7 @@ public class DialogWindow extends RoundedPanel {
     private final String pechkurovaImagePath = "Images/PechkurovaMess.png";
     public RoundedButton OKButton;
     private Timer typingTimer;
-    private Timer disappearanceTimer;
+    public Timer disappearanceTimer;
 
     public DialogWindow(int x, int y, String textToType, SpeakerType type) {
         super(20); // Set the corner radius to 20
@@ -57,7 +57,7 @@ public class DialogWindow extends RoundedPanel {
         setVisible(true);
     }
 
-    private void addOKButton() {
+    public void addOKButton() {
         if (type == SpeakerType.FRIEND) {
             OKButton = new RoundedButton("OK");
             int buttonWidth = 60;
@@ -131,8 +131,8 @@ public class DialogWindow extends RoundedPanel {
         }
     }
 
-    private void startDisappearanceTimer() {
-        disappearanceTimer = new Timer(2000, new ActionListener() { // Window disappears after 2 seconds
+    public void startDisappearanceTimer() {
+        disappearanceTimer = new Timer(10000, new ActionListener() { // Window disappears after 2 seconds
             @Override
             public void actionPerformed(ActionEvent e) {
                 Container parent = getParent();
@@ -146,5 +146,22 @@ public class DialogWindow extends RoundedPanel {
         });
         disappearanceTimer.setRepeats(false);
         disappearanceTimer.start();
+    }
+
+    @Override
+    public void setVisible(boolean isVisible) {
+        super.setVisible(isVisible);
+        if (isVisible) {
+            bringToFront();
+        }
+    }
+
+    private void bringToFront() {
+        Container parent = getParent();
+        if (parent != null) {
+            parent.setComponentZOrder(this, 0); // Bring this DialogWindow to the front
+            parent.repaint();
+            parent.revalidate();
+        }
     }
 }

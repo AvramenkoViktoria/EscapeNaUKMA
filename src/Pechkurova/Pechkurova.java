@@ -1,9 +1,15 @@
 package Pechkurova;
 
+import Enums.SpeakerType;
 import SceneObjects.Decoration;
+import SceneObjects.DialogWindow;
+import SceneObjects.Thought;
 import SuperSwing.ImageBackground;
 
 
+import javax.swing.*;
+import java.awt.*;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Timer;
 
@@ -27,6 +33,8 @@ public class Pechkurova extends ImageBackground {
         this.y = y;
         setBounds(x, y, SIZE, SIZE);
     }
+
+
 
     public void move(Decoration[] decorations) {
         collides = false;
