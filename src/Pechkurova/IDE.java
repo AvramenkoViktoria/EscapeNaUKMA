@@ -2,7 +2,9 @@ package Pechkurova;
 
 import Data.FileManager;
 import Enums.CommentState;
+import Enums.Level;
 import SceneObjects.DialogWindow;
+import SceneObjects.Hearts;
 import SceneObjects.Rule;
 import SuperSwing.ImageBackground;
 
@@ -26,6 +28,7 @@ public class IDE extends JFrame implements ActionListener {
     private int lastMethodNum;
     private ArrayList<Integer> numbersOfMethodsOnScreen = new ArrayList<>();
     private JFrame upperIDE;
+    private ImageBackground upperBackground;
 
     public IDE() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -45,11 +48,21 @@ public class IDE extends JFrame implements ActionListener {
 
         addUpperFrame();
         initializeMethodsList();
-        int delay = 0;
-        switch (FileManager.user.getLevel()) {
-            case CONTRACT -> delay = 15;
-            case BUDGET, GRANT -> delay = 13;
-        }
+        int delay = switch (FileManager.user.getLevel()) {
+            case CONTRACT -> {
+                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 1050, 5));
+                yield 15;
+            }
+            case BUDGET -> {
+                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 1100, 5));
+                yield 13;
+            }
+            case GRANT -> {
+                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 1150, 5));
+                yield 13;
+            }
+            default -> 0;
+        };
         timer = new Timer(delay, this);
         random = new Random();
         int newMethodNum = random.nextInt(9);
@@ -85,10 +98,10 @@ public class IDE extends JFrame implements ActionListener {
         upperIDE.setResizable(false);
         upperIDE.setBounds(getX(), getY() - 60, WIDTH, height);
         upperIDE.setLayout(null);
-        ImageBackground background1 = new ImageBackground("Images\\IDEUpper.png");
-        background1.setLayout(null);
-        background1.setBounds(0, 0, WIDTH - 20, upperIDE.getHeight() - 38);
-        upperIDE.add(background1);
+        upperBackground = new ImageBackground("Images\\IDEUpper.png");
+        upperBackground.setLayout(null);
+        upperBackground.setBounds(0, 0, WIDTH - 20, upperIDE.getHeight() - 38);
+        upperIDE.add(upperBackground);
         upperIDE.revalidate();
         upperIDE.repaint();
         upperIDE.setVisible(true);
@@ -163,6 +176,12 @@ public class IDE extends JFrame implements ActionListener {
         method9.setBreak(new Break("Images\\break.png", 85, 722));
         method9.setComment(new Comment("Images\\Comm.png", 35, 13));
         methods.add(method9);
+    }
+
+    private void addHeartsPanel(Hearts hearts) {
+        upperBackground.add(hearts);
+        upperBackground.revalidate();
+        upperBackground.repaint();
     }
 
     @Override
