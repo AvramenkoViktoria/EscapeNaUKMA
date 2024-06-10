@@ -49,7 +49,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
         pechkurova.setxVelocity(3);
         pechkurova.setyVelocity(3);
 
-        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 40, 650, 90, 90);
+        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 80, 530, 80, 80);
 
         decorations[0] = new Desk(-30, -30, 40, 885, null);
         decorations[1] = new Desk(-30, -30, 1300, 40, null);
@@ -85,7 +85,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
     }
 
     public void addRuleWindow() {
-        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT, "U cunt", false);
+        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT, "On no! You failed. Now try to run away!", false);
         add(window);
         window.bringToFront();
         revalidate();
@@ -240,7 +240,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
                 switch (FileManager.user.getHeartsNum()) {
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 200, 600));
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.CONTRACT, 200, 600));
                         break;
                     case 1:
                         return true;

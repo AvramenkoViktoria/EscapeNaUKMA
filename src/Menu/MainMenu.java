@@ -6,12 +6,16 @@ import SuperSwing.ImageBackground;
 import SuperSwing.HoverButton;
 import SuperSwing.Warning;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 public class MainMenu extends JFrame {
     private static final int FRAME_WIDTH = 1200;
     private static final int FRAME_HEIGHT = 800;
+    private Clip backgroundMusicClip;
 
     public MainMenu() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -20,6 +24,7 @@ public class MainMenu extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
         addBackground();
+        playBackgroundMusic("Audio\\Menu.wav"); // Play background music
         setVisible(true);
     }
 
@@ -57,8 +62,7 @@ public class MainMenu extends JFrame {
             if (!FileManager.user.getLevel().equals(Level.NONE)) {
                 RoomMenu roomMenu = new RoomMenu();
             } else {
-                setVisible(false);
-                Warning warning = new Warning("There is no progress to continue!", 270,this);
+                Warning warning = new Warning("There is no progress to continue!", 270, this);
             }
         });
         background.add(button);
@@ -66,7 +70,7 @@ public class MainMenu extends JFrame {
 
     private void addExitButton(ImageBackground background) {
         HoverButton button = new HoverButton("Exit", new Color(171, 43, 44));
-        button.setBounds(890,165, 245, 50);
+        button.setBounds(890, 165, 245, 50);
         Font buttonFont = new Font("Chiller", Font.PLAIN, 70);
         button.setFont(buttonFont);
         button.addActionListener(e -> {
@@ -75,4 +79,32 @@ public class MainMenu extends JFrame {
         });
         background.add(button);
     }
+
+    // Method to play background music
+    private void playBackgroundMusic(String filePath) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
+        }
+    }
+
 }

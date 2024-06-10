@@ -16,7 +16,7 @@ public class PechkurovaScene extends ImageBackground {
         super(imagePath);
         setLayout(null);
 
-        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 40, 650, 80, 80);
+        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 990, 250, 80, 80);
 
         decorations[0] = new Desk(-30, -30, 40, 885, null);
         decorations[1] = new Desk(-30, -30, 1300, 40, null);

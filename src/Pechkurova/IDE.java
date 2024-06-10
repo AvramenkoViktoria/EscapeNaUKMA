@@ -79,7 +79,7 @@ public class IDE extends JFrame implements ActionListener {
     }
 
     private void addRuleWindow() {
-        DialogWindow window = new Rule(getX() - 310, getY() + getHeight() - DialogWindow.HEIGHT - 200, "U cunt", true);
+        DialogWindow window = new Rule(0, HEIGHT-DialogWindow.HEIGHT-20, "You did not write comments and have breaks. Remove them faster till they reach red line!", true);
         background.add(window);
         window.bringToFront();
         background.revalidate();

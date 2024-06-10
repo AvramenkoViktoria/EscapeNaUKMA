@@ -34,4 +34,6 @@ public class Hint extends DialogWindow {
         // Start the disappearance timer
         startDisappearanceTimer();
     }
+
+
 }
