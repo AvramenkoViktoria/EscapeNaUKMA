@@ -20,13 +20,13 @@ import java.util.Random;
 public class IDE extends JFrame implements ActionListener {
     private static final int WIDTH = 1300;
     private static final int HEIGHT = 800;
-    private LinkedList<Method> methods = new LinkedList<Method>();
-    private LinkedList<Method> methodsOnScreen = new LinkedList<Method>();
-    private ImageBackground background;
+    private final LinkedList<Method> methods = new LinkedList<Method>();
+    private final LinkedList<Method> methodsOnScreen = new LinkedList<Method>();
+    private final ImageBackground background;
     private static Timer timer;
-    private Random random;
+    private final Random random;
     private int lastMethodNum;
-    private ArrayList<Integer> numbersOfMethodsOnScreen = new ArrayList<>();
+    private final ArrayList<Integer> numbersOfMethodsOnScreen = new ArrayList<>();
     private JFrame upperIDE;
     private ImageBackground upperBackground;
 

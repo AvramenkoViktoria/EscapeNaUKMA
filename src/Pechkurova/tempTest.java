@@ -1,5 +1,7 @@
 package Pechkurova;
 
+import Data.FileManager;
+import Enums.Level;
 import Pechkurova.BattleScene;
 
 import javax.swing.*;
@@ -9,6 +11,8 @@ public class tempTest{
     public static BattleScene testPanel;
 
     public static void main(String[] args) {
+        FileManager.retriveDataFromFiles();
+        FileManager.user.setLevel(Level.CONTRACT);
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);

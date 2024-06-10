@@ -1,12 +1,14 @@
 package Pechkurova;
 
 import Data.FileManager;
+import Enums.Level;
 import SceneObjects.*;
 import SuperSwing.ImageBackground;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -18,6 +20,8 @@ public class BattleScene extends ImageBackground implements ActionListener {
     private final Random random = new Random();
     private final MainCharacter mainCharacter;
     private int mitosisNumber = 0;
+    private boolean collided;
+    private Hearts hearts;
 
     public BattleScene(String imagePath) {
         super(imagePath);
@@ -27,14 +31,17 @@ public class BattleScene extends ImageBackground implements ActionListener {
             case CONTRACT:
                 delay = 20;
                 mitosisNumber = 3;
+                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 200, 600));
                 break;
             case BUDGET:
                 delay = 16;
                 mitosisNumber = 2;
+                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 220, 600));
                 break;
             case GRANT:
                 delay = 16;
                 mitosisNumber = 1;
+                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 243, 600));
         }
         timer = new Timer(delay, this);
         Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.jpg", 960, 20);
@@ -78,7 +85,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
     }
 
     public void addRuleWindow() {
-        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT , "U cunt", false);
+        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT, "U cunt", false);
         add(window);
         window.bringToFront();
         revalidate();
@@ -132,10 +139,11 @@ public class BattleScene extends ImageBackground implements ActionListener {
             return;
         }
 
-        for (int i = 1; i < pechkurovas.size(); i++) {
-            Pechkurova pechkurova = pechkurovas.get(i);
+        Iterator<Pechkurova> iterator = pechkurovas.iterator();
+        while (iterator.hasNext()) {
+            Pechkurova pechkurova = iterator.next();
             if (pechkurova.getBounds().contains(e.getPoint())) {
-                pechkurovas.remove(i);
+                iterator.remove();
                 remove(pechkurova);
                 repaint();
                 break;
@@ -148,12 +156,10 @@ public class BattleScene extends ImageBackground implements ActionListener {
         LinkedList<Pechkurova> newPechkurovas = new LinkedList<>();
         boolean firstPechkurovaCollided = false;
 
-        for (int i = 0; i < pechkurovas.size(); i++) {
-            Pechkurova pechkurova = pechkurovas.get(i);
+        for (Pechkurova pechkurova : pechkurovas) {
             pechkurova.move(decorations);
 
-
-            if (i == 0 && pechkurova.collides) {
+            if (pechkurovas.indexOf(pechkurova) == 0 && pechkurova.collides) {
                 firstPechkurovaCollided = true;
                 collisionCounter++;
                 pechkurova.collides = false;
@@ -174,9 +180,12 @@ public class BattleScene extends ImageBackground implements ActionListener {
 
         pechkurovas.addAll(newPechkurovas);
 
-        for (Pechkurova pechkurova : pechkurovas) {
+        Iterator<Pechkurova> iterator = pechkurovas.iterator();
+        while (iterator.hasNext()) {
+            Pechkurova pechkurova = iterator.next();
             if (collide(mainCharacter, pechkurova)) {
                 handleCollision(mainCharacter);
+                break;
             }
         }
         repaint();
@@ -187,10 +196,74 @@ public class BattleScene extends ImageBackground implements ActionListener {
     }
 
     private void handleCollision(MainCharacter mainCharacter) {
-        System.out.println("OH NO!");
-        remove(mainCharacter);
-        mainCharacter.setBounds(-500, -500, 10, 10);
-        IDE.battleFrame.setVisible(false);
+        if (!collided) {
+            if (lost()) {
+                remove(mainCharacter);
+                mainCharacter.setBounds(-500, -500, 10, 10);
+                IDE.battleFrame.setVisible(false);
+            } else {
+                Iterator<Pechkurova> iterator = pechkurovas.iterator();
+                while (iterator.hasNext()) {
+                    Pechkurova pechkurova = iterator.next();
+                    if (pechkurovas.indexOf(pechkurova) != 0) {
+                        iterator.remove();
+                        remove(pechkurova);
+                    }
+                }
+                mainCharacter.setBounds(40, 650, 90, 90);
+                mainCharacter.setX(40);
+                mainCharacter.setY(650);
+                collided = false;
+            }
+        }
+    }
+
+    private boolean lost() {
+        System.out.println("Lost");
+        collided = true;
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 3:
+                        FileManager.user.setHeartsNum(2);
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 200, 600));
+                        break;
+                    case 2:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 200, 600));
+                        break;
+                    case 1:
+                        return true;
+                }
+                break;
+            case BUDGET:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 2:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 200, 600));
+                        break;
+                    case 1:
+                        return true;
+                }
+                break;
+            case GRANT:
+                return true;
+        }
+        return false;
+    }
+
+    private void addHeartsPanel(Hearts hearts) {
+        if (this.hearts != null) {
+            remove(this.hearts);
+        }
+        System.out.println(FileManager.user.getHeartsNum());
+        System.out.println(hearts.getPath());
+        this.hearts = hearts;
+        add(hearts);
+        hearts.revalidate();
+        hearts.repaint();
+        revalidate();
+        repaint();
     }
 
     @Override
