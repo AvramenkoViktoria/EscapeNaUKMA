@@ -1,7 +1,9 @@
 package Pechkurova;
 
 import Data.FileManager;
+import Data.Test;
 import Enums.Level;
+import Enums.Status;
 import SceneObjects.*;
 import SuperSwing.ImageBackground;
 
@@ -56,7 +58,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
         decorations[2] = new Desk(-30, 845, 1300, 50, null);
         decorations[3] = new Desk(1191, -30, 100, 1015, null);
         //Walls
-        decorations[4] = new Door(870, 10, 203, 12);
+        decorations[4] = new Door(870, 10, 203, 12, true);
         //Door
         decorations[5] = new Desk(160, 103, 202, 260, "Litachok have seen his better days... Now next students will have to deal with him");
         decorations[6] = new PortalDesk(160, 490, 202, 260, "Be sure to check everything, because the moment you seat next task will start! Press OK to start"); //Needs to be PortalDesk
@@ -113,8 +115,11 @@ public class BattleScene extends ImageBackground implements ActionListener {
                         mainCharacter.setEKeyPressed(true);
                         InteractiveObject interaction = mainCharacter.canMoveForward(decorations);
                         if (interaction.IsDoor()) {
-                            System.out.println("Going out");
+                            timer.stop();
                             IDE.battleFrame.setVisible(false);
+                            FileManager.user.setStatus(Status.VOZNIUK);
+                            Test.mainMenu.levelMenu.roomMenu.setVisible(true);
+                            Test.mainMenu.levelMenu.roomMenu.addRooms(new Status[]{Status.PECHKUROVA, Status.CURRENT, Status.BLOCKED});
                         }
                     }
                 }

@@ -1,15 +1,17 @@
 package Menu;
 
+import Data.FileManager;
 import Enums.Status;
 import Pechkurova.PechkurovaMonologue;
+import SceneObjects.Hall;
 import SuperSwing.ImageBackground;
 import SuperSwing.RoundedButton;
 import SuperSwing.RoundedPanel;
 import SuperSwing.Warning;
 
 import javax.swing.*;
-
 import java.awt.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class RoomMenu extends JFrame {
@@ -17,6 +19,8 @@ public class RoomMenu extends JFrame {
     private static final int FRAME_HEIGHT = 800;
     private LinkedList<RoomOption> rooms = new LinkedList<>();
     private RoundedPanel clarificationPanel;
+    private ImageBackground background;
+
     public RoomMenu() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,36 +32,50 @@ public class RoomMenu extends JFrame {
     }
 
     private void addBackground() {
-        ImageBackground background = new ImageBackground(new Color(148,168,179 ));
+        background = new ImageBackground(new Color(148, 168, 179));
         background.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         background.setLayout(null);
-        addRoomText(background);
-        addRooms(background);
+        addRoomText();
+        addRooms(new Status[]{Status.PECHKUROVA, Status.CURRENT, Status.BLOCKED});
         revalidate();
         repaint();
         add(background);
     }
 
-    private void addRoomText(ImageBackground background) {
+    private void addRoomText() {
         JLabel label = new JLabel("CHOOSE LEVEL:");
         label.setForeground(Color.WHITE);
         Font font = new Font("Baskerville Old Face", Font.BOLD, 50);
         label.setFont(font);
-        label.setBounds((FRAME_WIDTH-450)/2, 60, 450, 80);
+        label.setBounds((FRAME_WIDTH - 450) / 2, 60, 450, 80);
         background.add(label);
         background.revalidate();
         background.repaint();
     }
 
-    private void addRooms(ImageBackground background) {
-        addRoom(Status.CURRENT, (FRAME_WIDTH-300)/2+350, 200, 300, 300, background);
-        addRoom(Status.BLOCKED, (FRAME_WIDTH-300)/2, 200, 300, 300, background);
-        addRoom(Status.BLOCKED, (FRAME_WIDTH-300)/2-350,200, 300, 300, background);
+    public void addRooms(Status[] statuses) {
+        removeRoomOptions();
+        addRoom(statuses[0], (FRAME_WIDTH - 300) / 2 + 350, 200, 300, 300);
+        addRoom(statuses[1], (FRAME_WIDTH - 300) / 2, 200, 300, 300);
+        addRoom(statuses[2], (FRAME_WIDTH - 300) / 2 - 350, 200, 300, 300);
+    }
+
+    private void removeRoomOptions() {
+        Iterator<RoomOption> iterator = rooms.iterator();
+        while (iterator.hasNext()) {
+            RoomOption room = iterator.next();
+            if (room != null) {
+                background.remove(room);
+                iterator.remove();
+            }
+        }
+        background.revalidate();
+        background.repaint();
     }
 
     public static JFrame monologueFrame;
 
-    private void addRoom(Status status, int x, int y, int width, int height, ImageBackground background) {
+    private void addRoom(Status status, int x, int y, int width, int height) {
         RoomOption room = new RoomOption(status);
         room.setBounds(x, y, width, height);
         rooms.add(room);
@@ -72,32 +90,48 @@ public class RoomMenu extends JFrame {
                     if (clarificationPanel != null) {
                         clarificationPanel.setVisible(true);
                     } else {
-                        addClarification(background);
+                        addClarification();
                     }
                     break;
                 case CURRENT:
                     if (clarificationPanel != null)
                         clarificationPanel.setVisible(false);
                     setVisible(false);
-                    monologueFrame = new JFrame();
-                    monologueFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    monologueFrame.setLayout(null);
-                    monologueFrame.setSize(1214, 890);
-                    monologueFrame.setLocationRelativeTo(null);
-                    PechkurovaMonologue testPanel = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
-                    testPanel.setBounds(0, 0, 1200, 853);
-                    monologueFrame.add(testPanel);
-                    monologueFrame.setLocationRelativeTo(null);
-                    monologueFrame.setVisible(true);
+                    switch (FileManager.user.getStatus()) {
+                        case PECHKUROVA:
+                            monologueFrame = new JFrame();
+                            monologueFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            monologueFrame.setLayout(null);
+                            monologueFrame.setSize(1214, 890);
+                            monologueFrame.setLocationRelativeTo(null);
+                            PechkurovaMonologue testPanel = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
+                            testPanel.setBounds(0, 0, 1200, 853);
+                            monologueFrame.add(testPanel);
+                            monologueFrame.setLocationRelativeTo(null);
+                            monologueFrame.setVisible(true);
+                            break;
+                        case VOZNIUK:
+                            JFrame hallFrame = new JFrame();
+                            hallFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            hallFrame.setLayout(null);
+                            hallFrame.setSize(820, 420);
+                            hallFrame.setLocationRelativeTo(null);
+                            Hall hall = new Hall("Images\\Hall.png");
+                            hall.setBounds(0, 0, 800, 400);
+                            hallFrame.add(hall);
+                            hallFrame.setVisible(true);
+                    }
             }
         });
-        add(room);
+        background.add(room);
+        background.revalidate();
+        background.repaint();
     }
 
-    private void addClarification(ImageBackground background) {
+    private void addClarification() {
         clarificationPanel = new RoundedPanel(30, Color.WHITE);
         clarificationPanel.setLayout(null);
-        clarificationPanel.setBounds((FRAME_WIDTH-340)/2, 560, 340, 160);
+        clarificationPanel.setBounds((FRAME_WIDTH - 340) / 2, 560, 340, 160);
         JLabel text1 = new JLabel("Are you sure you want to continue?");
         Font font = new Font("Baskerville Old Face", Font.BOLD, 20);
         text1.setFont(font);
@@ -109,7 +143,16 @@ public class RoomMenu extends JFrame {
         button.setBounds(240, 90, 80, 40);
         button.addActionListener(e -> {
             setVisible(false);
+            monologueFrame = new JFrame();
+            monologueFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            monologueFrame.setLayout(null);
+            monologueFrame.setSize(1214, 890);
+            monologueFrame.setLocationRelativeTo(null);
             PechkurovaMonologue monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
+            monologue.setBounds(0, 0, 1200, 853);
+            monologueFrame.add(monologue);
+            monologueFrame.setLocationRelativeTo(null);
+            monologueFrame.setVisible(true);
         });
         clarificationPanel.add(text1);
         clarificationPanel.add(text2);

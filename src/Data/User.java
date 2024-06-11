@@ -1,10 +1,12 @@
 package Data;
 
 import Enums.Level;
+import Enums.Status;
 
 public class User {
     private Level level;
     private int heartsNum;
+    private Status status;
 
     public Level getLevel() {
         return level;
@@ -20,5 +22,13 @@ public class User {
 
     public void setHeartsNum(int heartsNum) {
         this.heartsNum = heartsNum;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

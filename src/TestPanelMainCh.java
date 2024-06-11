@@ -24,9 +24,7 @@ public class TestPanelMainCh extends JPanel {
         decorations[5] = new Desk(600, 200, 100, 100, null);
         decorations[6] = new Desk(600, 450, 100, 100, null);
         decorations[7] = new Desk(200, 450, 100, 100, null);
-        decorations[8] = new Door(20, 30, 10, 90);
-
-
+        decorations[8] = new Door(20, 30, 10, 90, true);
 
         add(mainCharacter);
         setFocusable(true);
@@ -62,7 +60,7 @@ public class TestPanelMainCh extends JPanel {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Main Character Test");
+        JFrame frame = new JFrame("Main Character Data.Test");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(900, 900);
         frame.add(new TestPanelMainCh());

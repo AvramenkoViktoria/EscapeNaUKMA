@@ -23,7 +23,7 @@ public class PechkurovaScene extends ImageBackground {
         decorations[2] = new Desk(-30, 845, 1300, 50, null);
         decorations[3] = new Desk(1191, -30, 100, 1015, null);
         //Walls
-        decorations[4] = new Door(870, 10, 203, 12);
+        decorations[4] = new Door(870, 10, 203, 12, false);
         //Door
         decorations[5] = new Desk(160, 103, 202, 260, "Litachok have seen his better days... Now next students will have to deal with him");
         decorations[6] = new PortalDesk(160, 490, 202, 260, "Be sure to check everything, because the moment you seat next task will start! Press OK to start"); //Needs to be PortalDesk

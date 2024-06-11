@@ -2,6 +2,7 @@ package Menu;
 
 import Data.FileManager;
 import Enums.Level;
+import Enums.Status;
 import SuperSwing.ImageBackground;
 import SuperSwing.HoverButton;
 import SuperSwing.Warning;
@@ -16,6 +17,7 @@ public class MainMenu extends JFrame {
     private static final int FRAME_WIDTH = 1200;
     private static final int FRAME_HEIGHT = 800;
     private Clip backgroundMusicClip;
+    public LevelMenu levelMenu;
 
     public MainMenu() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -46,8 +48,9 @@ public class MainMenu extends JFrame {
         Font buttonFont = new Font("Chiller", Font.PLAIN, 70);
         button.setFont(buttonFont);
         button.addActionListener(e -> {
+            FileManager.user.setStatus(Status.VOZNIUK);
             setVisible(false);
-            LevelMenu levelMenu = new LevelMenu();
+            levelMenu = new LevelMenu();
         });
         background.add(button);
     }

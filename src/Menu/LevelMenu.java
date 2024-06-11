@@ -9,12 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LevelMenu extends JFrame {
-
     public static final int FRAME_WIDTH = 1200;
     public static final int FRAME_HEIGHT = 800;
     private String contractDescription = "Contract - the most easy level to pass:, - You have three hearts for all levels, - Professors are moving slow and lazy, - Some characteristics of tasks are safer";
     private String budgetDescription = "Budget - more challenging level:, - You have just one heart for all levels, - Professors are moving faster, - Characteristics of tasks are harder ";
     private String grantDescription = "Grant - the hardest level of all:, - You do not have additional lifes, - Professors are moving very fast, - Characteristics of tasks are crazy";
+    public RoomMenu roomMenu;
 
 
     public LevelMenu() {
@@ -80,7 +80,7 @@ public class LevelMenu extends JFrame {
         button.addActionListener(e -> {
             setVisible(false);
             FileManager.saveLevelData(level);
-            RoomMenu menu = new RoomMenu();
+            roomMenu = new RoomMenu();
         });
         background.add(button);
     }

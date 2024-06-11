@@ -6,6 +6,7 @@ import SceneObjects.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 public class MainCharacter extends JLabel {
     private int x, y;
@@ -107,6 +108,16 @@ public class MainCharacter extends JLabel {
             }
         }
         return new InteractiveObject(true, false, null, null);
+    }
+
+    public Door touchTheDoor(Decoration[] decorations) {
+        Rectangle nextPosition = getNextPosition(5);
+        for (Decoration decoration : decorations) {
+            if (nextPosition.intersects(decoration.getBounds()) && decoration instanceof Door) {
+                return (Door) decoration;
+            }
+        }
+        return null;
     }
 
     private Rectangle getNextPosition(int step) {
