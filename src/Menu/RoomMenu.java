@@ -80,6 +80,8 @@ public class RoomMenu extends JFrame {
     }
 
     public static JFrame monologueFrame;
+    public JFrame hallFrame;
+    public Hall hall;
 
     private void addRoom(Status status, int x, int y, int width, int height) {
         RoomOption room = new RoomOption(status);
@@ -130,13 +132,13 @@ public class RoomMenu extends JFrame {
                             monologueFrame.setVisible(true);
                             break;
                         case VOZNIUK:
-                            JFrame hallFrame = new JFrame();
+                            hallFrame = new JFrame();
                             hallFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                             hallFrame.setLayout(null);
                             hallFrame.setResizable(false);
                             hallFrame.setSize(814, 435);
                             hallFrame.setLocationRelativeTo(null);
-                            Hall hall = new Hall("Images\\Hall.png");
+                            hall = new Hall("Images\\Hall.png");
                             hall.setBounds(0, 0, 800, 400);
                             hallFrame.add(hall);
                             hallFrame.setVisible(true);

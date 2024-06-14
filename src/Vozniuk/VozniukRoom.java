@@ -1,22 +1,80 @@
 package Vozniuk;
 
+import Data.Test;
+import Enums.Type;
+import Pechkurova.MainCharacter;
 import SceneObjects.Decoration;
 import SceneObjects.Desk;
+import SceneObjects.Door;
 import SceneObjects.PortalDesk;
 import SuperSwing.ImageBackground;
-
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.*;
 
 
-public class VozniukRoom extends ImageBackground {
+public class VozniukRoom extends ImageBackground implements ActionListener {
     private final static int WIDTH = 1000;
     private final static int HEIGHT = 800;
     private Decoration[] decorations;
+    private Indian[] indians;
+    private VozniukAccount vozniukAccount = new VozniukAccount();
+    private Timer timer;
     public VozniukRoom(String imagePath) {
         super(imagePath);
         setLayout(null);
         setBounds(0, 0, WIDTH, HEIGHT);
+        MainCharacter mainCharacter = new MainCharacter("Images\\MainCharUp.png", 150, 600, 80, 80);
         initialiazeDecorationsList();
+        initializeIndiansList();
+        add(mainCharacter);
+        revalidate();
+        repaint();
+
+        setFocusable(true);
+        requestFocusInWindow();
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_W -> {
+                        if (mainCharacter.canMoveForward(decorations).isAbleToMove()) {
+                            mainCharacter.moveForward();
+                        }
+                    }
+                    case KeyEvent.VK_S -> {
+                        if (mainCharacter.canMoveBackward(decorations).isAbleToMove()) {
+                            mainCharacter.moveBackward();
+                        }
+                    }
+                    case KeyEvent.VK_D -> mainCharacter.turnRight();
+                    case KeyEvent.VK_A -> mainCharacter.turnLeft();
+                    case KeyEvent.VK_E -> {
+                        mainCharacter.setEKeyPressed(true);
+                        Door interaction = mainCharacter.touchTheDoor(decorations);
+                        if (interaction != null && !interaction.isBlocked()) {
+                            System.out.println("Going out");
+                        }
+
+                        PortalDesk interactionP = mainCharacter.touchPortalDesk(decorations);
+                        switch (interactionP.getType()) {
+                            case PC :
+                                Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
+                                vozniukAccount.setVisible(true);
+                                break;
+                            case SHAFA:
+                                Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
+                                CiscoBinaryGame ciscoBinaryGame = new CiscoBinaryGame(vozniukAccount);
+                        }
+                    }
+                }
+                repaint();
+            }
+        });
+        startIndiansScene();
     }
 
     private void initialiazeDecorationsList() {
@@ -30,13 +88,13 @@ public class VozniukRoom extends ImageBackground {
         //whiteboard
         decorations[5] = new Desk(-30, 508, 175, 196, null);
         //machine near whiteboard
-        decorations[6] = new PortalDesk(172, 728, 150, 65, null);
+        decorations[6] = new Door(172, 728, 150, 65, true);
         //door
         decorations[7] = new Desk(905, 574, 100, 200, null);
         //altar cisco
-        decorations[8] = new PortalDesk(905, 100, 100, 380, null);
+        decorations[8] = new PortalDesk(905, 100, 100, 380, null, Type.SHAFA);
         //shafa cisco
-        decorations[9] = new Desk(123, 37, 138, 357, null);
+        decorations[9] = new PortalDesk(123, 37, 138, 357, null, Type.PC);
         //Vozniuk's desk
         decorations[10] = new Desk(94, 92, 100, 128, null);
         //Vozniuk's chair
@@ -58,15 +116,47 @@ public class VozniukRoom extends ImageBackground {
         decorations[21] = new Desk(616, 503, 123, 136, null);
         decorations[22] = new Desk(616, 527, 140, 85, null);
         //desk6
-
-
-
     }
+
+    private void initializeIndiansList() {
+        indians = new Indian[1];
+        Point[] points = new Point[4];
+        points[0] = new Point(260, 40);
+        points[1] = new Point(500, 40);
+        points[2] = new Point(500, 140);
+        points[3] = new Point(300, 140);
+        indians[0] = new Indian("Images\\Indian.png", 260, 40, points);
+    }
+    private void addIndiansToScene() {
+        for (Indian indian : indians) {
+            indian.setBounds(indian.getX(), indian.getY(), Indian.SIZE, Indian.SIZE);
+            add(indian);
+        }
+    }
+
+    private void startIndiansScene() {
+        addIndiansToScene();
+        revalidate();
+        repaint();
+        timer = new Timer(10, this);
+        timer.start();
+    }
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (Decoration decoration : decorations) {
             decoration.draw(g);
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for (Indian indian : indians) {
+            indian.move();
+            revalidate();
+            repaint();
         }
     }
 }

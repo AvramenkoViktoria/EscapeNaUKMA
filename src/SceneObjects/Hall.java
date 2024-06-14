@@ -1,8 +1,11 @@
 package SceneObjects;
 
+import Data.Test;
 import Pechkurova.MainCharacter;
 import SuperSwing.ImageBackground;
+import Vozniuk.VozniukRoom;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -12,6 +15,8 @@ public class Hall extends ImageBackground {
     private static final int HEIGHT = 400;
     private MainCharacter mainCharacter;
     private Decoration[] decorations;
+    public JFrame vozniukRoomFrame;
+    public VozniukRoom vozniukRoom;
 
     public Hall(String imagePath) {
         super(imagePath);
@@ -47,6 +52,16 @@ public class Hall extends ImageBackground {
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
                             System.out.println("Going out");
+                            Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(false);
+                            vozniukRoomFrame = new JFrame();
+                            vozniukRoomFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            vozniukRoomFrame.setResizable(false);
+                            vozniukRoomFrame.setSize(1000, 800);
+                            vozniukRoomFrame.setLocationRelativeTo(null);
+                            vozniukRoom = new VozniukRoom("Images\\Vozniuk.png");
+                            vozniukRoom.setBounds(0, 0, 1000, 800);
+                            vozniukRoomFrame.add(vozniukRoom);
+                            vozniukRoomFrame.setVisible(true);
                         }
                     }
                 }
@@ -54,23 +69,25 @@ public class Hall extends ImageBackground {
             }
         });
     }
+
     private void initialiazeDecorationsList() {
         decorations = new Decoration[8];
         decorations[0] = new Desk(-30, -10, 47, 500, null);
-        decorations[1]= new Desk(-10, -30, 820, 49, null);
+        decorations[1] = new Desk(-10, -30, 820, 49, null);
         decorations[2] = new Desk(-10, 382, 820, 50, null);
         decorations[3] = new Desk(783, -10, 30, 500, null);
         //walls
         decorations[4] = new Desk(17, 133, 14, 140, "Oh, a door for escape from NaUKMA!");
         //exit
-        decorations[5] = new Desk(160, 19, 134,16, "Glibovets door? Coming soon...");
+        decorations[5] = new Desk(160, 19, 134, 16, "Glibovets door? Coming soon...");
         //Glibovets room
         decorations[6] = new Desk(770, 126, 14, 140, "Oh, a door for escape from NaUKMA!");
         //Pechkurova's room
-        decorations[7] = new PortalDesk(460, 19, 134,16, "Oh, Cisco room..");
+        decorations[7] = new Door(460, 19, 134, 16, false);
         //Vozniuk's room
 
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

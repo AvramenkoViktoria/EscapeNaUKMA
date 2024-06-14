@@ -1,7 +1,11 @@
 package Vozniuk;
 
+import Data.Test;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.security.SecureRandom;
 import java.util.Arrays;
 
@@ -28,7 +32,14 @@ public class VozniukAccount extends JFrame {
         addPasswordLabel();
         addSubmitButton();
         addChangePasswordButton();
-        setVisible(true);
+        setVisible(false);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(true);
+            }
+        });
     }
 
     private void addAccountPicture() {

@@ -66,7 +66,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
         decorations[4] = new Door(870, 10, 203, 12, true);
         //Door
         decorations[5] = new Desk(160, 103, 202, 260, "Litachok have seen his better days... Now next students will have to deal with him");
-        decorations[6] = new PortalDesk(160, 490, 202, 260, "Be sure to check everything, because the moment you seat next task will start! Press OK to start"); //Needs to be PortalDesk
+        decorations[6] = new PortalDesk(160, 490, 202, 260, "Be sure to check everything, because the moment you seat next task will start! Press OK to start", null); //Needs to be PortalDesk
         decorations[7] = new Desk(530, 103, 202, 260, "Are they going to create an altar for Karel? I hope it will be a pyramid");
         decorations[8] = new Desk(530, 490, 202, 260, "Java book? One day I will finally sit and learn how to code... But not today of course, not today");
         //Desks

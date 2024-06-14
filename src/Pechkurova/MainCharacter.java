@@ -120,6 +120,16 @@ public class MainCharacter extends JLabel {
         return null;
     }
 
+    public PortalDesk touchPortalDesk(Decoration[] decorations) {
+        Rectangle nextPosition = getNextPosition(5);
+        for (Decoration decoration : decorations) {
+            if (nextPosition.intersects(decoration.getBounds()) && decoration instanceof PortalDesk) {
+                return (PortalDesk) decoration;
+            }
+        }
+        return null;
+    }
+
     private Rectangle getNextPosition(int step) {
         switch (direction) {
             case UP -> {

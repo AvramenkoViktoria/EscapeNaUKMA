@@ -20,7 +20,7 @@ public class PersonalIdentification extends JFrame {
         setIconImage(image);
         addMainLabel();
         addAppleButton();
-        addAndroidButton(vozniukAccount);
+        addAndroidButton();
         setVisible(true);
     }
 
@@ -32,20 +32,20 @@ public class PersonalIdentification extends JFrame {
     }
 
     private void addAppleButton() {
-        ImageButton apple = new ImageButton("Images\\VozniukA.jpg");
-        apple.setBounds(100, 300, 200, 200);
+        ImageButton apple = new ImageButton("Images\\Glybovets.jpg");
+        apple.setBounds(600, 300, 200, 200);
         apple.addActionListener(e -> {
-            // Wiping all the data and restarting the game
+            setVisible(false);
+
         });
         add(apple);
     }
 
-    private void addAndroidButton(VozniukAccount vozniukAccount) {
-        ImageButton android = new ImageButton("Images\\Glybovets.jpg");
-        android.setBounds(600, 300, 200, 200);
+    private void addAndroidButton() {
+        ImageButton android = new ImageButton("Images\\VozniukA.jpg");
+        android.setBounds(100, 300, 200, 200);
         android.addActionListener(e -> {
-            setVisible(false);
-            CiscoBinaryGame binaryGame = new CiscoBinaryGame(vozniukAccount);
+            System.exit(0);
         });
         add(android);
     }
