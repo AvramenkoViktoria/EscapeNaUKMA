@@ -119,13 +119,61 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
     }
 
     private void initializeIndiansList() {
-        indians = new Indian[1];
-        Point[] points = new Point[4];
-        points[0] = new Point(260, 40);
-        points[1] = new Point(500, 40);
-        points[2] = new Point(500, 140);
-        points[3] = new Point(300, 140);
-        indians[0] = new Indian("Images\\Indian.png", 260, 40, points);
+        indians = new Indian[9];
+        Point[] points1 = new Point[4];
+        points1[0] = new Point(260, 40);
+        points1[1] = new Point(540, 40);
+        points1[2] = new Point(540, 270);
+        points1[3] = new Point(260, 270);
+        indians[0] = new Indian("Images\\Indian.png", 260, 40, points1);
+
+        Point[] points2 = new Point[2];
+        points2[0] = new Point(540, 30);
+        points2[1] = new Point(540, 650);
+        indians[1] = new Indian("Images\\Indian.png", 540, 30, points2);
+
+        Point[] points3 = new Point[3];
+        points3[0] = new Point(550, 530);
+        points3[1] = new Point(300, 530);
+        points3[2] = new Point(300, 330);
+        indians[2] = new Indian("Images\\Indian.png", 550, 530, points3);
+
+        Point[] points4 = new Point[3];
+        points4[0] = new Point(550, 670);
+        points4[1] = new Point(800, 670);
+        points4[2] = new Point(800, 50);
+        indians[3] = new Indian("Images\\Indian.png", 550, 670, points4);
+
+        Point[] points5 = new Point[4];
+        points5[0] = new Point(550, 170);
+        points5[1] = new Point(770, 170);
+        points5[2] = new Point(770, 36);
+        points5[3] = new Point(890, 36);
+        indians[4] = new Indian("Images\\Indian.png", 550, 170, points5);
+
+        Point[] points6 = new Point[4];
+        points6[0] = new Point(620, 420);
+        points6[1] = new Point(790, 420);
+        points6[2] = new Point(790, 500);
+        points6[3] = new Point(900, 500);
+        indians[5] = new Indian("Images\\Indian.png", 620, 420, points6);
+
+        Point[] points7 = new Point[2];
+        points7[0] = new Point(300, 600);
+        points7[1] = new Point(300, 30);
+        indians[6] = new Indian("Images\\Indian.png", 300, 600, points7);
+
+        Point[] points8 = new Point[2];
+        points8[0] = new Point(520, 650);
+        points8[1] = new Point(820, 650);
+        indians[7] = new Indian("Images\\Indian.png", 520, 650, points8);
+
+        Point[] points9 = new Point[3];
+        points9[0] = new Point(172, 400);
+        points9[1] = new Point(172, 646);
+        points9[2] = new Point(300, 646);
+        indians[8] = new Indian("Images\\Indian.png", 172, 400, points9);
+
     }
     private void addIndiansToScene() {
         for (Indian indian : indians) {
