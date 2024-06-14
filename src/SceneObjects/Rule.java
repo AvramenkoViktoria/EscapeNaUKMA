@@ -3,11 +3,15 @@ package SceneObjects;
 import Enums.SpeakerType;
 import Pechkurova.IDE;
 
+import javax.sound.sampled.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class Rule extends DialogWindow {
+   Clip backgroundMusicClip;
 
     public Rule(int x, int y, String textToType, boolean ide) {
         super(x, y, textToType, SpeakerType.FRIEND);
@@ -25,6 +29,7 @@ public class Rule extends DialogWindow {
                         if (ide) {
                             IDE.startTimer();
                         } else {
+                            IDE.testPanel.playBackgroundMusic("Audio\\Mortal.wav");
                             IDE.testPanel.addKeyListeners();
                             IDE.testPanel.startTimer();
                         }

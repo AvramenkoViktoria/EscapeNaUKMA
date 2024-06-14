@@ -1,5 +1,7 @@
 package SceneObjects;
 
+import Data.Test;
+import Menu.RoomMenu;
 import Enums.SpeakerType;
 import Pechkurova.IDE;
 import Pechkurova.PechkurovaMonologue;
@@ -20,6 +22,11 @@ public class Hint extends DialogWindow {
                 public void actionPerformed(ActionEvent e) {
                     Container parent = getParent();
                     if (parent != null) {
+                        PechkurovaMonologue monologue = RoomMenu.monologue;
+                        if (monologue != null) {
+                            System.out.println("hihihi");
+                           monologue.stopBackgroundMusic(); // Stop the music
+                        }
                         parent.remove(Hint.this);
                         parent.repaint();
                         parent.revalidate();

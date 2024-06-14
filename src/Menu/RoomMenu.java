@@ -1,6 +1,7 @@
 package Menu;
 
 import Data.FileManager;
+import Data.Test;
 import Enums.Status;
 import Pechkurova.PechkurovaMonologue;
 import SceneObjects.Hall;
@@ -9,8 +10,11 @@ import SuperSwing.RoundedButton;
 import SuperSwing.RoundedPanel;
 import SuperSwing.Warning;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -19,6 +23,8 @@ public class RoomMenu extends JFrame {
     private static final int FRAME_HEIGHT = 800;
     private LinkedList<RoomOption> rooms = new LinkedList<>();
     private RoundedPanel clarificationPanel;
+    public static PechkurovaMonologue monologue;
+    Clip backgroundMusicClip;
     private ImageBackground background;
 
     public RoomMenu() {
@@ -87,6 +93,12 @@ public class RoomMenu extends JFrame {
                     Warning warning = new Warning("Previous room wasn't passed", 230, this);
                     break;
                 case PECHKUROVA, VOZNIUK, GLYBOVETS:
+                    MainMenu mainmenu = Test.mainMenu; // Get the main menu instance
+                    if (mainmenu != null) {
+                        mainmenu.stopBackgroundMusic(); // Stop the music
+                    } else {
+                        System.out.println("MainMenu instance is null!");
+                    }
                     if (clarificationPanel != null) {
                         clarificationPanel.setVisible(true);
                     } else {
@@ -104,9 +116,16 @@ public class RoomMenu extends JFrame {
                             monologueFrame.setLayout(null);
                             monologueFrame.setSize(1214, 890);
                             monologueFrame.setLocationRelativeTo(null);
-                            PechkurovaMonologue testPanel = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
-                            testPanel.setBounds(0, 0, 1200, 853);
-                            monologueFrame.add(testPanel);
+                            MainMenu mainMenu = Test.mainMenu; // Get the main menu instance
+                            if (mainMenu != null) {
+                                System.out.println("Stopping MainMenu background music before switching to RoomMenu");
+                                mainMenu.stopBackgroundMusic(); // Stop the music
+                            } else {
+                                System.out.println("MainMenu instance is null!");
+                            }
+                            monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
+                            monologue.setBounds(0, 0, 1200, 853);
+                            monologueFrame.add(monologue);
                             monologueFrame.setLocationRelativeTo(null);
                             monologueFrame.setVisible(true);
                             break;
@@ -114,7 +133,8 @@ public class RoomMenu extends JFrame {
                             JFrame hallFrame = new JFrame();
                             hallFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                             hallFrame.setLayout(null);
-                            hallFrame.setSize(820, 420);
+                            hallFrame.setResizable(false);
+                            hallFrame.setSize(814, 435);
                             hallFrame.setLocationRelativeTo(null);
                             Hall hall = new Hall("Images\\Hall.png");
                             hall.setBounds(0, 0, 800, 400);
@@ -148,7 +168,7 @@ public class RoomMenu extends JFrame {
             monologueFrame.setLayout(null);
             monologueFrame.setSize(1214, 890);
             monologueFrame.setLocationRelativeTo(null);
-            PechkurovaMonologue monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
+            monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
             monologue.setBounds(0, 0, 1200, 853);
             monologueFrame.add(monologue);
             monologueFrame.setLocationRelativeTo(null);
@@ -162,5 +182,30 @@ public class RoomMenu extends JFrame {
         background.add(clarificationPanel);
         revalidate();
         repaint();
+    }
+    private void playBackgroundMusic(String filePath) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
+        }
     }
 }

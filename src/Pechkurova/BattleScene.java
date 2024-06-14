@@ -6,10 +6,14 @@ import Enums.Level;
 import Enums.Status;
 import SceneObjects.*;
 import SuperSwing.ImageBackground;
+import SuperSwing.Warning;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -24,6 +28,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
     private int mitosisNumber = 0;
     private boolean collided;
     private Hearts hearts;
+    Clip backgroundMusicClip;
 
     public BattleScene(String imagePath) {
         super(imagePath);
@@ -205,6 +210,8 @@ public class BattleScene extends ImageBackground implements ActionListener {
             if (lost()) {
                 remove(mainCharacter);
                 mainCharacter.setBounds(-500, -500, 10, 10);
+                stopBackgroundMusic();
+                Warning fail = new Warning("YOU LOST!", 200, IDE.battleFrame);
                 IDE.battleFrame.setVisible(false);
             } else {
                 Iterator<Pechkurova> iterator = pechkurovas.iterator();
@@ -224,7 +231,6 @@ public class BattleScene extends ImageBackground implements ActionListener {
     }
 
     private boolean lost() {
-        System.out.println("Lost");
         collided = true;
         switch (FileManager.user.getLevel()) {
             case CONTRACT:
@@ -276,6 +282,31 @@ public class BattleScene extends ImageBackground implements ActionListener {
         super.paintComponent(g);
         for (Decoration decoration : decorations) {
             decoration.draw(g);
+        }
+    }
+    public void playBackgroundMusic(String filePath) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
         }
     }
 }

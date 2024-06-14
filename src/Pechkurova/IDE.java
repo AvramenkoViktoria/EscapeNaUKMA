@@ -7,15 +7,17 @@ import SceneObjects.DialogWindow;
 import SceneObjects.Hearts;
 import SceneObjects.Rule;
 import SuperSwing.ImageBackground;
+import Menu.RoomMenu;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Random;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class IDE extends JFrame implements ActionListener {
     private static final int WIDTH = 1300;
@@ -29,6 +31,7 @@ public class IDE extends JFrame implements ActionListener {
     private final ArrayList<Integer> numbersOfMethodsOnScreen = new ArrayList<>();
     private JFrame upperIDE;
     private ImageBackground upperBackground;
+    Clip backgroundMusicClip;
 
     public IDE() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -38,6 +41,8 @@ public class IDE extends JFrame implements ActionListener {
         setResizable(false);
         setBounds((int) ((width - WIDTH) / 2), (int) ((height - HEIGHT + 45) / 2), WIDTH, HEIGHT);
         setLayout(null);
+        PechkurovaMonologue monologue = RoomMenu.monologue;
+        monologue.stopBackgroundMusic();
         background = new ImageBackground("Images\\IDELower.png");
         background.setLayout(null);
         background.setBounds(0, 0, WIDTH - 20, HEIGHT - 10);
@@ -45,25 +50,26 @@ public class IDE extends JFrame implements ActionListener {
         revalidate();
         repaint();
         setVisible(true);
-
+        playBackgroundMusic("Audio\\break.wav");
         addUpperFrame();
         initializeMethodsList();
         int delay = switch (FileManager.user.getLevel()) {
             case CONTRACT -> {
                 addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 1050, 5));
-                yield 15;
+                yield 13;
             }
             case BUDGET -> {
                 addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 1100, 5));
-                yield 13;
+                yield 4;
             }
             case GRANT -> {
                 addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 1150, 5));
-                yield 13;
+                yield 4;
             }
             default -> 0;
         };
         timer = new Timer(delay, this);
+        System.out.println(delay);
         random = new Random();
         int newMethodNum = random.nextInt(9);
         lastMethodNum = newMethodNum;
@@ -79,7 +85,7 @@ public class IDE extends JFrame implements ActionListener {
     }
 
     private void addRuleWindow() {
-        DialogWindow window = new Rule(0, HEIGHT-DialogWindow.HEIGHT-20, "You did not write comments and have breaks. Remove them faster till they reach red line!", true);
+        DialogWindow window = new Rule(0, HEIGHT - DialogWindow.HEIGHT - 35, "You did not write comments and have breaks. Remove them faster till they reach red line!", true);
         background.add(window);
         window.bringToFront();
         background.revalidate();
@@ -227,7 +233,9 @@ public class IDE extends JFrame implements ActionListener {
         for (Method method : methodsOnScreen) {
             method.move(step);
             if (checkForLoss(method)) {
+                stopBackgroundMusic();
                 timer.stop();
+                playBackgroundMusicForDuration("Audio\\fail.wav", 2000);
                 loadBattleScene();
             }
         }
@@ -275,5 +283,63 @@ public class IDE extends JFrame implements ActionListener {
         testPanel.addRuleWindow();
         battleFrame.setLocationRelativeTo(null);
         battleFrame.setVisible(true);
+    }
+
+    private void playBackgroundMusicForDuration(String filePath, int durationInMillis) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Start playing the clip
+            backgroundMusicClip.start();
+
+            // Close the audio stream after loading the clip to free resources
+            audioStream.close();
+
+            Timer musicTimer = new Timer(durationInMillis, e -> stopBackgroundMusic());
+            musicTimer.setRepeats(false); // Ensure it only runs once
+            musicTimer.start();
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+            if (backgroundMusicClip != null) {
+                backgroundMusicClip.close();
+            }
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
+            backgroundMusicClip = null; // Free resources
+        }
+
+    }
+
+    private void playBackgroundMusic(String filePath) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+
     }
 }

@@ -2,13 +2,15 @@ package Pechkurova;
 
 import Enums.SpeakerType;
 import Menu.RoomMenu;
-import Pechkurova.Pechkurova;
 import SceneObjects.DialogWindow;
 import SceneObjects.Thought;
 import SuperSwing.ImageBackground;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class PechkurovaMonologue extends ImageBackground {
     private MainCharacter mainCharacter;
@@ -20,6 +22,7 @@ public class PechkurovaMonologue extends ImageBackground {
     private int endY = 220;   // Ending Y-coordinate
 
     private Timer timer;
+    private Clip backgroundMusicClip;
     private double progress = 0; // Progress along the line (0 to 1)
 
     public PechkurovaMonologue(String imagePath) {
@@ -33,6 +36,7 @@ public class PechkurovaMonologue extends ImageBackground {
         // Add characters to the scene
         add(pechkurova);
         add(mainCharacter);
+        playBackgroundMusic("Audio\\Mii.wav");
 
         // Start the scene
         startScene();
@@ -105,7 +109,7 @@ public class PechkurovaMonologue extends ImageBackground {
     private void speak() {
         int x = 0;
         int y = getHeight() - DialogWindow.HEIGHT; // Позиція внизу
-        Thought thought = new Thought(x, y, "I am going to buy coffee! Prepare your works!", SpeakerType.PECHKUROVA);
+        Thought thought = new Thought(x, y, "I am going to buy coffee with pani Oksana! Prepare your works!", SpeakerType.PECHKUROVA);
         add(thought);
         thought.bringToFront();
 
@@ -121,5 +125,40 @@ public class PechkurovaMonologue extends ImageBackground {
         });
         dialogTimer.setRepeats(false); // Виконати тільки один раз
         dialogTimer.start();
+    }
+    // Method to play background music
+    private void playBackgroundMusic(String filePath) {
+        try {
+
+            // If the clip is already playing, stop it before playing new music
+            if (backgroundMusicClip != null && backgroundMusicClip.isRunning()) {
+                backgroundMusicClip.stop();
+                backgroundMusicClip.close();
+            }
+
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
+            backgroundMusicClip = null; // Free resources
+        }
     }
 }
