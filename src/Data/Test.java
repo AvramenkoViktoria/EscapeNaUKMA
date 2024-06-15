@@ -10,7 +10,8 @@ public class Test {
 
     public static void main(String[] args) {
         FileManager.retriveDataFromFiles();
-        //mainMenu = new MainMenu();
+        mainMenu = new MainMenu();
+        /*
         JFrame frameVozniuk = new JFrame();
         frameVozniuk.setSize(1000,800);
         frameVozniuk.setLocationRelativeTo(null);
@@ -19,7 +20,7 @@ public class Test {
         VozniukRoom room = new VozniukRoom("Images\\VozniukRoom.png");
         frameVozniuk.add(room);
         frameVozniuk.setVisible(true);
-
+*/
 
     }
 }

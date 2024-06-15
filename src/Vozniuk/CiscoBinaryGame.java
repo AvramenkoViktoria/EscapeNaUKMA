@@ -1,7 +1,11 @@
 package Vozniuk;
 
+import Data.Test;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.security.SecureRandom;
 
 public class CiscoBinaryGame extends JFrame {
@@ -24,6 +28,7 @@ public class CiscoBinaryGame extends JFrame {
     private JButton check;
     private JLabel timeLabel;
     private Timer timer;
+    private boolean done;
 
     public CiscoBinaryGame(VozniukAccount vozniukAccount) {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -44,6 +49,16 @@ public class CiscoBinaryGame extends JFrame {
         addTimerPanel();
         addCheckButton(vozniukAccount);
         setVisible(true);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (done) {
+                    dispose();
+                    Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(true);
+                }
+            }
+        });
     }
 
     private void addSetupPanel() {
@@ -91,10 +106,15 @@ public class CiscoBinaryGame extends JFrame {
         firstNumValue = convertFromBinaryToDecimal(firstNumber);
         secNumValue = convertFromBinaryToDecimal(secondNumber);
         thirdNumValue = convertFromBinaryToDecimal(thirdNumber);
+        System.out.println(firstNumValue);
+        System.out.println(secNumValue);
+        System.out.println(thirdNumValue);
     }
 
     private String generateNewPassword(VozniukAccount vozniukAccount) {
+        done = true;
         String newPassword = String.valueOf(firstNumValue) + String.valueOf(secNumValue) + String.valueOf(thirdNumValue);
+        System.out.println(newPassword);
         vozniukAccount.setPassword(newPassword);
         return newPassword;
     }
@@ -191,7 +211,7 @@ public class CiscoBinaryGame extends JFrame {
         timeLabel = new JLabel();
         timeLabel.setBounds(30, 100, 250, 80);
         timeLabel.setFont(timeLabel.getFont().deriveFont(30.0f));
-        timeRemaining = 10;
+        timeRemaining = 120;
         timer = new Timer(1000, e -> {
             if (timeRemaining > 0) {
                 timeRemaining--;
@@ -222,6 +242,8 @@ public class CiscoBinaryGame extends JFrame {
                 consoleText.setForeground(Color.RED);
                 consoleText.setText("Your answer is incorrect");
             } else {
+                check.setVisible(false);
+                timer.stop();
                 consoleText.setForeground(Color.WHITE);
                 consoleText.setText("Correct. Your new password is: " + generateNewPassword(vozniukAccount));
             }
@@ -242,7 +264,7 @@ public class CiscoBinaryGame extends JFrame {
             repaint();
             consoleText.setText("");
             timeLabel.setForeground(Color.BLACK);
-            timeRemaining = 10;
+            timeRemaining = 120;
             timer.start();
         });
         add(retry);

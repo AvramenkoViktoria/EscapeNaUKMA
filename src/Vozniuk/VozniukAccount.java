@@ -37,6 +37,8 @@ public class VozniukAccount extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                passwordLabel.setText("password");
+                passwordLabel.setForeground(Color.BLACK);
                 Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(true);
             }
         });
@@ -80,7 +82,7 @@ public class VozniukAccount extends JFrame {
         submit.setBounds(470, 430, 100, 40);
         //submit.setFont();
         submit.addActionListener(e -> {
-            if (!passwordCorrect(Arrays.toString(passwordField.getPassword()))) {
+            if (!passwordCorrect(new String(passwordField.getPassword()))) {
                 passwordLabel.setText("Wrong password");
                 passwordLabel.setForeground(Color.RED);
             } else {
@@ -117,6 +119,8 @@ public class VozniukAccount extends JFrame {
     }
 
     private boolean passwordCorrect(String requestedPassword) {
+        System.out.println(requestedPassword);
+        System.out.println(password);
         return requestedPassword.equals(password);
     }
     public void setPassword (String password) {

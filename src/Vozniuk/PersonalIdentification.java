@@ -1,5 +1,6 @@
 package Vozniuk;
 
+import Data.Test;
 import SuperSwing.ImageButton;
 
 import javax.swing.*;
@@ -36,7 +37,8 @@ public class PersonalIdentification extends JFrame {
         apple.setBounds(600, 300, 200, 200);
         apple.addActionListener(e -> {
             setVisible(false);
-
+            Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(true);
+            Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.startIndiansScene();
         });
         add(apple);
     }
