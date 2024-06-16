@@ -32,6 +32,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
     private Timer pickTimer;
     private Hearts hearts;
     private JLabel timeLabel;
+    public CiscoBinaryGame ciscoBinaryGame;
 
     public VozniukRoom(String imagePath) {
         super(imagePath);
@@ -98,7 +99,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                                     break;
                                 case SHAFA:
                                     Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
-                                    CiscoBinaryGame ciscoBinaryGame = new CiscoBinaryGame(vozniukAccount);
+                                    ciscoBinaryGame = new CiscoBinaryGame(vozniukAccount);
                             }
                         }
                     }

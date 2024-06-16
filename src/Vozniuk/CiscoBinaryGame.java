@@ -4,6 +4,7 @@ import Data.FileManager;
 import Data.Test;
 import Enums.Level;
 import SceneObjects.Hearts;
+import SuperSwing.GameOver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -267,7 +268,8 @@ public class CiscoBinaryGame extends JFrame {
                 addRetryButton();
             } else {
                 ((Timer) e.getSource()).stop();
-
+                Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.ciscoBinaryGame.setVisible(false);
+                GameOver gameOver = new GameOver();
             }
         });
 

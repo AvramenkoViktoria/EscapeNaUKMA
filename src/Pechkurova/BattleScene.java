@@ -6,6 +6,7 @@ import Enums.Level;
 import Enums.RuleOption;
 import Enums.Status;
 import SceneObjects.*;
+import SuperSwing.GameOver;
 import SuperSwing.ImageBackground;
 import SuperSwing.Warning;
 
@@ -217,8 +218,9 @@ public class BattleScene extends ImageBackground implements ActionListener {
                 remove(mainCharacter);
                 mainCharacter.setBounds(-500, -500, 10, 10);
                 stopBackgroundMusic();
-                Warning fail = new Warning("YOU LOST!", 200, IDE.battleFrame);
+                //Warning fail = new Warning("YOU LOST!", 200, IDE.battleFrame);
                 IDE.battleFrame.setVisible(false);
+                GameOver gameOver = new GameOver();
             } else {
                 Iterator<Pechkurova> iterator = pechkurovas.iterator();
                 while (iterator.hasNext()) {

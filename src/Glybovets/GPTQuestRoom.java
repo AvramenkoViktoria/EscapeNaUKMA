@@ -67,7 +67,7 @@ public class GPTQuestRoom extends ImageBackground {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawCenterLine(g);
+        //drawCenterLine(g);
     }
 
     private void drawCenterLine(Graphics g) {
