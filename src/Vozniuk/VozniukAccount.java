@@ -15,6 +15,9 @@ public class VozniukAccount extends JFrame {
     private String password;
     private JPasswordField passwordField;
     private JLabel passwordLabel;
+    private JButton changePasswordButton;
+    public DoorBase base;
+
     public VozniukAccount() {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -87,22 +90,30 @@ public class VozniukAccount extends JFrame {
                 passwordLabel.setForeground(Color.RED);
             } else {
                 setVisible(false);
-                DoorCodesBase base = new DoorCodesBase();
+                passwordLabel.setText("password");
+                passwordLabel.setForeground(Color.BLACK);
+                base = new DoorBase();
             }
         });
         add(submit);
     }
 
-    private void addChangePasswordButton(){
+    private void addChangePasswordButton() {
         // Text should be underlined and button should be transparent
-        JButton button = new JButton("Change network password");
-        button.setBounds(700, 650, 300, 40);
+        changePasswordButton = new JButton("Change network password");
+        changePasswordButton.setBounds(700, 650, 300, 40);
         //button.setFont();
-        button.addActionListener(e -> {
+        changePasswordButton.addActionListener(e -> {
             setVisible(false);
             PersonalIdentification personalIdentification = new PersonalIdentification(this);
         });
-        add(button);
+        add(changePasswordButton);
+    }
+
+    public void removeChangePasswordButton() {
+        remove(changePasswordButton);
+        revalidate();
+        repaint();
     }
 
     private void generatePassword() {
@@ -123,7 +134,8 @@ public class VozniukAccount extends JFrame {
         System.out.println(password);
         return requestedPassword.equals(password);
     }
-    public void setPassword (String password) {
+
+    public void setPassword(String password) {
         this.password = password;
     }
 }

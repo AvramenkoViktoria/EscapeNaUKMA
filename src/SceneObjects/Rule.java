@@ -1,5 +1,7 @@
 package SceneObjects;
 
+import Data.Test;
+import Enums.RuleOption;
 import Enums.SpeakerType;
 import Pechkurova.IDE;
 
@@ -13,7 +15,7 @@ import java.io.IOException;
 public class Rule extends DialogWindow {
    Clip backgroundMusicClip;
 
-    public Rule(int x, int y, String textToType, boolean ide) {
+    public Rule(int x, int y, String textToType, RuleOption ruleOption) {
         super(x, y, textToType, SpeakerType.FRIEND);
 
         // Override OKButton action to remove window on click
@@ -26,12 +28,15 @@ public class Rule extends DialogWindow {
                         parent.remove(Rule.this);
                         parent.repaint();
                         parent.revalidate();
-                        if (ide) {
-                            IDE.startTimer();
-                        } else {
-                            IDE.testPanel.playBackgroundMusic("Audio\\Mortal.wav");
-                            IDE.testPanel.addKeyListeners();
-                            IDE.testPanel.startTimer();
+
+                        switch (ruleOption) {
+                            case IDE -> IDE.startTimer();
+                            case PECHKUROVA -> {
+                                IDE.testPanel.playBackgroundMusic("Audio\\Mortal.wav");
+                                IDE.testPanel.addKeyListeners();
+                                IDE.testPanel.startTimer();
+                            }
+                            case INDIANS -> Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.startTimer();
                         }
                     }
                 }

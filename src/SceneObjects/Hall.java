@@ -85,7 +85,6 @@ public class Hall extends ImageBackground {
         //Pechkurova's room
         decorations[7] = new Door(460, 19, 134, 16, false);
         //Vozniuk's room
-
     }
 
     @Override
@@ -94,5 +93,9 @@ public class Hall extends ImageBackground {
         for (Decoration decoration : decorations) {
             decoration.draw(g);
         }
+    }
+
+    public Door getVozniukDoor() {
+        return (Door) decorations[7];
     }
 }

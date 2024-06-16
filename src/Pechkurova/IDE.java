@@ -3,6 +3,7 @@ package Pechkurova;
 import Data.FileManager;
 import Enums.CommentState;
 import Enums.Level;
+import Enums.RuleOption;
 import SceneObjects.DialogWindow;
 import SceneObjects.Hearts;
 import SceneObjects.Rule;
@@ -85,7 +86,7 @@ public class IDE extends JFrame implements ActionListener {
     }
 
     private void addRuleWindow() {
-        DialogWindow window = new Rule(0, HEIGHT - DialogWindow.HEIGHT - 35, "You did not write comments and have breaks. Remove them faster till they reach red line!", true);
+        DialogWindow window = new Rule(0, HEIGHT - DialogWindow.HEIGHT - 35, "You did not write comments and have breaks. Remove them faster till they reach red line!", RuleOption.IDE);
         background.add(window);
         window.bringToFront();
         background.revalidate();

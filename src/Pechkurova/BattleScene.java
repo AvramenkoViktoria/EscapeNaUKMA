@@ -3,6 +3,7 @@ package Pechkurova;
 import Data.FileManager;
 import Data.Test;
 import Enums.Level;
+import Enums.RuleOption;
 import Enums.Status;
 import SceneObjects.*;
 import SuperSwing.ImageBackground;
@@ -28,7 +29,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
     private int mitosisNumber = 0;
     private boolean collided;
     private Hearts hearts;
-    Clip backgroundMusicClip;
+    private Clip backgroundMusicClip;
 
     public BattleScene(String imagePath) {
         super(imagePath);
@@ -92,7 +93,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
     }
 
     public void addRuleWindow() {
-        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT, "On no! You failed. Now try to run away!", false);
+        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT, "On no! You failed. Now try to run away!", RuleOption.PECHKUROVA);
         add(window);
         window.bringToFront();
         revalidate();
@@ -123,6 +124,11 @@ public class BattleScene extends ImageBackground implements ActionListener {
                             timer.stop();
                             IDE.battleFrame.setVisible(false);
                             FileManager.user.setStatus(Status.VOZNIUK);
+                            switch (FileManager.user.getLevel()) {
+                                case CONTRACT -> FileManager.user.setHeartsNum(3);
+                                case BUDGET -> FileManager.user.setHeartsNum(2);
+                                case GRANT -> FileManager.user.setHeartsNum(1);
+                            }
                             Test.mainMenu.levelMenu.roomMenu.setVisible(true);
                             Test.mainMenu.levelMenu.roomMenu.addRooms(new Status[]{Status.PECHKUROVA, Status.CURRENT, Status.BLOCKED});
                         }
@@ -251,7 +257,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
                 switch (FileManager.user.getHeartsNum()) {
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.CONTRACT, 200, 600));
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 200, 600));
                         break;
                     case 1:
                         return true;

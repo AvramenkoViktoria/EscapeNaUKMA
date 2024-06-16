@@ -1,6 +1,9 @@
 package Vozniuk;
 
+import Data.FileManager;
 import Data.Test;
+import Enums.Level;
+import SceneObjects.Hearts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +32,7 @@ public class CiscoBinaryGame extends JFrame {
     private JLabel timeLabel;
     private Timer timer;
     private boolean done;
+    private Hearts hearts;
 
     public CiscoBinaryGame(VozniukAccount vozniukAccount) {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -36,6 +40,7 @@ public class CiscoBinaryGame extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(null);
+        addHeartsPicture();
         addSetupPanel();
         addInstructionLabel();
         generateNumbersToConvert();
@@ -59,6 +64,40 @@ public class CiscoBinaryGame extends JFrame {
                 }
             }
         });
+    }
+
+    private void addHeartsPicture() {
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 3:
+                        FileManager.user.setHeartsNum(3);
+                        addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 800, 0));
+                        break;
+                    case 2:
+                        FileManager.user.setHeartsNum(2);
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 800, 0));
+                        break;
+                    case 1:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 800, 0));
+                }
+                break;
+            case BUDGET:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 2:
+                        FileManager.user.setHeartsNum(2);
+                        addHeartsPanel(new Hearts("Images\\Budget\\twoHearts.png", Level.BUDGET, 800, 0));
+                        break;
+                    case 1:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Budget\\twoHearts.png", Level.BUDGET, 800, 0));
+                }
+                break;
+            case GRANT:
+                FileManager.user.setHeartsNum(1);
+                addHeartsPanel(new Hearts("Images\\Grant\\oneHeart.png", Level.GRANT, 800, 0));
+        }
     }
 
     private void addSetupPanel() {
@@ -211,14 +250,14 @@ public class CiscoBinaryGame extends JFrame {
         timeLabel = new JLabel();
         timeLabel.setBounds(30, 100, 250, 80);
         timeLabel.setFont(timeLabel.getFont().deriveFont(30.0f));
-        timeRemaining = 120;
+        timeRemaining = 10;
         timer = new Timer(1000, e -> {
             if (timeRemaining > 0) {
                 timeRemaining--;
                 int minutes = timeRemaining / 60;
                 int seconds = timeRemaining % 60;
                 timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
-            } else {
+            } else if (!lost()){
                 ((Timer) e.getSource()).stop();
                 timeLabel.setText("Time is out!");
                 timeLabel.setForeground(Color.RED);
@@ -226,12 +265,61 @@ public class CiscoBinaryGame extends JFrame {
                 consoleText.setText("Time is out. Press retry button to get new password");
                 consoleText.setForeground(Color.RED);
                 addRetryButton();
+            } else {
+                ((Timer) e.getSource()).stop();
+
             }
         });
 
         panel.add(timeLabel);
         timer.setInitialDelay(0);
         timer.start();
+    }
+
+    private void addHeartsPanel(Hearts hearts) {
+        if (this.hearts != null) {
+            remove(this.hearts);
+        }
+        System.out.println(FileManager.user.getHeartsNum());
+        System.out.println(hearts.getPath());
+        this.hearts = hearts;
+        add(hearts);
+        hearts.revalidate();
+        hearts.repaint();
+        revalidate();
+        repaint();
+    }
+
+    private boolean lost() {
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 3:
+                        FileManager.user.setHeartsNum(2);
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 800, 0));
+                        break;
+                    case 2:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 800, 0));
+                        break;
+                    case 1:
+                        return true;
+                }
+                break;
+            case BUDGET:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 2:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 800, 0));
+                        break;
+                    case 1:
+                        return true;
+                }
+                break;
+            case GRANT:
+                return true;
+        }
+        return false;
     }
 
     private void addCheckButton(VozniukAccount vozniukAccount) {
@@ -264,7 +352,7 @@ public class CiscoBinaryGame extends JFrame {
             repaint();
             consoleText.setText("");
             timeLabel.setForeground(Color.BLACK);
-            timeRemaining = 120;
+            timeRemaining = 10;
             timer.start();
         });
         add(retry);

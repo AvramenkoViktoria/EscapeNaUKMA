@@ -1,15 +1,14 @@
 package Vozniuk;
 
+import Data.FileManager;
 import Data.Test;
+import Enums.Level;
+import Enums.RuleOption;
+import Enums.SpeakerType;
 import Enums.Type;
 import Pechkurova.MainCharacter;
-import Pechkurova.Pechkurova;
-import SceneObjects.Decoration;
-import SceneObjects.Desk;
-import SceneObjects.Door;
-import SceneObjects.PortalDesk;
+import SceneObjects.*;
 import SuperSwing.ImageBackground;
-import SuperSwing.Warning;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,15 +24,28 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
     private final static int HEIGHT = 800;
     private Decoration[] decorations;
     private LinkedList<Indian> indians;
-    private VozniukAccount vozniukAccount = new VozniukAccount();
-    private Timer timer;
+    public VozniukAccount vozniukAccount = new VozniukAccount();
+    private Timer indianTimer;
     private MainCharacter mainCharacter;
     private boolean collided;
+    private Timer pickTimer;
+    private Hearts hearts;
+    private JLabel timeLabel;
 
     public VozniukRoom(String imagePath) {
         super(imagePath);
         setLayout(null);
         setBounds(0, 0, WIDTH, HEIGHT);
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT:
+                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 800, 0));
+                break;
+            case BUDGET:
+                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 800, 0));
+                break;
+            case GRANT:
+                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 800, 0));
+        }
         mainCharacter = new MainCharacter("Images\\MainCharUp.png", 150, 600, 80, 80);
         initialiazeDecorationsList();
         initializeIndiansList();
@@ -64,6 +76,16 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
                             System.out.println("Going out");
+                            Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
+                            Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(true);
+                            Test.mainMenu.levelMenu.roomMenu.hall.getVozniukDoor().setBlocked(true);
+                        }
+                        if (interaction != null && interaction.isBlocked()) {
+                            Thought thought = new Thought(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "The door is blocked. I need to find the code.", SpeakerType.USER);
+                            add(thought);
+                            thought.bringToFront();
+                            revalidate();
+                            repaint();
                         }
 
                         PortalDesk interactionP = mainCharacter.touchPortalDesk(decorations);
@@ -183,6 +205,20 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
         indians.add(new Indian("Images\\Indian.png", 172, 400, points9));
     }
 
+    private void addHeartsPanel(Hearts hearts) {
+        if (this.hearts != null) {
+            remove(this.hearts);
+        }
+        System.out.println(FileManager.user.getHeartsNum());
+        System.out.println(hearts.getPath());
+        this.hearts = hearts;
+        add(hearts);
+        hearts.revalidate();
+        hearts.repaint();
+        revalidate();
+        repaint();
+    }
+
     private void addIndiansToScene() {
         for (Indian indian : indians) {
             indian.setBounds(indian.getX(), indian.getY(), Indian.SIZE, Indian.SIZE);
@@ -194,8 +230,18 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
         addIndiansToScene();
         revalidate();
         repaint();
-        timer = new Timer(10, this);
-        timer.start();
+        indianTimer = new Timer(10, this);
+        addTimer();
+        Rule rule = new Rule(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "Oh no! You escaped Vozniuk`s indians. Pick them up untill someone hears you!", RuleOption.INDIANS);
+        add(rule);
+        rule.bringToFront();
+        revalidate();
+        repaint();
+    }
+
+    public void startTimer() {
+        indianTimer.start();
+        pickTimer.start();
     }
 
     private boolean collide(MainCharacter mainCharacter, Indian indian) {
@@ -218,10 +264,79 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
         }
         if (indians.isEmpty()) {
             System.out.println("All Indians are removed!");
-            timer.stop();
+            indianTimer.stop();
             PortalDesk portalDesk = (PortalDesk) decorations[8];
             portalDesk.setType(Type.SHAFA);
+            vozniukAccount.removeChangePasswordButton();
+            pickTimer.stop();
+            remove(timeLabel);
         }
+    }
+
+    public void unlockTheDoor() {
+        Door door = (Door) decorations[6];
+        door.setBlocked(false);
+    }
+
+    private int timeRemaining;
+
+    private void addTimer() {
+        timeLabel = new JLabel();
+        timeLabel.setBounds(18, 8, 200, 50);
+        timeLabel.setFont(timeLabel.getFont().deriveFont(37.0f));
+        timeRemaining = 30;
+        pickTimer = new Timer(1000, e -> {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                int minutes = timeRemaining / 60;
+                int seconds = timeRemaining % 60;
+                timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
+            } else if (!lost()) {
+                timeRemaining = 30;
+                int minutes = timeRemaining / 60;
+                int seconds = timeRemaining % 60;
+                timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
+            } else {
+                pickTimer.stop();
+            }
+        });
+
+        add(timeLabel);
+        revalidate();
+        repaint();
+        pickTimer.setInitialDelay(0);
+    }
+
+    private boolean lost() {
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 3:
+                        FileManager.user.setHeartsNum(2);
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 800, 0));
+                        break;
+                    case 2:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 800, 0));
+                        break;
+                    case 1:
+                        return true;
+                }
+                break;
+            case BUDGET:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 2:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 800, 0));
+                        break;
+                    case 1:
+                        return true;
+                }
+                break;
+            case GRANT:
+                return true;
+        }
+        return false;
     }
 
 
