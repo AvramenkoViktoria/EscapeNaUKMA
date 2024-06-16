@@ -42,7 +42,7 @@ public class RoomMenu extends JFrame {
         background.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         background.setLayout(null);
         addRoomText();
-        addRooms(new Status[]{Status.CURRENT, Status.BLOCKED, Status.BLOCKED});
+        addRooms(new Status[]{Status.PECHKUROVA, Status.CURRENT, Status.BLOCKED});
         revalidate();
         repaint();
         add(background);

@@ -8,6 +8,7 @@ import Enums.SpeakerType;
 import Enums.Type;
 import Pechkurova.MainCharacter;
 import SceneObjects.*;
+import SuperSwing.GameOver;
 import SuperSwing.ImageBackground;
 
 import java.awt.*;
@@ -298,6 +299,8 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                 timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
             } else {
                 pickTimer.stop();
+                Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
+                GameOver gameOver = new GameOver();
             }
         });
 

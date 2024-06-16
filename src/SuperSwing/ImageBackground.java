@@ -27,6 +27,10 @@ public class ImageBackground extends JPanel {
         }
     }
 
+    public void changeImage(String imagePath) {
+        loadImage(imagePath);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
