@@ -26,10 +26,7 @@ public class MainMenu extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
         addBackground();
-        /*
         playBackgroundMusic("Audio\\Menu.wav"); // Play background music
-
-         */
         setVisible(true);
     }
 
@@ -51,7 +48,7 @@ public class MainMenu extends JFrame {
         Font buttonFont = new Font("Chiller", Font.PLAIN, 70);
         button.setFont(buttonFont);
         button.addActionListener(e -> {
-            FileManager.user.setStatus(Status.VOZNIUK);
+            FileManager.user.setStatus(Status.PECHKUROVA);
             setVisible(false);
             levelMenu = new LevelMenu();
         });

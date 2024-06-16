@@ -36,10 +36,8 @@ public class PechkurovaMonologue extends ImageBackground {
         // Add characters to the scene
         add(pechkurova);
         add(mainCharacter);
-        /*
-        playBackgroundMusic("Audio\\Mii.wav");
 
-         */
+        playBackgroundMusic("Audio\\Mii.wav");
 
         // Start the scene
         startScene();

@@ -1,5 +1,8 @@
 package SuperSwing;
 
+import Data.FileManager;
+import Data.Test;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -26,6 +29,14 @@ public class GameOver extends JFrame {
             button.setBounds(265, 220, 170, 60);
             Font buttonFont = new Font("Chiller", Font.PLAIN, 70);
             button.setFont(buttonFont);
+            button.addActionListener(e -> {
+                switch (FileManager.user.getLevel()) {
+                    case CONTRACT -> FileManager.user.setHeartsNum(3);
+                    case BUDGET -> FileManager.user.setHeartsNum(2);
+                    case GRANT -> FileManager.user.setHeartsNum(1);
+                }
+                Test.mainMenu.levelMenu.roomMenu.setVisible(true);
+            });
             add(button);
         }
 
