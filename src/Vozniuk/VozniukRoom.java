@@ -102,6 +102,13 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                                     ciscoBinaryGame = new CiscoBinaryGame(vozniukAccount);
                             }
                         }
+
+                        if (mainCharacter.canMoveForward(decorations).getMessage() != null) {
+                            Thought thought = new Thought(WIDTH - DialogWindow.WIDTH - 16, HEIGHT - DialogWindow.HEIGHT - 40, mainCharacter.canMoveForward(decorations).getMessage(), SpeakerType.USER);
+                            add(thought);
+                            revalidate();
+                            repaint();
+                        }
                     }
                 }
                 repaint();
@@ -124,7 +131,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
         //door
         decorations[7] = new Desk(905, 574, 100, 200, null);
         //altar cisco
-        decorations[8] = new PortalDesk(905, 100, 100, 380, null, Type.BLOCKED);
+        decorations[8] = new PortalDesk(905, 100, 100, 380, "Cisco shafa.. Wonder how i can open it", Type.BLOCKED);
         //shafa cisco
         decorations[9] = new PortalDesk(123, 37, 138, 357, null, Type.PC);
         //Vozniuk's desk
@@ -232,9 +239,11 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
         addIndiansToScene();
         revalidate();
         repaint();
+        PortalDesk portalDesk = (PortalDesk) decorations[8];
+        portalDesk.setMessage(null);
         indianTimer = new Timer(10, this);
         addTimer();
-        Rule rule = new Rule(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "Oh no! You escaped Vozniuk`s indians. Pick them up untill someone hears you!", RuleOption.INDIANS);
+        Rule rule = new Rule(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "Oh no! You escaped Vozniuk`s indians. Pick them up until someone hears you and change the network password in cisco shafa later!", RuleOption.INDIANS);
         add(rule);
         rule.bringToFront();
         revalidate();
@@ -301,6 +310,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
             } else {
                 pickTimer.stop();
                 Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
+                Test.mainMenu.levelMenu.roomMenu.hall.thoughtCounter = 0;
                 GameOver gameOver = new GameOver();
             }
         });

@@ -1,6 +1,7 @@
 package SceneObjects;
 
 import Data.Test;
+import Enums.SpeakerType;
 import Pechkurova.MainCharacter;
 import SuperSwing.ImageBackground;
 import Vozniuk.VozniukRoom;
@@ -14,6 +15,7 @@ public class Hall extends ImageBackground {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 400;
     private MainCharacter mainCharacter;
+    public int thoughtCounter = 0;
     private Decoration[] decorations;
     public JFrame vozniukRoomFrame;
     public VozniukRoom vozniukRoom;
@@ -27,6 +29,7 @@ public class Hall extends ImageBackground {
         add(mainCharacter);
         revalidate();
         repaint();
+        addThought();
 
 
         setFocusable(true);
@@ -85,6 +88,16 @@ public class Hall extends ImageBackground {
         //Pechkurova's room
         decorations[7] = new Door(460, 19, 134, 16, false);
         //Vozniuk's room
+    }
+
+    private void addThought() {
+        if (thoughtCounter == 0) {
+            thoughtCounter++;
+            Thought thought = new Thought(WIDTH - DialogWindow.WIDTH, HEIGHT - DialogWindow.HEIGHT, "Hooh.. That was rough. Now i need to come in pan Andrii's office. But it's closed and i don't remember the code he told me..", SpeakerType.USER);
+            add(thought);
+            revalidate();
+            repaint();
+        }
     }
 
     @Override

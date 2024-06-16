@@ -269,6 +269,7 @@ public class CiscoBinaryGame extends JFrame {
             } else {
                 ((Timer) e.getSource()).stop();
                 Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.ciscoBinaryGame.setVisible(false);
+                Test.mainMenu.levelMenu.roomMenu.hall.thoughtCounter = 0;
                 GameOver gameOver = new GameOver();
             }
         });

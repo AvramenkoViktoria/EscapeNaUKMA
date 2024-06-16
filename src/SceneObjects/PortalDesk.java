@@ -20,6 +20,10 @@ public class PortalDesk extends Decoration {
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public Type getType() {
         return type;
     }
