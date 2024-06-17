@@ -110,7 +110,7 @@ public class PechkurovaMonologue extends ImageBackground {
     private void speak() {
         int x = 0;
         int y = getHeight() - DialogWindow.HEIGHT; // Позиція внизу
-        Thought thought = new Thought(x, y, "I am going to buy coffee with pani Oksana! Prepare your works!", SpeakerType.PECHKUROVA);
+        Thought thought = new Thought(x, y, "I am going to buy coffee with pani Oksana! Prepare your works!", SpeakerType.PECHKUROVA,20);
         add(thought);
         thought.bringToFront();
 

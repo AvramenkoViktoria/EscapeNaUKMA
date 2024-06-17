@@ -86,7 +86,7 @@ public class IDE extends JFrame implements ActionListener {
     }
 
     private void addRuleWindow() {
-        DialogWindow window = new Rule(0, HEIGHT - DialogWindow.HEIGHT - 35, "You did not write comments and have breaks. Remove them faster till they reach red line!", RuleOption.IDE);
+        DialogWindow window = new Rule(0, HEIGHT - DialogWindow.HEIGHT - 35, "You did not write comments and have breaks. Remove them faster till they reach red line!", RuleOption.IDE, 20);
         background.add(window);
         window.bringToFront();
         background.revalidate();

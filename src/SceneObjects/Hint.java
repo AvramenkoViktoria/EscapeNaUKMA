@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 
 public class Hint extends DialogWindow {
 
-    public Hint(int x, int y, String textToType) {
-        super(x, y, textToType, SpeakerType.FRIEND);
+    public Hint(int x, int y, String textToType, int size) {
+        super(x, y, textToType, SpeakerType.FRIEND, size);
 
         // Override OKButton action to remove window on click
         if (OKButton != null) {
@@ -41,6 +41,13 @@ public class Hint extends DialogWindow {
         // Start the disappearance timer
         startDisappearanceTimer();
     }
-
+    public void bringToFront() {
+        Container parent = getParent();
+        if (parent != null) {
+            parent.setComponentZOrder(this, 0); // Bring this DialogWindow to the front
+            parent.repaint();
+            parent.revalidate();
+        }
+    }
 
 }

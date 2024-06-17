@@ -120,10 +120,7 @@ public class RoomMenu extends JFrame {
                             monologueFrame.setLocationRelativeTo(null);
                             MainMenu mainMenu = Test.mainMenu; // Get the main menu instance
                             if (mainMenu != null) {
-                                System.out.println("Stopping MainMenu background music before switching to RoomMenu");
                                 mainMenu.stopBackgroundMusic(); // Stop the music
-                            } else {
-                                System.out.println("MainMenu instance is null!");
                             }
                             monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
                             monologue.setBounds(0, 0, 1200, 853);

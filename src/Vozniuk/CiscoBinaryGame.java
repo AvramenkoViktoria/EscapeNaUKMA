@@ -5,6 +5,7 @@ import Data.Test;
 import Enums.Level;
 import SceneObjects.Hearts;
 import SuperSwing.GameOver;
+import SuperSwing.RoundedPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,18 +42,16 @@ public class CiscoBinaryGame extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(null);
+        getContentPane().setBackground(Color.WHITE);
         addHeartsPicture();
         addSetupPanel();
         addInstructionLabel();
         generateNumbersToConvert();
-        addFirstNumLabel();
-        addSecNumLabel();
-        addThirdNumLabel();
-        addFirstNumTextField();
-        addSecNumTextField();
-        addThirdNumTextField();
+        addNumberPanel(vozniukAccount);
+        addCiscoLabel();
         addConsole();
         addTimerPanel();
+        addRetryButton();
         addCheckButton(vozniukAccount);
         setVisible(true);
 
@@ -66,6 +65,7 @@ public class CiscoBinaryGame extends JFrame {
             }
         });
     }
+
 
     private void addHeartsPicture() {
         switch (FileManager.user.getLevel()) {
@@ -101,25 +101,37 @@ public class CiscoBinaryGame extends JFrame {
         }
     }
 
+
+
     private void addSetupPanel() {
-        JPanel panel = new JPanel();
-        panel.setBounds(300, 10, 500, 80);
-        panel.setBackground(Color.LIGHT_GRAY);
+        RoundedPanel panel = new RoundedPanel(null,30, new Color(10, 44, 86));
+        panel.setBounds(300, 120, 500, 80);
         addSetupLabel(panel);
         add(panel);
     }
 
     private void addSetupLabel(JPanel panel) {
         JLabel label = new JLabel("Set up new password");
-        label.setBounds(50, 10, 400, 50);
-        //label.setFont();
+        label.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
+        label.setForeground(Color.WHITE);
+        label.setBounds(115, 15, 270, 50);
         panel.add(label);
+    }
+    private void addCiscoLabel() {
+        ImageIcon imageIcon = new ImageIcon("Images\\Binary.png");
+        Image image = imageIcon.getImage();
+        Image scaledImage = image.getScaledInstance(500, 90, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        JLabel label = new JLabel(scaledIcon);
+        label.setBounds(300, 35, 500, 90);
+        add(label);
     }
 
     private void addInstructionLabel() {
         JLabel label = new JLabel("To get new password convert from binary to decimal");
-        label.setBounds(380, 80, 500, 80);
-        //label.setFont();
+        label.setBounds(215, 200, 700, 80);
+        label.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
         add(label);
     }
 
@@ -158,83 +170,101 @@ public class CiscoBinaryGame extends JFrame {
         vozniukAccount.setPassword(newPassword);
         return newPassword;
     }
+    private void addNumberPanel(VozniukAccount vozniukAccount) {
+        // Create a new JPanel
+        JPanel numberPanel = new RoundedPanel(null, 30, new Color(10, 44, 86));
 
-    private void addFirstNumLabel() {
+        // Set layout to null for absolute positioning
+        numberPanel.setLayout(null);
+
+        // Set the bounds of the panel
+        numberPanel.setBounds(0, 280, 1085, 350); // Adjust the size and position as needed
+
+        // Create and configure the first number label
         firstNumLabel = new JLabel(firstNumber);
-        firstNumLabel.setBounds(300, 180, 250, 50);
-        //firstNumLabel.setFont();
-        add(firstNumLabel);
-    }
+        firstNumLabel.setBounds(300, 30, 250, 50);
+        firstNumLabel.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
+        firstNumLabel.setForeground(Color.WHITE);
+        numberPanel.add(firstNumLabel);
 
-    private void addSecNumLabel() {
-        secNumLabel = new JLabel(secondNumber);
-        secNumLabel.setBounds(300, 240, 250, 50);
-        //secNumLabel.setFont();
-        add(secNumLabel);
-    }
-
-    private void addThirdNumLabel() {
-        thirdNumLabel = new JLabel(thirdNumber);
-        thirdNumLabel.setBounds(300, 300, 250, 50);
-        //thirdNumLabel.setFont();
-        add(thirdNumLabel);
-    }
-
-    private void addFirstNumTextField() {
+        // Create and configure the first text field
         firstTextField = new JTextField();
-        firstTextField.setBounds(600, 180, 150, 50);
-        //firstTextField.setFont();
-        add(firstTextField);
-    }
+        firstTextField.setBounds(650, 30, 150, 50);
+        firstTextField.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
+        numberPanel.add(firstTextField);
 
-    private void addSecNumTextField() {
+        // Create and configure the second number label
+        secNumLabel = new JLabel(secondNumber);
+        secNumLabel.setBounds(300, 100, 250, 50);
+        secNumLabel.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
+        secNumLabel.setForeground(Color.WHITE);
+        numberPanel.add(secNumLabel);
+
+        // Create and configure the second text field
         secTextField = new JTextField();
-        secTextField.setBounds(600, 240, 150, 50);
-        //secTextField.setFont();
-        add(secTextField);
-    }
+        secTextField.setBounds(650, 100, 150, 50);
+        secTextField.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
+        numberPanel.add(secTextField);
 
-    private void addThirdNumTextField() {
+        // Create and configure the third number label
+        thirdNumLabel = new JLabel(thirdNumber);
+        thirdNumLabel.setBounds(300, 170, 250, 50);
+        thirdNumLabel.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
+        thirdNumLabel.setForeground(Color.WHITE);
+        numberPanel.add(thirdNumLabel);
+
+        // Create and configure the third text field
         thirdTextField = new JTextField();
-        thirdTextField.setBounds(600, 300, 150, 50);
-        //thirdTextField.setFont();
-        add(thirdTextField);
+        thirdTextField.setBounds(650, 170, 150, 50);
+        thirdTextField.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
+        numberPanel.add(thirdTextField);
+        addCheckButton(vozniukAccount);
+        addRetryButton();
+        // Add the panel to the main frame
+        add(numberPanel);
     }
 
     private void addConsole() {
         JPanel console = new JPanel();
-        console.setBackground(Color.GRAY);
-        console.setBounds(0, 480, 650, 300);
-        console.setLayout(null);
+        console.setBackground(new Color(0, 194, 235));
+        console.setBounds(0, 660, 450, 300); // Ensure this size is sufficient
+        console.setLayout(null); // Using null layout for absolute positioning
         addConsoleLabel(console);
         addConsoleTextLabel(console);
         add(console);
+
+        // Ensure the console panel is refreshed to display added components
+        console.revalidate();
+        console.repaint();
     }
 
     private void addConsoleLabel(JPanel console) {
-        JPanel panel = new JPanel();
-        panel.setBounds(0, 0, 100, 30);
+        JPanel panel = new RoundedPanel(null, 30, Color.WHITE);
+        panel.setBounds(20, 30, 150, 50); // Adjust size and positioning as needed
         panel.setBackground(Color.LIGHT_GRAY);
         panel.setLayout(null);
         JLabel label = new JLabel("Console");
-        label.setBounds(0, 0, 100, 30);
-        //label.setFont();
+        label.setBounds(15, 0, 150, 50); // Adjust size and positioning as needed
+        label.setFont(new Font("Baskerville Old Face", Font.BOLD, 30));
         panel.add(label);
         console.add(panel);
     }
 
     private void addConsoleTextLabel(JPanel console) {
-        consoleText = new JLabel();
-        consoleText.setBounds(0, 40, 620, 200);
-        //consoleText.setFont();
+        consoleText = new JLabel("RESULT"); // Initial content for visibility
+        consoleText.setBounds(200, 38, 430, 40); // Adjust size and positioning for better visibility
+        consoleText.setFont(new Font("Baskerville Old Face", Font.BOLD, 20));
+        consoleText.setForeground(Color.WHITE); // Ensure the text color contrasts with the background
         console.add(consoleText);
     }
 
+
     private void addTimerPanel() {
         JPanel panel = new JPanel();
-        panel.setBackground(Color.LIGHT_GRAY);
+        panel.setBackground(new Color(10, 44, 86));
         panel.setLayout(null);
-        panel.setBounds(650, 480, 440, 300);
+        panel.setBounds(450, 660, 700, 300);
+        addCiscoPicture(panel);
         addTimerLabel(panel);
         addTimer(panel);
         add(panel);
@@ -242,14 +272,16 @@ public class CiscoBinaryGame extends JFrame {
 
     private void addTimerLabel(JPanel panel) {
         JLabel label = new JLabel("Time left:");
-        label.setBounds(30, 5, 250, 70);
-        //label.setFont();
+        label.setForeground(Color.WHITE);
+        label.setBounds(70, 20, 250, 70);
+        label.setFont(new Font("Baskerville Old Face", Font.BOLD, 30));
         panel.add(label);
     }
-
     private void addTimer(JPanel panel) {
         timeLabel = new JLabel();
-        timeLabel.setBounds(30, 100, 250, 80);
+        timeLabel.setBounds(220, 15, 250, 80);
+        timeLabel.setForeground(Color.WHITE);
+        timeLabel.setFont(new Font("Baskerville Old Face", Font.BOLD, 30));
         timeLabel.setFont(timeLabel.getFont().deriveFont(30.0f));
         timeRemaining = 120;
         timer = new Timer(1000, e -> {
@@ -267,11 +299,13 @@ public class CiscoBinaryGame extends JFrame {
                 consoleText.setForeground(Color.RED);
                 addRetryButton();
             } else {
+
                 ((Timer) e.getSource()).stop();
                 Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.ciscoBinaryGame.setVisible(false);
                 Test.mainMenu.levelMenu.roomMenu.hall.thoughtCounter = 0;
                 GameOver gameOver = new GameOver();
             }
+
         });
 
         panel.add(timeLabel);
@@ -279,7 +313,7 @@ public class CiscoBinaryGame extends JFrame {
         timer.start();
     }
 
-    private void addHeartsPanel(Hearts hearts) {
+   private void addHeartsPanel(Hearts hearts) {
         if (this.hearts != null) {
             remove(this.hearts);
         }
@@ -293,7 +327,8 @@ public class CiscoBinaryGame extends JFrame {
         repaint();
     }
 
-    private boolean lost() {
+
+ private boolean lost() {
         switch (FileManager.user.getLevel()) {
             case CONTRACT:
                 switch (FileManager.user.getHeartsNum()) {
@@ -325,18 +360,26 @@ public class CiscoBinaryGame extends JFrame {
         return false;
     }
 
+
+
+
     private void addCheckButton(VozniukAccount vozniukAccount) {
         check = new JButton("Check");
-        check.setBounds(800, 240, 150, 50);
+        check.setFont(new Font("Baskerville Old Face", Font.BOLD, 20));
+        check.setBounds(350, 545, 150, 50);
+        check.setContentAreaFilled(false); // Make the button background transparent
+        check.setFocusPainted(false); // Remove focus painting
+        check.setForeground(Color.WHITE); // Set text color to white
+        check.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change cursor on hover
         check.addActionListener(e -> {
             if (!answersCorrect()) {
-                consoleText.setForeground(Color.RED);
+                consoleText.setForeground(Color.WHITE);
                 consoleText.setText("Your answer is incorrect");
             } else {
                 check.setVisible(false);
                 timer.stop();
                 consoleText.setForeground(Color.WHITE);
-                consoleText.setText("Correct. Your new password is: " + generateNewPassword(vozniukAccount));
+                //consoleText.setText("Correct. Your new password is: " + generateNewPassword(vozniukAccount));
             }
         });
         add(check);
@@ -344,7 +387,12 @@ public class CiscoBinaryGame extends JFrame {
 
     private void addRetryButton() {
         JButton retry = new JButton("Retry");
-        retry.setBounds(800, 240, 150, 50);
+        retry.setFont(new Font("Baskerville Old Face", Font.BOLD, 20));
+        retry.setBounds(600, 545, 150, 50);
+        retry.setContentAreaFilled(false); // Make the button background transparent
+        retry.setFocusPainted(false); // Remove focus painting
+        retry.setForeground(Color.WHITE); // Set text color to white
+        retry.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change cursor on hover
         retry.addActionListener(e -> {
             retry.setVisible(false);
             check.setVisible(true);
@@ -359,6 +407,16 @@ public class CiscoBinaryGame extends JFrame {
             timer.start();
         });
         add(retry);
+    }
+    private void addCiscoPicture(JPanel panel) {
+        ImageIcon imageIcon = new ImageIcon("Images\\CISCO.png");
+        Image image = imageIcon.getImage();
+        Image scaledImage = image.getScaledInstance(150, 80, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        JLabel label = new JLabel(scaledIcon);
+        label.setBounds(400, 15, 150, 80);
+        panel.add(label);
     }
 
     private boolean answersCorrect() {

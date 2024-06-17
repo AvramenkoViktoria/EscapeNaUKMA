@@ -86,9 +86,9 @@ public class PechkurovaScene extends ImageBackground {
         int x = 0;
         int y = getHeight() - DialogWindow.HEIGHT;
         if (interaction.getSpeakerType().equals(SpeakerType.FRIEND)) {
-            dialogWindow = new Hint(x, y, interaction.getMessage());
+            dialogWindow = new Hint(x, y, interaction.getMessage(),20);
         } else {
-            dialogWindow = new Thought(x, y, interaction.getMessage(), SpeakerType.USER);
+            dialogWindow = new Thought(x, y, interaction.getMessage(), SpeakerType.USER,20);
         }
         add(dialogWindow);
         dialogWindow.bringToFront();

@@ -12,6 +12,7 @@ public class PersonalIdentification extends JFrame {
     public PersonalIdentification(VozniukAccount vozniukAccount) {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
+        getContentPane().setBackground(new Color(10, 44, 86));
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout(null);
@@ -26,15 +27,17 @@ public class PersonalIdentification extends JFrame {
     }
 
     private void addMainLabel() {
-        JLabel label = new JLabel("What operation system is your phone?");
-        label.setBounds(300, 100, 500, 50);
+        JLabel label = new JLabel("CHOOSE OPERATION SYSTEM:");
+        label.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
+        label.setForeground(Color.WHITE);
+        label.setBounds(315, 100, 470, 50);
         //label.setFont();
         add(label);
     }
 
     private void addAppleButton() {
-        ImageButton apple = new ImageButton("Images\\Glybovets.jpg");
-        apple.setBounds(600, 300, 200, 200);
+        ImageButton apple = new ImageButton("Images\\Apple.png");
+        apple.setBounds(300, 300, 200, 200);
         apple.addActionListener(e -> {
             setVisible(false);
             Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(true);
@@ -44,8 +47,8 @@ public class PersonalIdentification extends JFrame {
     }
 
     private void addAndroidButton() {
-        ImageButton android = new ImageButton("Images\\VozniukA.jpg");
-        android.setBounds(100, 300, 200, 200);
+        ImageButton android = new ImageButton("Images\\Android.jpg");
+        android.setBounds(600, 300, 200, 200);
         android.addActionListener(e -> {
             System.exit(0);
         });

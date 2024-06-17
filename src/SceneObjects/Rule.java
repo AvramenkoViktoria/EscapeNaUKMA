@@ -15,8 +15,8 @@ import java.io.IOException;
 public class Rule extends DialogWindow {
    Clip backgroundMusicClip;
 
-    public Rule(int x, int y, String textToType, RuleOption ruleOption) {
-        super(x, y, textToType, SpeakerType.FRIEND);
+    public Rule(int x, int y, String textToType, RuleOption ruleOption, int size) {
+        super(x, y, textToType, SpeakerType.FRIEND, size);
 
         // Override OKButton action to remove window on click
         if (OKButton != null) {
@@ -47,5 +47,13 @@ public class Rule extends DialogWindow {
     @Override
     public void startDisappearanceTimer() {
         // Disable automatic disappearance for rules
+    }
+    public void bringToFront() {
+        Container parent = getParent();
+        if (parent != null) {
+            parent.setComponentZOrder(this, 0); // Bring this DialogWindow to the front
+            parent.repaint();
+            parent.revalidate();
+        }
     }
 }

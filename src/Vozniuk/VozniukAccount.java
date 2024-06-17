@@ -1,6 +1,7 @@
 package Vozniuk;
 
 import Data.Test;
+import SuperSwing.GameOver;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,12 +25,14 @@ public class VozniukAccount extends JFrame {
         setSize(WIDTH, HEIGHT);
         setLocationRelativeTo(null);
         setLayout(null);
+        getContentPane().setBackground(new Color(10, 44, 86));
         setTitle("Cisco account");
         generatePassword();
         ImageIcon icon = new ImageIcon("Images\\VozniukA.jpg");
         Image image = icon.getImage();
         setIconImage(image);
         addAccountPicture();
+        addCiscoPicture();
         addAccountName();
         addPasswordField();
         addPasswordLabel();
@@ -48,49 +51,70 @@ public class VozniukAccount extends JFrame {
     }
 
     private void addAccountPicture() {
-        ImageIcon imageIcon = new ImageIcon("Images\\VozniukA.jpg");
+        ImageIcon imageIcon = new ImageIcon("Images\\VozniukR.png");
         Image image = imageIcon.getImage();
-        Image scaledImage = image.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image scaledImage = image.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
         JLabel label = new JLabel(scaledIcon);
-        label.setBounds(450, 150, 150, 150);
+        label.setBounds(225, 100, 300, 300);
+        add(label);
+    }
+
+    private void addCiscoPicture() {
+        ImageIcon imageIcon = new ImageIcon("Images\\CISCO.png");
+        Image image = imageIcon.getImage();
+        Image scaledImage = image.getScaledInstance(300, 160, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        JLabel label = new JLabel(scaledIcon);
+        label.setBounds(575, 50, 300, 300);
         add(label);
     }
 
     private void addAccountName() {
         JLabel name = new JLabel("yarik_vznk");
-        name.setBounds(440, 320, 200, 40);
+        name.setForeground(Color.WHITE); // Set text color to white
+        name.setFont(new Font("Baskerville Old Face", Font.BOLD, 20)); // Example font settings
+        name.setBounds(335, 410, 110, 40);
         //name.setFont();
         add(name);
     }
 
     private void addPasswordField() {
         passwordField = new JPasswordField();
-        passwordField.setBounds(400, 350, 250, 40);
+        passwordField.setBounds(600, 300, 250, 40);
+        passwordField.setFont(new Font("Baskerville Old Face", Font.BOLD, 16)); // Example font settings
         passwordField.setEchoChar('*');
         //passwordField.setFont();
         add(passwordField);
     }
 
     private void addPasswordLabel() {
-        passwordLabel = new JLabel("password");
-        passwordLabel.setBounds(400, 394, 100, 15);
+        passwordLabel = new JLabel("PASSWORD");
+        passwordLabel.setForeground(Color.WHITE); // Set text color to white
+        passwordLabel.setFont(new Font("Baskerville Old Face", Font.BOLD, 16)); // Example font settings
+        passwordLabel.setBounds(600, 365, 100, 15);
         //passwordLabel.setFont();
         add(passwordLabel);
     }
 
     private void addSubmitButton() {
-        JButton submit = new JButton("Submit");
-        submit.setBounds(470, 430, 100, 40);
+        JButton submit = new JButton("SUBMIT");
+        submit.setFont(new Font("Baskerville Old Face", Font.BOLD, 16)); // Example font settings
+        submit.setContentAreaFilled(false); // Make the button background transparent
+        submit.setFocusPainted(false); // Remove focus painting
+        submit.setForeground(Color.WHITE); // Set text color to white
+        submit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change cursor on hover
+        submit.setBounds(750, 350, 100, 40);
         //submit.setFont();
         submit.addActionListener(e -> {
             if (!passwordCorrect(new String(passwordField.getPassword()))) {
-                passwordLabel.setText("Wrong password");
+                passwordLabel.setText("WRONG");
                 passwordLabel.setForeground(Color.RED);
             } else {
                 setVisible(false);
-                passwordLabel.setText("password");
+                passwordLabel.setText("PASSWORD");
                 passwordLabel.setForeground(Color.BLACK);
                 base = new DoorBase();
             }
@@ -101,7 +125,12 @@ public class VozniukAccount extends JFrame {
     private void addChangePasswordButton() {
         // Text should be underlined and button should be transparent
         changePasswordButton = new JButton("Change network password");
-        changePasswordButton.setBounds(700, 650, 300, 40);
+        changePasswordButton.setBounds(400, 600, 300, 40);
+        changePasswordButton.setFont(new Font("Baskerville Old Face", Font.BOLD, 20)); // Example font settings
+        changePasswordButton.setContentAreaFilled(false); // Make the button background transparent
+        changePasswordButton.setFocusPainted(false); // Remove focus painting
+        changePasswordButton.setForeground(Color.WHITE); // Set text color to white
+        changePasswordButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Change cursor on hover
         //button.setFont();
         changePasswordButton.addActionListener(e -> {
             setVisible(false);
@@ -139,3 +168,4 @@ public class VozniukAccount extends JFrame {
         this.password = password;
     }
 }
+

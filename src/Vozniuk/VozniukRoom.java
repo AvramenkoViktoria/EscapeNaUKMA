@@ -83,7 +83,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                             Test.mainMenu.levelMenu.roomMenu.hall.getVozniukDoor().setBlocked(true);
                         }
                         if (interaction != null && interaction.isBlocked()) {
-                            Thought thought = new Thought(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "The door is blocked. I need to find the code.", SpeakerType.USER);
+                            Thought thought = new Thought(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "The door is blocked. I need to find the code.", SpeakerType.USER, 20);
                             add(thought);
                             thought.bringToFront();
                             revalidate();
@@ -104,8 +104,9 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                         }
 
                         if (mainCharacter.canMoveForward(decorations).getMessage() != null) {
-                            Thought thought = new Thought(WIDTH - DialogWindow.WIDTH - 16, HEIGHT - DialogWindow.HEIGHT - 40, mainCharacter.canMoveForward(decorations).getMessage(), SpeakerType.USER);
+                            Thought thought = new Thought(WIDTH - DialogWindow.WIDTH - 16, HEIGHT - DialogWindow.HEIGHT - 40, mainCharacter.canMoveForward(decorations).getMessage(), SpeakerType.USER, 20);
                             add(thought);
+                            thought.bringToFront();
                             revalidate();
                             repaint();
                         }
@@ -243,7 +244,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
         portalDesk.setMessage(null);
         indianTimer = new Timer(10, this);
         addTimer();
-        Rule rule = new Rule(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "Oh no! You escaped Vozniuk`s indians. Pick them up until someone hears you and change the network password in cisco shafa later!", RuleOption.INDIANS);
+        Rule rule = new Rule(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "Oh no! You escaped Vozniuk`s indians. Pick them up until someone hears you and change the network password in cisco shafa later!", RuleOption.INDIANS, 20);
         add(rule);
         rule.bringToFront();
         revalidate();

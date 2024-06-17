@@ -94,7 +94,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
     }
 
     public void addRuleWindow() {
-        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT, "On no! You failed. Now try to run away!", RuleOption.PECHKUROVA);
+        DialogWindow window = new Rule(0, 853 - DialogWindow.HEIGHT, "On no! You failed. Now try to run away!", RuleOption.PECHKUROVA, 20);
         add(window);
         window.bringToFront();
         revalidate();

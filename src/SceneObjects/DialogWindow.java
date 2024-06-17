@@ -24,11 +24,13 @@ public class DialogWindow extends RoundedPanel {
     public RoundedButton OKButton;
     private Timer typingTimer;
     public Timer disappearanceTimer;
+    private int size;
 
-    public DialogWindow(int x, int y, String textToType, SpeakerType type) {
+    public DialogWindow(int x, int y, String textToType, SpeakerType type, int size) {
         super(20); // Set the corner radius to 20
         this.x = x;
         this.y = y;
+        this.size=size;
         this.type = type;
         this.textToType = (textToType != null) ? textToType : "Let's continue our journey!";
         this.currentIndex = 0;
@@ -46,7 +48,7 @@ public class DialogWindow extends RoundedPanel {
         addOKButton();
 
 
-        typingTimer = new Timer(50, new ActionListener() { // Faster typing
+        typingTimer = new Timer(100, new ActionListener() { // Faster typing
             @Override
             public void actionPerformed(ActionEvent e) {
                 typeText(e);
@@ -71,7 +73,7 @@ public class DialogWindow extends RoundedPanel {
 
     private void addTextArea() {
         textArea = new JTextArea();
-        Font font = new Font("Times New Roman", Font.PLAIN, 20);
+        Font font = new Font("Times New Roman", Font.PLAIN, size);
         textArea.setFont(font);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
@@ -132,7 +134,7 @@ public class DialogWindow extends RoundedPanel {
     }
 
     public void startDisappearanceTimer() {
-        disappearanceTimer = new Timer(10000, new ActionListener() { // Window disappears after 2 seconds
+        disappearanceTimer = new Timer(20000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Container parent = getParent();

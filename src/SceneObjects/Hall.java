@@ -93,8 +93,9 @@ public class Hall extends ImageBackground {
     private void addThought() {
         if (thoughtCounter == 0) {
             thoughtCounter++;
-            Thought thought = new Thought(WIDTH - DialogWindow.WIDTH, HEIGHT - DialogWindow.HEIGHT, "Hooh.. That was rough. Now i need to come in pan Andrii's office. But it's closed and i don't remember the code he told me..", SpeakerType.USER);
+            Thought thought = new Thought(0, HEIGHT - DialogWindow.HEIGHT, "Hooh.. That was rough. Now i need to come in pan Andrii's office. But it's closed and i don't remember the code he told me..", SpeakerType.USER, 16);
             add(thought);
+            thought.bringToFront();
             revalidate();
             repaint();
         }
