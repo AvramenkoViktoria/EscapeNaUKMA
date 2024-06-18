@@ -1,6 +1,7 @@
 package Glybovets;
 
 import SuperSwing.ImageBackground;
+import SuperSwing.ImageButton;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,12 +12,12 @@ import javax.swing.*;
 import java.util.Random;
 
 public class ChatGPT extends ImageBackground implements ActionListener {
-    private static final int WIDTH = 1000;
-    private static final int HEIGHT = 650;
+    private static final int WIDTH = 950;
+    private static final int HEIGHT = 670;
     public boolean chat;
     private int points = 0;
     private Timer timer;
-    private JButton generateButton;
+    private ImageButton generateButton;
     private final Random random = new Random();
     private JLabel pointsLabel;
     private int stepCounter = 0;
@@ -32,9 +33,9 @@ public class ChatGPT extends ImageBackground implements ActionListener {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
-                if (x >= WIDTH - 100 && x <= WIDTH && y >= 0 && y <= 100) {
+                if (x >= WIDTH - 60 && x <= WIDTH && y >= 0 && y <= 40) {
                     if (chat) {
-                        changeImage("Images\\MyIDE.png");
+                        changeImage("Images\\IDE.png");
                         generateButton.setVisible(false);
                         pointsLabel.setVisible(false);
                         chat = false;
@@ -53,10 +54,10 @@ public class ChatGPT extends ImageBackground implements ActionListener {
     }
 
     private void addGenerateButton() {
-        generateButton = new JButton("generate");
-        generateButton.setBounds(random.nextInt(150, WIDTH - 100), random.nextInt(100, HEIGHT - 50 - 100), 100, 40);
+        generateButton = new ImageButton("Images\\Generate.png", new Dimension(120, 50));
+        generateButton.setBounds(random.nextInt(290, WIDTH - 100), random.nextInt(190, HEIGHT - 40 - 100), 120, 50);
         generateButton.addActionListener(e -> {
-            generateButton.setLocation(random.nextInt(150, WIDTH - 100), random.nextInt(100, HEIGHT - 50 - 100));
+            generateButton.setLocation(random.nextInt(290, WIDTH - 150), random.nextInt(190, HEIGHT - 140));
             points += 5;
             pointsLabel.setText("Points: " + points);
             repaint();
@@ -67,7 +68,8 @@ public class ChatGPT extends ImageBackground implements ActionListener {
 
     private void addPointsLabel() {
         pointsLabel = new JLabel("Points: " + points);
-        pointsLabel.setBounds(170, HEIGHT - 60, 150, 40);
+        pointsLabel.setFont(new Font("Times New Roman", Font.BOLD, 25));
+        pointsLabel.setBounds(80, HEIGHT - 100, 150, 40);
         pointsLabel.setForeground(Color.WHITE);
         pointsLabel.setFont(pointsLabel.getFont().deriveFont(25.0f));
         add(pointsLabel);

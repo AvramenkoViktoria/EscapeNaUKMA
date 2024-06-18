@@ -10,13 +10,15 @@ public class Test {
 
     public static void main(String[] args) {
         FileManager.retriveDataFromFiles();
-        //mainMenu = new MainMenu();
-        GlybovetsRoom room = new GlybovetsRoom("Images\\noComp.png");
+        mainMenu = new MainMenu();
+       /* GlybovetsRoom room = new GlybovetsRoom("Images\\noComp.png");
         JFrame frame = new JFrame();
         frame.setSize(1000,800);
         frame.setLocationRelativeTo(null);
         frame.add(room);
         frame.setVisible(true);
+
+        */
 
 
 

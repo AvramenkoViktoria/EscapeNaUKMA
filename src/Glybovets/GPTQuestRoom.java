@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class GPTQuestRoom extends ImageBackground {
     private static final int WIDTH = 483;
-    private static final int HEIGHT = 650;
+    private static final int HEIGHT = 670;
     private JLabel glybovetsLabel;
     public boolean canSee;
     private boolean movingForward = true;
@@ -15,7 +15,7 @@ public class GPTQuestRoom extends ImageBackground {
 
     public GPTQuestRoom(String imagePath) {
         super(imagePath);
-        setBounds(1000, 0, WIDTH, HEIGHT);
+        setBounds(950, 0, WIDTH, HEIGHT);
         setLayout(null);
         addGlybovets();
         addMainCharacter();
