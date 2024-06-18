@@ -145,12 +145,10 @@ public class RoomMenu extends JFrame {
                         case GLYBOVETS:
                             glybovetsFrame = new JFrame();
                             glybovetsFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                            glybovetsFrame.setLayout(null);
                             glybovetsFrame.setResizable(false);
                             glybovetsFrame.setSize(1000, 800);
                             glybovetsFrame.setLocationRelativeTo(null);
                             glybovetsRoom = new GlybovetsRoom("Images\\noComp.png");
-                            glybovetsRoom.setBounds(0, 0, 1000, 800);
                             glybovetsFrame.add(glybovetsRoom);
                             glybovetsFrame.setVisible(true);
                     }
