@@ -219,7 +219,6 @@ public class CiscoBinaryGame extends JFrame {
         thirdTextField.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
         numberPanel.add(thirdTextField);
         addCheckButton(vozniukAccount);
-        addRetryButton();
         // Add the panel to the main frame
         add(numberPanel);
     }
@@ -229,7 +228,6 @@ public class CiscoBinaryGame extends JFrame {
         console.setBackground(new Color(0, 194, 235));
         console.setBounds(0, 660, 450, 300); // Ensure this size is sufficient
         console.setLayout(null); // Using null layout for absolute positioning
-        addConsoleLabel(console);
         addConsoleTextLabel(console);
         add(console);
 
@@ -238,7 +236,7 @@ public class CiscoBinaryGame extends JFrame {
         console.repaint();
     }
 
-    private void addConsoleLabel(JPanel console) {
+   /* private void addConsoleLabel(JPanel console) {
         JPanel panel = new RoundedPanel(null, 30, Color.WHITE);
         panel.setBounds(20, 30, 150, 50); // Adjust size and positioning as needed
         panel.setBackground(Color.LIGHT_GRAY);
@@ -250,9 +248,11 @@ public class CiscoBinaryGame extends JFrame {
         console.add(panel);
     }
 
+    */
+
     private void addConsoleTextLabel(JPanel console) {
         consoleText = new JLabel("RESULT"); // Initial content for visibility
-        consoleText.setBounds(200, 38, 430, 40); // Adjust size and positioning for better visibility
+        consoleText.setBounds(20, 30, 430, 40); // Adjust size and positioning for better visibility
         consoleText.setFont(new Font("Baskerville Old Face", Font.BOLD, 20));
         consoleText.setForeground(Color.WHITE); // Ensure the text color contrasts with the background
         console.add(consoleText);
@@ -299,7 +299,6 @@ public class CiscoBinaryGame extends JFrame {
                 consoleText.setForeground(Color.RED);
                 addRetryButton();
             } else {
-
                 ((Timer) e.getSource()).stop();
                 Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.ciscoBinaryGame.setVisible(false);
                 Test.mainMenu.levelMenu.roomMenu.hall.thoughtCounter = 0;
@@ -379,7 +378,7 @@ public class CiscoBinaryGame extends JFrame {
                 check.setVisible(false);
                 timer.stop();
                 consoleText.setForeground(Color.WHITE);
-                //consoleText.setText("Correct. Your new password is: " + generateNewPassword(vozniukAccount));
+                consoleText.setText("Correct. Your new password is: " + generateNewPassword(vozniukAccount));
             }
         });
         add(check);

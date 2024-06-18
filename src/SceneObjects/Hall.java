@@ -6,10 +6,13 @@ import Pechkurova.MainCharacter;
 import SuperSwing.ImageBackground;
 import Vozniuk.VozniukRoom;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class Hall extends ImageBackground {
     private static final int WIDTH = 800;
@@ -19,6 +22,7 @@ public class Hall extends ImageBackground {
     private Decoration[] decorations;
     public JFrame vozniukRoomFrame;
     public VozniukRoom vozniukRoom;
+    private  Clip backgroundMusicClip;
 
     public Hall(String imagePath) {
         super(imagePath);
@@ -30,6 +34,7 @@ public class Hall extends ImageBackground {
         revalidate();
         repaint();
         addThought();
+        playBackgroundMusic("Audio\\Bob.wav");
 
 
         setFocusable(true);
@@ -55,6 +60,7 @@ public class Hall extends ImageBackground {
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
                             System.out.println("Going out");
+                            stopBackgroundMusic();
                             Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(false);
                             vozniukRoomFrame = new JFrame();
                             vozniukRoomFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -112,4 +118,30 @@ public class Hall extends ImageBackground {
     public Door getVozniukDoor() {
         return (Door) decorations[7];
     }
+    private void playBackgroundMusic(String filePath) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
+        }
+    }
+
 }

@@ -16,8 +16,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.sound.sampled.*;
 import javax.swing.*;
 
 public class VozniukRoom extends ImageBackground implements ActionListener {
@@ -33,9 +36,11 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
     private Hearts hearts;
     private JLabel timeLabel;
     public CiscoBinaryGame ciscoBinaryGame;
+    Clip  backgroundMusicClip;
 
     public VozniukRoom(String imagePath) {
         super(imagePath);
+        playBackgroundMusic("Audio\\Marty.wav");
         setLayout(null);
         setBounds(0, 0, WIDTH, HEIGHT);
         switch (FileManager.user.getLevel()) {
@@ -237,6 +242,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
     }
 
     public void startIndiansScene() {
+        stopBackgroundMusic();
         addIndiansToScene();
         revalidate();
         repaint();
@@ -375,6 +381,31 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
             }
             revalidate();
             repaint();
+        }
+    }
+    private void playBackgroundMusic(String filePath) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
         }
     }
 }

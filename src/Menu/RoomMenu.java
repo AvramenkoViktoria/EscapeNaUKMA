@@ -26,6 +26,7 @@ public class RoomMenu extends JFrame {
     public static PechkurovaMonologue monologue;
     Clip backgroundMusicClip;
     private ImageBackground background;
+    MainMenu mainmenu = Test.mainMenu;
 
     public RoomMenu() {
         setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -95,11 +96,8 @@ public class RoomMenu extends JFrame {
                     Warning warning = new Warning("Previous room wasn't passed", 230, this);
                     break;
                 case PECHKUROVA, VOZNIUK, GLYBOVETS:
-                    MainMenu mainmenu = Test.mainMenu; // Get the main menu instance
                     if (mainmenu != null) {
                         mainmenu.stopBackgroundMusic(); // Stop the music
-                    } else {
-                        System.out.println("MainMenu instance is null!");
                     }
                     if (clarificationPanel != null) {
                         clarificationPanel.setVisible(true);
@@ -111,6 +109,7 @@ public class RoomMenu extends JFrame {
                     if (clarificationPanel != null)
                         clarificationPanel.setVisible(false);
                     setVisible(false);
+                    mainmenu.stopBackgroundMusic(); // Stop the music
                     switch (FileManager.user.getStatus()) {
                         case PECHKUROVA:
                             monologueFrame = new JFrame();
@@ -140,6 +139,7 @@ public class RoomMenu extends JFrame {
                             hallFrame.add(hall);
                             hallFrame.setVisible(true);
                     }
+                    break;
             }
         });
         background.add(room);
