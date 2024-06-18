@@ -13,8 +13,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class GlybovetsRoom  extends ImageBackground implements ActionListener {
-    private final static int WIDTH = 800;
-    private final static int HEIGHT = 1000;
+    private final static int WIDTH = 1000;
+    private final static int HEIGHT = 800;
     private Decoration[] decorations;
     private MainCharacter mainCharacter;
     public  GlybovetsRoom (String imagePath){
@@ -49,9 +49,7 @@ public class GlybovetsRoom  extends ImageBackground implements ActionListener {
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
                             System.out.println("Going out");
-                            Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
-                            Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(true);
-                            Test.mainMenu.levelMenu.roomMenu.hall.getVozniukDoor().setBlocked(true);
+
                         }
                         if (interaction != null && interaction.isBlocked()) {
                             Thought thought = new Thought(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "The door is blocked. I need to find the code.", SpeakerType.USER, 20);

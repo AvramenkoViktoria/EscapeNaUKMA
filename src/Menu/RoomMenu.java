@@ -3,6 +3,7 @@ package Menu;
 import Data.FileManager;
 import Data.Test;
 import Enums.Status;
+import Glybovets.GlybovetsRoom;
 import Pechkurova.PechkurovaMonologue;
 import SceneObjects.Hall;
 import SuperSwing.ImageBackground;
@@ -83,6 +84,8 @@ public class RoomMenu extends JFrame {
     public static JFrame monologueFrame;
     public JFrame hallFrame;
     public Hall hall;
+    public JFrame glybovetsFrame;
+    public GlybovetsRoom glybovetsRoom;
 
     private void addRoom(Status status, int x, int y, int width, int height) {
         RoomOption room = new RoomOption(status);
@@ -138,6 +141,18 @@ public class RoomMenu extends JFrame {
                             hall.setBounds(0, 0, 800, 400);
                             hallFrame.add(hall);
                             hallFrame.setVisible(true);
+                            break;
+                        case GLYBOVETS:
+                            glybovetsFrame = new JFrame();
+                            glybovetsFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            glybovetsFrame.setLayout(null);
+                            glybovetsFrame.setResizable(false);
+                            glybovetsFrame.setSize(1000, 800);
+                            glybovetsFrame.setLocationRelativeTo(null);
+                            glybovetsRoom = new GlybovetsRoom("Images\\noComp.png");
+                            glybovetsRoom.setBounds(0, 0, 1000, 800);
+                            glybovetsFrame.add(glybovetsRoom);
+                            glybovetsFrame.setVisible(true);
                     }
                     break;
             }
