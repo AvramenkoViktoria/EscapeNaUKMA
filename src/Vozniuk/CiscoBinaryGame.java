@@ -219,6 +219,7 @@ public class CiscoBinaryGame extends JFrame {
         thirdTextField.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
         numberPanel.add(thirdTextField);
         addCheckButton(vozniukAccount);
+        addRetryButton();
         // Add the panel to the main frame
         add(numberPanel);
     }
@@ -364,6 +365,7 @@ public class CiscoBinaryGame extends JFrame {
 
     private void addCheckButton(VozniukAccount vozniukAccount) {
         check = new JButton("Check");
+        check.setVisible(false);
         check.setFont(new Font("Baskerville Old Face", Font.BOLD, 20));
         check.setBounds(350, 545, 150, 50);
         check.setContentAreaFilled(false); // Make the button background transparent
