@@ -1,5 +1,10 @@
 package Glybovets;
 
+import Data.FileManager;
+import Data.Test;
+import Enums.Level;
+import SceneObjects.Hearts;
+import SuperSwing.GameOver;
 import SuperSwing.ImageBackground;
 import SuperSwing.ImageRectButton;
 
@@ -14,19 +19,34 @@ import java.util.Random;
 public class ChatGPT extends ImageBackground implements ActionListener {
     private static final int WIDTH = 950;
     private static final int HEIGHT = 670;
-    public boolean chat;
+    public boolean chat = true;
     private int points = 0;
-    private Timer timer;
+    private final Timer timer;
     private ImageRectButton generateButton;
     private final Random random = new Random();
     private JLabel pointsLabel;
     private int stepCounter = 0;
-    private int delay = 20;
+    private Hearts hearts;
+    private int speedLimit;
 
     public ChatGPT(String imagePath) {
         super(imagePath);
         setLayout(null);
         setBounds(0, 0, WIDTH, HEIGHT);
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT:
+                speedLimit = 600;
+                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 200, 0));
+                break;
+            case BUDGET:
+                speedLimit = 500;
+                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 220, 0));
+                break;
+            case GRANT:
+                speedLimit = 400;
+                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 243, 0));
+        }
+        int delay = 20;
         timer = new Timer(delay, this);
         addMouseListener(new MouseAdapter() {
             @Override
@@ -77,25 +97,84 @@ public class ChatGPT extends ImageBackground implements ActionListener {
         repaint();
     }
 
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public boolean isChat() {
-        return chat;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        GPTTest.quest.room.moveGlybovets();
+        Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.room.moveGlybovets();
         stepCounter++;
-        if (stepCounter == 190) {
+        if (stepCounter == speedLimit) {
             stepCounter = 0;
-            GPTTest.quest.room.step++;
+            Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.room.step++;
         }
+        checkWin();
+        checkVisibility();
+    }
+
+    private void checkVisibility() {
+        int glybovetsY = Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.room.getGlybovetsLabel().getY();
+        if (glybovetsY >= HEIGHT / 2 - 24 && chat) {
+            lose();
+        }
+    }
+
+    private void checkWin() {
+        if (points == 100) {
+            timer.stop();
+            Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.setVisible(false);
+            Test.mainMenu.levelMenu.roomMenu.hall.glybovetsFrame.setVisible(true);
+            Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.addGlybovetsCongratulations();
+        }
+    }
+
+    private void lose() {
+        Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.room.setInitialGlybovetsCoordinates();
+        switch (FileManager.user.getLevel()) {
+            case CONTRACT:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 3:
+                        FileManager.user.setHeartsNum(2);
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 200, 0));
+                        stepCounter = 0;
+                        break;
+                    case 2:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 200, 0));
+                        stepCounter = 0;
+                        break;
+                    case 1:
+                       handleLost();
+                }
+                break;
+            case BUDGET:
+                switch (FileManager.user.getHeartsNum()) {
+                    case 2:
+                        FileManager.user.setHeartsNum(1);
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 200, 0));
+                        stepCounter = 0;
+                        break;
+                    case 1:
+                     handleLost();
+                }
+                break;
+            case GRANT:
+                handleLost();
+        }
+    }
+
+    private void addHeartsPanel(Hearts hearts) {
+        if (this.hearts != null) {
+            remove(this.hearts);
+        }
+        this.hearts = hearts;
+        add(hearts);
+        hearts.revalidate();
+        hearts.repaint();
+        revalidate();
+        repaint();
+    }
+
+    private void handleLost() {
+        timer.stop();
+        Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.setVisible(false);
+        GameOver gameOver = new GameOver();
     }
 }

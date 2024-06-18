@@ -2,10 +2,7 @@ package Vozniuk;
 
 import Data.FileManager;
 import Data.Test;
-import Enums.Level;
-import Enums.RuleOption;
-import Enums.SpeakerType;
-import Enums.Type;
+import Enums.*;
 import Pechkurova.MainCharacter;
 import SceneObjects.*;
 import SuperSwing.GameOver;
@@ -82,10 +79,11 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                         mainCharacter.setEKeyPressed(true);
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
-                            System.out.println("Going out");
+                            FileManager.user.setStatus(Status.GLYBOVETS);
                             Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
                             Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(true);
                             Test.mainMenu.levelMenu.roomMenu.hall.getVozniukDoor().setBlocked(true);
+                            Test.mainMenu.levelMenu.roomMenu.hall.changeObjectsForGlybovetsScene();
                         }
                         if (interaction != null && interaction.isBlocked()) {
                             Thought thought = new Thought(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "The door is blocked. I need to find the code.", SpeakerType.USER, 20);

@@ -21,6 +21,7 @@ public class DialogWindow extends RoundedPanel {
     private final String friendImagePath = "Images/friend.png";
     private final String userImagePath = "Images/MainCharDown.png";
     private final String pechkurovaImagePath = "Images/PechkurovaMess.png";
+    private final String glybovetsImagePath = "Images/Glybovets.jpg";
     public RoundedButton OKButton;
     private Timer typingTimer;
     public Timer disappearanceTimer;
@@ -112,6 +113,11 @@ public class DialogWindow extends RoundedPanel {
                 icon = new ImageIcon(pechkurovaImagePath);
                 imageWidth = 140;
                 imageHeight = 140;
+                break;
+            case GLYBOVETS:
+                icon = new ImageIcon(glybovetsImagePath);
+                imageWidth = 150;
+                imageHeight = 150;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);

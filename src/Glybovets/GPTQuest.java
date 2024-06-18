@@ -19,7 +19,4 @@ public class GPTQuest extends JFrame {
         revalidate();
         setVisible(true);
     }
-    public static void main(String[] args) {
-        new GPTQuest();
-    }
 }

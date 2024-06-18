@@ -124,7 +124,6 @@ public class MainCharacter extends JLabel {
         Rectangle nextPosition = getNextPosition(5);
         for (Decoration decoration : decorations) {
             if (nextPosition.intersects(decoration.getBounds()) && decoration instanceof PortalDesk) {
-                System.out.println();
                 return (PortalDesk) decoration;
             }
         }

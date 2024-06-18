@@ -143,14 +143,19 @@ public class RoomMenu extends JFrame {
                             hallFrame.setVisible(true);
                             break;
                         case GLYBOVETS:
-                            glybovetsFrame = new JFrame();
-                            glybovetsFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-                            glybovetsFrame.setResizable(false);
-                            glybovetsFrame.setSize(1000, 800);
-                            glybovetsFrame.setLocationRelativeTo(null);
-                            glybovetsRoom = new GlybovetsRoom("Images\\noComp.png");
-                            glybovetsFrame.add(glybovetsRoom);
-                            glybovetsFrame.setVisible(true);
+                            hallFrame = new JFrame();
+                            hallFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                            hallFrame.setLayout(null);
+                            hallFrame.setResizable(false);
+                            hallFrame.setSize(814, 435);
+                            hallFrame.setLocationRelativeTo(null);
+                            hall = new Hall("Images\\Hall.png");
+                            hall.thoughtCounter = 1;
+                            hall.setBounds(0, 0, 800, 400);
+                            hall.changeObjectsForGlybovetsScene();
+                            hall.getVozniukDoor().setBlocked(true);
+                            hallFrame.add(hall);
+                            hallFrame.setVisible(true);
                     }
                     break;
             }

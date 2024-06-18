@@ -102,9 +102,8 @@ public class CiscoBinaryGame extends JFrame {
     }
 
 
-
     private void addSetupPanel() {
-        RoundedPanel panel = new RoundedPanel(null,30, new Color(10, 44, 86));
+        RoundedPanel panel = new RoundedPanel(null, 30, new Color(10, 44, 86));
         panel.setBounds(300, 120, 500, 80);
         addSetupLabel(panel);
         add(panel);
@@ -117,6 +116,7 @@ public class CiscoBinaryGame extends JFrame {
         label.setBounds(115, 15, 270, 50);
         panel.add(label);
     }
+
     private void addCiscoLabel() {
         ImageIcon imageIcon = new ImageIcon("Images\\Binary.png");
         Image image = imageIcon.getImage();
@@ -170,6 +170,7 @@ public class CiscoBinaryGame extends JFrame {
         vozniukAccount.setPassword(newPassword);
         return newPassword;
     }
+
     private void addNumberPanel(VozniukAccount vozniukAccount) {
         // Create a new JPanel
         JPanel numberPanel = new RoundedPanel(null, 30, new Color(10, 44, 86));
@@ -277,34 +278,37 @@ public class CiscoBinaryGame extends JFrame {
         label.setFont(new Font("Baskerville Old Face", Font.BOLD, 30));
         panel.add(label);
     }
+
     private void addTimer(JPanel panel) {
         timeLabel = new JLabel();
         timeLabel.setBounds(220, 15, 250, 80);
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setFont(new Font("Baskerville Old Face", Font.BOLD, 30));
         timeLabel.setFont(timeLabel.getFont().deriveFont(30.0f));
-        timeRemaining = 120;
+        timeRemaining = 10;
         timer = new Timer(1000, e -> {
             if (timeRemaining > 0) {
                 timeRemaining--;
                 int minutes = timeRemaining / 60;
                 int seconds = timeRemaining % 60;
                 timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
-            } else if (!lost()){
+            } else if (!lost()) {
                 ((Timer) e.getSource()).stop();
                 timeLabel.setText("Time is out!");
                 timeLabel.setForeground(Color.RED);
                 check.setVisible(false);
                 consoleText.setText("Time is out. Press retry button to get new password");
                 consoleText.setForeground(Color.RED);
+                check.setVisible(false);
                 addRetryButton();
+                revalidate();
+                repaint();
             } else {
                 ((Timer) e.getSource()).stop();
                 Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.ciscoBinaryGame.setVisible(false);
                 Test.mainMenu.levelMenu.roomMenu.hall.thoughtCounter = 0;
                 GameOver gameOver = new GameOver();
             }
-
         });
 
         panel.add(timeLabel);
@@ -312,7 +316,7 @@ public class CiscoBinaryGame extends JFrame {
         timer.start();
     }
 
-   private void addHeartsPanel(Hearts hearts) {
+    private void addHeartsPanel(Hearts hearts) {
         if (this.hearts != null) {
             remove(this.hearts);
         }
@@ -326,8 +330,7 @@ public class CiscoBinaryGame extends JFrame {
         repaint();
     }
 
-
- private boolean lost() {
+    private boolean lost() {
         switch (FileManager.user.getLevel()) {
             case CONTRACT:
                 switch (FileManager.user.getHeartsNum()) {
@@ -358,9 +361,6 @@ public class CiscoBinaryGame extends JFrame {
         }
         return false;
     }
-
-
-
 
     private void addCheckButton(VozniukAccount vozniukAccount) {
         check = new JButton("Check");
@@ -402,11 +402,12 @@ public class CiscoBinaryGame extends JFrame {
             repaint();
             consoleText.setText("");
             timeLabel.setForeground(Color.BLACK);
-            timeRemaining = 120;
+            timeRemaining = 10;
             timer.start();
         });
         add(retry);
     }
+
     private void addCiscoPicture(JPanel panel) {
         ImageIcon imageIcon = new ImageIcon("Images\\CISCO.png");
         Image image = imageIcon.getImage();
@@ -424,7 +425,8 @@ public class CiscoBinaryGame extends JFrame {
                     secNumValue == Integer.parseInt(secTextField.getText()) &&
                     thirdNumValue == Integer.parseInt(thirdTextField.getText()))
                 return true;
-        } catch (NumberFormatException ignored) {}
+        } catch (NumberFormatException ignored) {
+        }
         return false;
     }
 }

@@ -3,6 +3,8 @@ package SceneObjects;
 import Data.Test;
 import Enums.RuleOption;
 import Enums.SpeakerType;
+import Glybovets.ChatGPT;
+import Glybovets.GPTQuest;
 import Pechkurova.IDE;
 
 import javax.sound.sampled.*;
@@ -13,7 +15,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Rule extends DialogWindow {
-   Clip backgroundMusicClip;
+    Clip backgroundMusicClip;
+    public GPTQuest quest;
 
     public Rule(int x, int y, String textToType, RuleOption ruleOption, int size) {
         super(x, y, textToType, SpeakerType.FRIEND, size);
@@ -37,6 +40,10 @@ public class Rule extends DialogWindow {
                                 IDE.testPanel.startTimer();
                             }
                             case INDIANS -> Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.startTimer();
+                            case ChatGPT -> {
+                                Test.mainMenu.levelMenu.roomMenu.hall.glybovetsFrame.setVisible(false);
+                                quest = new GPTQuest();
+                            }
                         }
                     }
                 }
@@ -48,6 +55,7 @@ public class Rule extends DialogWindow {
     public void startDisappearanceTimer() {
         // Disable automatic disappearance for rules
     }
+
     public void bringToFront() {
         Container parent = getParent();
         if (parent != null) {

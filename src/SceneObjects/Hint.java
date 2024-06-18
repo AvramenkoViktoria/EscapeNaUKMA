@@ -12,26 +12,33 @@ import java.awt.event.ActionListener;
 
 public class Hint extends DialogWindow {
 
-    public Hint(int x, int y, String textToType, int size) {
-        super(x, y, textToType, SpeakerType.FRIEND, size);
+    public Hint(int x, int y, String textToType, SpeakerType speakerType, int size) {
+        super(x, y, textToType, speakerType, size);
 
         // Override OKButton action to remove window on click
         if (OKButton != null) {
             OKButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Container parent = getParent();
-                    if (parent != null) {
-                        PechkurovaMonologue monologue = RoomMenu.monologue;
-                        if (monologue != null) {
-                            System.out.println("hihihi");
-                           monologue.stopBackgroundMusic(); // Stop the music
+                    if (speakerType.equals(SpeakerType.FRIEND)) {
+                        Container parent = getParent();
+                        if (parent != null) {
+                            PechkurovaMonologue monologue = RoomMenu.monologue;
+                            if (monologue != null) {
+                                System.out.println("hihihi");
+                                monologue.stopBackgroundMusic(); // Stop the music
+                            }
+                            parent.remove(Hint.this);
+                            parent.repaint();
+                            parent.revalidate();
+                            PechkurovaMonologue.sceneFrame.setVisible(false);
+                            IDE ide = new IDE();
                         }
+                    } else {
+                        Container parent = getParent();
                         parent.remove(Hint.this);
                         parent.repaint();
                         parent.revalidate();
-                        PechkurovaMonologue.sceneFrame.setVisible(false);
-                        IDE ide = new IDE();
                     }
                     disappearanceTimer.stop();
                 }

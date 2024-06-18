@@ -3,5 +3,6 @@ package Enums;
 public enum RuleOption {
     PECHKUROVA,
     IDE,
-    INDIANS
+    INDIANS,
+    ChatGPT
 }
