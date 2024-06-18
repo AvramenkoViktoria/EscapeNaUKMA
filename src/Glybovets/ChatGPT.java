@@ -1,7 +1,7 @@
 package Glybovets;
 
 import SuperSwing.ImageBackground;
-import SuperSwing.ImageButton;
+import SuperSwing.ImageRectButton;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +17,7 @@ public class ChatGPT extends ImageBackground implements ActionListener {
     public boolean chat;
     private int points = 0;
     private Timer timer;
-    private ImageButton generateButton;
+    private ImageRectButton generateButton;
     private final Random random = new Random();
     private JLabel pointsLabel;
     private int stepCounter = 0;
@@ -54,7 +54,7 @@ public class ChatGPT extends ImageBackground implements ActionListener {
     }
 
     private void addGenerateButton() {
-        generateButton = new ImageButton("Images\\Generate.png", new Dimension(120, 50));
+        generateButton = new ImageRectButton("Images\\Generate.png", new Dimension(120, 50));
         generateButton.setBounds(random.nextInt(290, WIDTH - 100), random.nextInt(190, HEIGHT - 40 - 100), 120, 50);
         generateButton.addActionListener(e -> {
             generateButton.setLocation(random.nextInt(290, WIDTH - 150), random.nextInt(190, HEIGHT - 140));

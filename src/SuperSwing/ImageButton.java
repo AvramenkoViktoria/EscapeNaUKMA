@@ -1,36 +1,21 @@
 package SuperSwing;
 
-import javax.swing.*;
+
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class ImageButton extends JButton {
     private BufferedImage image;
-    private Dimension buttonSize;
-    private int arcWidth = 30;  // Default arc width for rounded corners
-    private int arcHeight = 30; // Default arc height for rounded corners
-
     public ImageButton(String imagePath) {
-        this(imagePath, null);
-    }
-
-    public ImageButton(String imagePath, Dimension size) {
         try {
             image = ImageIO.read(new File(imagePath));
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
-
-        if (size != null) {
-            buttonSize = size;
-        } else if (image != null) {
-            buttonSize = new Dimension(image.getWidth(), image.getHeight());
-        } else {
-            buttonSize = super.getPreferredSize();
         }
 
         setContentAreaFilled(false);
@@ -39,22 +24,13 @@ public class ImageButton extends JButton {
         setBorderPainted(false);
     }
 
-    public void setButtonSize(Dimension size) {
-        this.buttonSize = size;
-        revalidate();
-        repaint();
-    }
-
-    public void setArcSize(int arcWidth, int arcHeight) {
-        this.arcWidth = arcWidth;
-        this.arcHeight = arcHeight;
-        revalidate();
-        repaint();
-    }
-
     @Override
     public Dimension getPreferredSize() {
-        return buttonSize;
+        if (image != null) {
+            return new Dimension(image.getWidth(), image.getHeight());
+        } else {
+            return super.getPreferredSize();
+        }
     }
 
     @Override
@@ -64,16 +40,16 @@ public class ImageButton extends JButton {
             // Enable antialiasing for smoother edges
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // Draw the rounded rectangle button
-            RoundRectangle2D.Double roundedRect = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), arcWidth, arcHeight);
-            g2.setClip(roundedRect);
+            // Draw the round button
+            Ellipse2D.Double circle = new Ellipse2D.Double(0, 0, getWidth(), getHeight());
+            g2.setClip(circle);
             g2.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
             // Draw the thick white border
             g2.setClip(null);
             g2.setStroke(new BasicStroke(5)); // Adjust thickness here
             g2.setColor(Color.WHITE);
-            g2.draw(roundedRect);
+            g2.draw(circle);
 
             g2.dispose();
         }
@@ -87,8 +63,10 @@ public class ImageButton extends JButton {
 
     @Override
     public boolean contains(int x, int y) {
-        // Check if the point is within the rounded rectangle shape
-        Shape roundedRect = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), arcWidth, arcHeight);
-        return roundedRect.contains(x, y);
+        // Check if the point is within the round shape
+        int radius = getWidth() / 2;
+        int centerX = getWidth() / 2;
+        int centerY = getHeight() / 2;
+        return (x - centerX) * (x - centerX) + (y - centerY) * (y - centerY) <= radius * radius;
     }
 }
