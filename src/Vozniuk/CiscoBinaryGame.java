@@ -7,10 +7,13 @@ import SceneObjects.Hearts;
 import SuperSwing.GameOver;
 import SuperSwing.RoundedPanel;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 import java.security.SecureRandom;
 
 public class CiscoBinaryGame extends JFrame {
@@ -31,10 +34,12 @@ public class CiscoBinaryGame extends JFrame {
     private JLabel thirdNumLabel;
     private int timeRemaining;
     private JButton check;
+    private  JButton  retry;
     private JLabel timeLabel;
     private Timer timer;
     private boolean done;
     private Hearts hearts;
+    Clip backgroundMusicClip;
 
     public CiscoBinaryGame(VozniukAccount vozniukAccount) {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -51,8 +56,6 @@ public class CiscoBinaryGame extends JFrame {
         addCiscoLabel();
         addConsole();
         addTimerPanel();
-        addRetryButton();
-        addCheckButton(vozniukAccount);
         setVisible(true);
 
         addWindowListener(new WindowAdapter() {
@@ -73,31 +76,31 @@ public class CiscoBinaryGame extends JFrame {
                 switch (FileManager.user.getHeartsNum()) {
                     case 3:
                         FileManager.user.setHeartsNum(3);
-                        addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 10, 10,130,30));
                         break;
                     case 2:
                         FileManager.user.setHeartsNum(2);
-                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 10, 10,130,30));
                         break;
                     case 1:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 10, 10,130,30));
                 }
                 break;
             case BUDGET:
                 switch (FileManager.user.getHeartsNum()) {
                     case 2:
                         FileManager.user.setHeartsNum(2);
-                        addHeartsPanel(new Hearts("Images\\Budget\\twoHearts.png", Level.BUDGET, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 10, 10, 100,30));
                         break;
                     case 1:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Budget\\twoHearts.png", Level.BUDGET, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 10, 10, 100,30));
                 }
                 break;
             case GRANT:
                 FileManager.user.setHeartsNum(1);
-                addHeartsPanel(new Hearts("Images\\Grant\\oneHeart.png", Level.GRANT, 800, 0));
+                addHeartsPanel(new Hearts("Images\\Grant\\oneHeart.png", Level.GRANT, 10, 10, 70,40));
         }
     }
 
@@ -220,6 +223,7 @@ public class CiscoBinaryGame extends JFrame {
         thirdTextField.setFont(new Font("Baskerville Old Face", Font.BOLD, 30)); // Example font settings
         numberPanel.add(thirdTextField);
         addCheckButton(vozniukAccount);
+        addRetryButton();
         // Add the panel to the main frame
         add(numberPanel);
     }
@@ -297,16 +301,19 @@ public class CiscoBinaryGame extends JFrame {
                 timeLabel.setText("Time is out!");
                 timeLabel.setForeground(Color.RED);
                 check.setVisible(false);
-                consoleText.setText("Time is out. Press retry button to get new password");
+                retry.setVisible(true);
+                consoleText.setText("Time is out. Press retry.");
                 consoleText.setForeground(Color.RED);
                 check.setVisible(false);
-                addRetryButton();
+
                 revalidate();
                 repaint();
             } else {
                 ((Timer) e.getSource()).stop();
                 Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.ciscoBinaryGame.setVisible(false);
                 Test.mainMenu.levelMenu.roomMenu.hall.thoughtCounter = 0;
+                Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.stopBackgroundMusic();
+                playBackgroundMusicForDuration("Audio\\fail.wav", 2000);
                 GameOver gameOver = new GameOver();
             }
         });
@@ -336,11 +343,11 @@ public class CiscoBinaryGame extends JFrame {
                 switch (FileManager.user.getHeartsNum()) {
                     case 3:
                         FileManager.user.setHeartsNum(2);
-                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 10, 10,130,30));
                         break;
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 10, 10, 130,30));
                         break;
                     case 1:
                         return true;
@@ -350,7 +357,7 @@ public class CiscoBinaryGame extends JFrame {
                 switch (FileManager.user.getHeartsNum()) {
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 10, 10, 100,30));
                         break;
                     case 1:
                         return true;
@@ -365,7 +372,7 @@ public class CiscoBinaryGame extends JFrame {
     private void addCheckButton(VozniukAccount vozniukAccount) {
         check = new JButton("Check");
         check.setFont(new Font("Baskerville Old Face", Font.BOLD, 20));
-        check.setBounds(350, 545, 150, 50);
+        check.setBounds(475, 545, 150, 50);
         check.setContentAreaFilled(false); // Make the button background transparent
         check.setFocusPainted(false); // Remove focus painting
         check.setForeground(Color.WHITE); // Set text color to white
@@ -385,9 +392,10 @@ public class CiscoBinaryGame extends JFrame {
     }
 
     private void addRetryButton() {
-        JButton retry = new JButton("Retry");
+        retry = new JButton("Retry");
+        retry.setVisible(false);
         retry.setFont(new Font("Baskerville Old Face", Font.BOLD, 20));
-        retry.setBounds(600, 545, 150, 50);
+        retry.setBounds(475, 545, 150, 50);
         retry.setContentAreaFilled(false); // Make the button background transparent
         retry.setFocusPainted(false); // Remove focus painting
         retry.setForeground(Color.WHITE); // Set text color to white
@@ -429,4 +437,41 @@ public class CiscoBinaryGame extends JFrame {
         }
         return false;
     }
+    private void playBackgroundMusicForDuration(String filePath, int durationInMillis) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Start playing the clip
+            backgroundMusicClip.start();
+
+            // Close the audio stream after loading the clip to free resources
+            audioStream.close();
+
+            Timer musicTimer = new Timer(durationInMillis, e -> stopBackgroundMusic());
+            musicTimer.setRepeats(false); // Ensure it only runs once
+            musicTimer.start();
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+            if (backgroundMusicClip != null) {
+                backgroundMusicClip.close();
+            }
+        }
+    }
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
+            backgroundMusicClip = null; // Free resources
+        }
+
+    }
+
 }

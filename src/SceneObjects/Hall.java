@@ -6,6 +6,7 @@ import Glybovets.GlybovetsRoom;
 import Pechkurova.InteractiveObject;
 import Pechkurova.MainCharacter;
 import SuperSwing.ImageBackground;
+import SuperSwing.Win;
 import Vozniuk.VozniukRoom;
 
 import javax.sound.sampled.*;
@@ -35,13 +36,19 @@ public class Hall extends ImageBackground {
         super(imagePath);
         setLayout(null);
         setSize(WIDTH, HEIGHT);
-        mainCharacter = new MainCharacter("Images\\MainCharUp.png", 100, 100, 90, 90);
+        if (!glybovetsScene) {
+            mainCharacter = new MainCharacter("Images\\MainCharUp.png", 680, 150, 90, 90);
+        } else if (!exitScene) {
+            mainCharacter = new MainCharacter("Images\\MainCharUp.png", 100, 100, 90, 90);
+        }
+        else {
+            mainCharacter = new MainCharacter("Images\\MainCharUp.png", 100, 100, 90, 90);
+        }
         initialiazeDecorationsList();
         add(mainCharacter);
         revalidate();
         repaint();
         addThought();
-        playBackgroundMusic("Audio\\Bob.wav");
 
 
         setFocusable(true);
@@ -63,6 +70,7 @@ public class Hall extends ImageBackground {
                     case KeyEvent.VK_D -> mainCharacter.turnRight();
                     case KeyEvent.VK_A -> mainCharacter.turnLeft();
                     case KeyEvent.VK_E -> {
+                        stopBackgroundMusic();
                         mainCharacter.setEKeyPressed(true);
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
@@ -79,17 +87,20 @@ public class Hall extends ImageBackground {
                                 vozniukRoomFrame.add(vozniukRoom);
                                 vozniukRoomFrame.setVisible(true);
                             } else if (!exitScene) {
+                                stopBackgroundMusic();
                                 Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(false);
                                 glybovetsFrame = new JFrame();
                                 glybovetsFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                                 glybovetsFrame.setResizable(false);
-                                glybovetsFrame.setSize(1020, 830);
+                                glybovetsFrame.setSize(1000, 800);
                                 glybovetsFrame.setLocationRelativeTo(null);
                                 glybovetsRoom = new GlybovetsRoom("Images\\noComp.png");
                                 glybovetsFrame.add(glybovetsRoom);
                                 glybovetsFrame.setVisible(true);
                             } else {
+                                stopBackgroundMusic();
                                 Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(false);
+                                Win win = new Win();
                             }
                         }
                         InteractiveObject object = mainCharacter.canMoveForward(decorations);
@@ -97,7 +108,7 @@ public class Hall extends ImageBackground {
                             if (thought != null) {
                                 remove(thought);
                             }
-                            thought = new Thought(WIDTH - DialogWindow.WIDTH, HEIGHT - DialogWindow.HEIGHT, object.getMessage(), SpeakerType.USER, 20);
+                            thought = new Thought(0, HEIGHT - DialogWindow.HEIGHT, object.getMessage(), SpeakerType.USER, 20);
                             add(thought);
                             revalidate();
                             repaint();
@@ -109,6 +120,10 @@ public class Hall extends ImageBackground {
         });
     }
 
+    public void startBackgroundMusic() {
+        System.out.println("Starting background music."); // Debug statement
+        playBackgroundMusic("Audio\\Bob.wav");
+    }
     private void initialiazeDecorationsList() {
         decorations = new Decoration[8];
         decorations[0] = new Desk(-30, -10, 47, 500, null);
@@ -131,7 +146,7 @@ public class Hall extends ImageBackground {
             thoughtCounter = 0;
         if (thoughtCounter == 0) {
             thoughtCounter++;
-            thought = new Thought(WIDTH - DialogWindow.WIDTH, HEIGHT - DialogWindow.HEIGHT, "Hooh.. That was rough. Now i need to come in pan Andrii's office. But it's closed and i don't remember the code he told me..", SpeakerType.USER, 16);
+            thought = new Thought(0, HEIGHT - DialogWindow.HEIGHT, "Hooh.. That was rough. Now i need to come in pan Andrii's office. But it's closed and i don't remember the code he told me..", SpeakerType.USER, 16);
             add(thought);
             thought.bringToFront();
             revalidate();
@@ -180,13 +195,12 @@ public class Hall extends ImageBackground {
             ex.printStackTrace();
         }
     }
-
-    // Method to stop the background music
     public void stopBackgroundMusic() {
         if (backgroundMusicClip != null) {
             backgroundMusicClip.stop();
             backgroundMusicClip.close();
         }
     }
+
 
 }

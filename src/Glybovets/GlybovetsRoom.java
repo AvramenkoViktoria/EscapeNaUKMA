@@ -3,16 +3,20 @@ package Glybovets;
 import Data.Test;
 import Enums.RuleOption;
 import Enums.SpeakerType;
+import Enums.Status;
 import Pechkurova.MainCharacter;
 import SceneObjects.*;
 import SuperSwing.ImageBackground;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class GlybovetsRoom extends ImageBackground implements ActionListener {
     private final static int WIDTH = 1000;
@@ -20,9 +24,12 @@ public class GlybovetsRoom extends ImageBackground implements ActionListener {
     private Decoration[] decorations;
     private MainCharacter mainCharacter;
     public Rule rule;
+    Clip backgroundMusicClip;
 
     public GlybovetsRoom(String imagePath) {
         super(imagePath);
+        Test.mainMenu.levelMenu.roomMenu.hall.stopBackgroundMusic();
+        playBackgroundMusic("Audio\\Elevator.wav");
         setLayout(null);
         setBounds(0, 0, WIDTH, HEIGHT);
         mainCharacter = new MainCharacter("Images\\MainCharUp.png", 800, 50, 80, 80);
@@ -54,13 +61,16 @@ public class GlybovetsRoom extends ImageBackground implements ActionListener {
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
                             Test.mainMenu.levelMenu.roomMenu.hall.glybovetsFrame.setVisible(false);
+                            stopBackgroundMusic();
+                            Test.mainMenu.levelMenu.roomMenu.addRooms(new Status[]{Status.PECHKUROVA, Status.VOZNIUK, Status.GLYBOVETS});
                             Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(true);
+                            Test.mainMenu.levelMenu.roomMenu.hall.startBackgroundMusic();
                             Test.mainMenu.levelMenu.roomMenu.hall.changeObjectsForExitScene();
                         }
-
                         PortalDesk portalDesk = mainCharacter.touchPortalDesk(decorations);
                         if (portalDesk != null) {
-                            rule = new Rule(WIDTH - DialogWindow.WIDTH, HEIGHT - DialogWindow.HEIGHT, "Exam tasks seem to be hard. Try to use ChatGPT and get 100 points. But don`t get caught!", RuleOption.ChatGPT, 20);
+                            stopBackgroundMusic();
+                            rule = new Rule(0, HEIGHT - DialogWindow.HEIGHT-30, "Exam tasks seem to be hard. Try to use ChatGPT and get 100 points. But don`t get caught!", RuleOption.ChatGPT, 20);
                             add(rule);
                             rule.bringToFront();
                             revalidate();
@@ -79,7 +89,7 @@ public class GlybovetsRoom extends ImageBackground implements ActionListener {
         decorations[2] = new Desk(-30, 747, 1000, 50, null);
         decorations[3] = new Desk(963, -30, 50, 900, null);
         //walls
-        decorations[4] = new Desk(953, 66, 50, 318, null);
+        decorations[4] = new Desk(953, 66, 50, 318, "I hope, we won't write code on shits of paper...");
         //whiteboard;
         decorations[5] = new Door(748, 15, 142, 21, true);
         //door
@@ -90,12 +100,12 @@ public class GlybovetsRoom extends ImageBackground implements ActionListener {
         decorations[8] = new Desk(160, 575, 130, 174, null);
         decorations[9] = new Desk(430, 575, 130, 174, null);
         //lower desks
-        decorations[10] = new Desk(707, 540, 118, 220, null);
+        decorations[10] = new Desk(707, 540, 118, 220, "I believe, tickets were already given to us ");
         //professor desk
     }
 
     public void addGlybovetsCongratulations() {
-        Hint hint = new Hint(WIDTH - DialogWindow.WIDTH, HEIGHT - DialogWindow.HEIGHT, "Congratulations. You have zarah and free to leave... for now", SpeakerType.GLYBOVETS, 20);
+        Hint hint = new Hint(0, HEIGHT - DialogWindow.HEIGHT-30, "Congratulations. You have zarah and free to leave... for now", SpeakerType.GLYBOVETS, 20);
         add(hint);
         revalidate();
         repaint();
@@ -111,6 +121,7 @@ public class GlybovetsRoom extends ImageBackground implements ActionListener {
         revalidate();
         repaint();
     }
+
 
     private ImageIcon resizeImage(String imagePath, int width, int height) {
         ImageIcon originalIcon = new ImageIcon(imagePath);
@@ -129,6 +140,32 @@ public class GlybovetsRoom extends ImageBackground implements ActionListener {
         super.paintComponent(g);
         for (Decoration decoration : decorations) {
             decoration.draw(g);
+        }
+    }
+
+    public void playBackgroundMusic(String filePath) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
         }
     }
 }

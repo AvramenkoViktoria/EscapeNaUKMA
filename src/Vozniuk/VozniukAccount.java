@@ -115,7 +115,7 @@ public class VozniukAccount extends JFrame {
             } else {
                 setVisible(false);
                 passwordLabel.setText("PASSWORD");
-                passwordLabel.setForeground(Color.BLACK);
+                passwordLabel.setForeground(Color.WHITE);
                 base = new DoorBase();
             }
         });

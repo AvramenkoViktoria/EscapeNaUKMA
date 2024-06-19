@@ -40,17 +40,17 @@ public class BattleScene extends ImageBackground implements ActionListener {
             case CONTRACT:
                 delay = 20;
                 mitosisNumber = 3;
-                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 200, 600));
+                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 200, 600, 130,30));
                 break;
             case BUDGET:
                 delay = 16;
                 mitosisNumber = 2;
-                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 220, 600));
+                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 220, 600,100,30));
                 break;
             case GRANT:
                 delay = 16;
                 mitosisNumber = 1;
-                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 243, 600));
+                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 243, 600,70,40));
         }
         timer = new Timer(delay, this);
         Pechkurova pechkurova = new Pechkurova("Images\\Pechkurova.jpg", 960, 20);
@@ -130,6 +130,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
                                 case BUDGET -> FileManager.user.setHeartsNum(2);
                                 case GRANT -> FileManager.user.setHeartsNum(1);
                             }
+                            stopBackgroundMusic();
                             Test.mainMenu.levelMenu.roomMenu.setVisible(true);
                             Test.mainMenu.levelMenu.roomMenu.addRooms(new Status[]{Status.PECHKUROVA, Status.CURRENT, Status.BLOCKED});
                         }
@@ -220,6 +221,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
                 stopBackgroundMusic();
                 //Warning fail = new Warning("YOU LOST!", 200, IDE.battleFrame);
                 IDE.battleFrame.setVisible(false);
+                playBackgroundMusicForDuration("Audio\\fail.wav", 2000);
                 GameOver gameOver = new GameOver();
             } else {
                 Iterator<Pechkurova> iterator = pechkurovas.iterator();
@@ -237,6 +239,34 @@ public class BattleScene extends ImageBackground implements ActionListener {
             }
         }
     }
+    private void playBackgroundMusicForDuration(String filePath, int durationInMillis) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Start playing the clip
+            backgroundMusicClip.start();
+
+            // Close the audio stream after loading the clip to free resources
+            audioStream.close();
+
+            Timer musicTimer = new Timer(durationInMillis, e -> stopBackgroundMusic());
+            musicTimer.setRepeats(false); // Ensure it only runs once
+            musicTimer.start();
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+            if (backgroundMusicClip != null) {
+                backgroundMusicClip.close();
+            }
+        }
+    }
 
     private boolean lost() {
         collided = true;
@@ -245,11 +275,11 @@ public class BattleScene extends ImageBackground implements ActionListener {
                 switch (FileManager.user.getHeartsNum()) {
                     case 3:
                         FileManager.user.setHeartsNum(2);
-                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 200, 600));
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 200, 600,130,30));
                         break;
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 200, 600));
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 200, 600,130,30));
                         break;
                     case 1:
                         return true;
@@ -259,7 +289,7 @@ public class BattleScene extends ImageBackground implements ActionListener {
                 switch (FileManager.user.getHeartsNum()) {
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 200, 600));
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 200, 600,100,30));
                         break;
                     case 1:
                         return true;

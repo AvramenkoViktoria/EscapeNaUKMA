@@ -115,7 +115,7 @@ public class PechkurovaMonologue extends ImageBackground {
         thought.bringToFront();
 
         // Створення таймера для приховування діалогу та початку виходу через 3 секунди
-        Timer dialogTimer = new Timer(3000, e -> {
+        Timer dialogTimer = new Timer(8000, e -> {
             thought.setVisible(false);
             swapCoordinates(); // Обмін координатами для руху назад
             progress = 0; // Скидання прогресу для вихідної анімації

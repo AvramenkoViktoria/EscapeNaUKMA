@@ -56,15 +56,15 @@ public class IDE extends JFrame implements ActionListener {
         initializeMethodsList();
         int delay = switch (FileManager.user.getLevel()) {
             case CONTRACT -> {
-                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 1050, 5));
+                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 1050, 5, 130,30));
                 yield 13;
             }
             case BUDGET -> {
-                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 1100, 5));
+                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 1100, 5, 100,30));
                 yield 4;
             }
             case GRANT -> {
-                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 1150, 5));
+                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 1150, 5,70,40));
                 yield 4;
             }
             default -> 0;

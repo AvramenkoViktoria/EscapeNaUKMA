@@ -37,18 +37,19 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
 
     public VozniukRoom(String imagePath) {
         super(imagePath);
+        Test.mainMenu.levelMenu.roomMenu.hall.stopBackgroundMusic();
         playBackgroundMusic("Audio\\Marty.wav");
         setLayout(null);
         setBounds(0, 0, WIDTH, HEIGHT);
         switch (FileManager.user.getLevel()) {
             case CONTRACT:
-                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 800, 0));
+                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 355, 660,130,30));
                 break;
             case BUDGET:
-                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 800, 0));
+                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 378, 660,100,30));
                 break;
             case GRANT:
-                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 800, 0));
+                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 400, 660,70,40));
         }
         mainCharacter = new MainCharacter("Images\\MainCharUp.png", 150, 600, 80, 80);
         initialiazeDecorationsList();
@@ -80,10 +81,17 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
                             FileManager.user.setStatus(Status.GLYBOVETS);
+                            stopBackgroundMusic();
+                            /*
                             Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
                             Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(true);
+                            Test.mainMenu.levelMenu.roomMenu.hall.startBackgroundMusic();
                             Test.mainMenu.levelMenu.roomMenu.hall.getVozniukDoor().setBlocked(true);
                             Test.mainMenu.levelMenu.roomMenu.hall.changeObjectsForGlybovetsScene();
+
+                             */
+                            Test.mainMenu.levelMenu.roomMenu.setVisible(true);
+                            Test.mainMenu.levelMenu.roomMenu.addRooms(new Status[]{Status.PECHKUROVA, Status.VOZNIUK, Status.CURRENT});
                         }
                         if (interaction != null && interaction.isBlocked()) {
                             Thought thought = new Thought(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "The door is blocked. I need to find the code.", SpeakerType.USER, 20);
@@ -107,7 +115,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                         }
 
                         if (mainCharacter.canMoveForward(decorations).getMessage() != null) {
-                            Thought thought = new Thought(WIDTH - DialogWindow.WIDTH - 16, HEIGHT - DialogWindow.HEIGHT - 40, mainCharacter.canMoveForward(decorations).getMessage(), SpeakerType.USER, 20);
+                            Thought thought = new Thought(0,HEIGHT - DialogWindow.HEIGHT, mainCharacter.canMoveForward(decorations).getMessage(), SpeakerType.USER, 20);
                             add(thought);
                             thought.bringToFront();
                             revalidate();
@@ -129,11 +137,11 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
         //walls
         decorations[4] = new Desk(-30, 452, 60, 265, null);
         //whiteboard
-        decorations[5] = new Desk(-30, 508, 175, 196, null);
+        decorations[5] = new Desk(-30, 508, 175, 196, "Hm, I hope it's not our next lab");
         //machine near whiteboard
         decorations[6] = new Door(172, 728, 150, 65, true);
         //door
-        decorations[7] = new Desk(905, 574, 100, 200, null);
+        decorations[7] = new Desk(905, 574, 100, 200, "What? Cisco altar???");
         //altar cisco
         decorations[8] = new PortalDesk(905, 100, 100, 380, "Cisco shafa.. Wonder how i can open it", Type.BLOCKED);
         //shafa cisco
@@ -248,7 +256,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
         portalDesk.setMessage(null);
         indianTimer = new Timer(10, this);
         addTimer();
-        Rule rule = new Rule(getWidth() - DialogWindow.WIDTH, getHeight() - DialogWindow.HEIGHT, "Oh no! You escaped Vozniuk`s indians. Pick them up until someone hears you and change the network password in cisco shafa later!", RuleOption.INDIANS, 20);
+        Rule rule = new Rule(0,getHeight() - DialogWindow.HEIGHT, "Oh no! You escaped Vozniuk`s indians. Pick them up until someone hears you and change the network password in cisco shafa later!", RuleOption.INDIANS, 15);
         add(rule);
         rule.bringToFront();
         revalidate();
@@ -258,7 +266,9 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
     public void startTimer() {
         indianTimer.start();
         pickTimer.start();
+        playBackgroundMusic("Audio\\India.wav");
     }
+
 
     private boolean collide(MainCharacter mainCharacter, Indian indian) {
         return mainCharacter.getBounds().intersects(indian.getBounds());
@@ -279,6 +289,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
             collided = true;
         }
         if (indians.isEmpty()) {
+            stopBackgroundMusic();
             System.out.println("All Indians are removed!");
             indianTimer.stop();
             PortalDesk portalDesk = (PortalDesk) decorations[8];
@@ -286,6 +297,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
             vozniukAccount.removeChangePasswordButton();
             pickTimer.stop();
             remove(timeLabel);
+            playBackgroundMusic("Audio\\Marty.wav");
         }
     }
 
@@ -314,8 +326,10 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                 timeLabel.setText(String.format("%02d:%02d", minutes, seconds));
             } else {
                 pickTimer.stop();
+                stopBackgroundMusic();
                 Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
                 Test.mainMenu.levelMenu.roomMenu.hall.thoughtCounter = 0;
+                playBackgroundMusicForDuration("Audio\\fail.wav", 2000);
                 GameOver gameOver = new GameOver();
             }
         });
@@ -332,11 +346,11 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                 switch (FileManager.user.getHeartsNum()) {
                     case 3:
                         FileManager.user.setHeartsNum(2);
-                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 355, 660,130,30));
                         break;
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 355, 660,130,30));
                         break;
                     case 1:
                         return true;
@@ -346,7 +360,7 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                 switch (FileManager.user.getHeartsNum()) {
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 800, 0));
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 378, 665,100,30));
                         break;
                     case 1:
                         return true;
@@ -366,7 +380,34 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
             decoration.draw(g);
         }
     }
+    private void playBackgroundMusicForDuration(String filePath, int durationInMillis) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
 
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Start playing the clip
+            backgroundMusicClip.start();
+
+            // Close the audio stream after loading the clip to free resources
+            audioStream.close();
+
+            Timer musicTimer = new Timer(durationInMillis, e -> stopBackgroundMusic());
+            musicTimer.setRepeats(false); // Ensure it only runs once
+            musicTimer.start();
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+            if (backgroundMusicClip != null) {
+                backgroundMusicClip.close();
+            }
+        }
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         Iterator<Indian> iterator = indians.iterator();

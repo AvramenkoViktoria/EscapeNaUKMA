@@ -64,4 +64,5 @@ public class Rule extends DialogWindow {
             parent.revalidate();
         }
     }
+
 }

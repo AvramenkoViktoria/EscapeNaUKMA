@@ -112,7 +112,10 @@ public class RoomMenu extends JFrame {
                     if (clarificationPanel != null)
                         clarificationPanel.setVisible(false);
                     setVisible(false);
-                    mainmenu.stopBackgroundMusic(); // Stop the music
+                    MainMenu mainMenu = Test.mainMenu; // Get the main menu instance
+                    if (mainMenu != null) {
+                        mainMenu.stopBackgroundMusic(); // Stop the music
+                    }
                     switch (FileManager.user.getStatus()) {
                         case PECHKUROVA:
                             monologueFrame = new JFrame();
@@ -120,10 +123,6 @@ public class RoomMenu extends JFrame {
                             monologueFrame.setLayout(null);
                             monologueFrame.setSize(1214, 890);
                             monologueFrame.setLocationRelativeTo(null);
-                            MainMenu mainMenu = Test.mainMenu; // Get the main menu instance
-                            if (mainMenu != null) {
-                                mainMenu.stopBackgroundMusic(); // Stop the music
-                            }
                             monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
                             monologue.setBounds(0, 0, 1200, 853);
                             monologueFrame.add(monologue);
@@ -138,6 +137,7 @@ public class RoomMenu extends JFrame {
                             hallFrame.setSize(814, 435);
                             hallFrame.setLocationRelativeTo(null);
                             hall = new Hall("Images\\Hall.png");
+                            Test.mainMenu.levelMenu.roomMenu.hall.startBackgroundMusic();
                             hall.setBounds(0, 0, 800, 400);
                             hallFrame.add(hall);
                             hallFrame.setVisible(true);
@@ -150,6 +150,7 @@ public class RoomMenu extends JFrame {
                             hallFrame.setSize(814, 435);
                             hallFrame.setLocationRelativeTo(null);
                             hall = new Hall("Images\\Hall.png");
+                            Test.mainMenu.levelMenu.roomMenu.hall.startBackgroundMusic();
                             hall.thoughtCounter = 1;
                             hall.setBounds(0, 0, 800, 400);
                             hall.changeObjectsForGlybovetsScene();
@@ -199,23 +200,6 @@ public class RoomMenu extends JFrame {
         background.add(clarificationPanel);
         revalidate();
         repaint();
-    }
-    private void playBackgroundMusic(String filePath) {
-        try {
-            // Open the audio file as a stream
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
-
-            // Get the clip resource
-            backgroundMusicClip = AudioSystem.getClip();
-
-            // Open the clip and load the audio data from the audio input stream
-            backgroundMusicClip.open(audioStream);
-
-            // Loop the clip continuously
-            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
-            ex.printStackTrace();
-        }
     }
 
     // Method to stop the background music

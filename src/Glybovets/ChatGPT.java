@@ -13,7 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.sound.sampled.*;
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class ChatGPT extends ImageBackground implements ActionListener {
@@ -28,23 +31,25 @@ public class ChatGPT extends ImageBackground implements ActionListener {
     private int stepCounter = 0;
     private Hearts hearts;
     private int speedLimit;
+    Clip backgroundMusicClip;
 
     public ChatGPT(String imagePath) {
         super(imagePath);
         setLayout(null);
+        playBackgroundMusic("Audio\\Subway.wav");
         setBounds(0, 0, WIDTH, HEIGHT);
         switch (FileManager.user.getLevel()) {
             case CONTRACT:
                 speedLimit = 600;
-                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 200, 0));
+                addHeartsPanel(new Hearts("Images\\Contract\\fullHearts.png", Level.CONTRACT, 60, HEIGHT-140, 130,30));
                 break;
             case BUDGET:
                 speedLimit = 500;
-                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 220, 0));
+                addHeartsPanel(new Hearts("Images\\Budget\\fullHearts.png", Level.BUDGET, 80, HEIGHT-140, 100,30));
                 break;
             case GRANT:
                 speedLimit = 400;
-                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 243, 0));
+                addHeartsPanel(new Hearts("Images\\Grant\\fullHearts.png", Level.GRANT, 100, HEIGHT-140, 70,40));
         }
         int delay = 20;
         timer = new Timer(delay, this);
@@ -117,10 +122,12 @@ public class ChatGPT extends ImageBackground implements ActionListener {
     }
 
     private void checkWin() {
-        if (points == 100) {
+        if (points == 20) {
             timer.stop();
+            stopBackgroundMusic();
             Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.setVisible(false);
             Test.mainMenu.levelMenu.roomMenu.hall.glybovetsFrame.setVisible(true);
+            Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.playBackgroundMusic("Audio\\Elevator.wav");
             Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.addGlybovetsCongratulations();
         }
     }
@@ -132,12 +139,12 @@ public class ChatGPT extends ImageBackground implements ActionListener {
                 switch (FileManager.user.getHeartsNum()) {
                     case 3:
                         FileManager.user.setHeartsNum(2);
-                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 200, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\twoHearts.png", Level.CONTRACT, 60, HEIGHT-140, 130,30));
                         stepCounter = 0;
                         break;
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 200, 0));
+                        addHeartsPanel(new Hearts("Images\\Contract\\oneHeart.png", Level.CONTRACT, 60, HEIGHT-140, 130,30));
                         stepCounter = 0;
                         break;
                     case 1:
@@ -148,7 +155,7 @@ public class ChatGPT extends ImageBackground implements ActionListener {
                 switch (FileManager.user.getHeartsNum()) {
                     case 2:
                         FileManager.user.setHeartsNum(1);
-                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 200, 0));
+                        addHeartsPanel(new Hearts("Images\\Budget\\oneHeart.png", Level.BUDGET, 80, HEIGHT-140, 100,30));
                         stepCounter = 0;
                         break;
                     case 1:
@@ -173,8 +180,63 @@ public class ChatGPT extends ImageBackground implements ActionListener {
     }
 
     private void handleLost() {
+        stopBackgroundMusic();
+        playBackgroundMusicForDuration("Audio\\fail.wav", 2000);
         timer.stop();
         Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.setVisible(false);
         GameOver gameOver = new GameOver();
+    }
+    private void playBackgroundMusicForDuration(String filePath, int durationInMillis) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Start playing the clip
+            backgroundMusicClip.start();
+
+            // Close the audio stream after loading the clip to free resources
+            audioStream.close();
+
+            Timer musicTimer = new Timer(durationInMillis, e -> stopBackgroundMusic());
+            musicTimer.setRepeats(false); // Ensure it only runs once
+            musicTimer.start();
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+            if (backgroundMusicClip != null) {
+                backgroundMusicClip.close();
+            }
+        }
+    }
+    private void playBackgroundMusic(String filePath) {
+        try {
+            // Open the audio file as a stream
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(filePath));
+
+            // Get the clip resource
+            backgroundMusicClip = AudioSystem.getClip();
+
+            // Open the clip and load the audio data from the audio input stream
+            backgroundMusicClip.open(audioStream);
+
+            // Loop the clip continuously
+            backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    // Method to stop the background music
+    public void stopBackgroundMusic() {
+        if (backgroundMusicClip != null) {
+            backgroundMusicClip.stop();
+            backgroundMusicClip.close();
+        }
     }
 }

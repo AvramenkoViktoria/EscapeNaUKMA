@@ -1,9 +1,8 @@
 package Data;
 
-import Glybovets.GlybovetsRoom;
 import Menu.MainMenu;
 
-import javax.swing.*;
+//Please handle clarification panel for Vozniuk
 
 public class Test {
     public static MainMenu mainMenu;
@@ -11,9 +10,5 @@ public class Test {
     public static void main(String[] args) {
         FileManager.retriveDataFromFiles();
         mainMenu = new MainMenu();
-
-
-
-
     }
 }
