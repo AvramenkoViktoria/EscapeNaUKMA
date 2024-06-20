@@ -13,7 +13,7 @@ public class Win extends JFrame {
     Clip backgroundMusicClip ;
 
     public Win() {
-        Test.mainMenu.levelMenu.roomMenu.hall.stopBackgroundMusic();
+        //Test.mainMenu.levelMenu.roomMenu.hall.stopBackgroundMusic();
         setSize(700, 400);  // Example size, adjust as needed
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setResizable(false);
@@ -60,24 +60,35 @@ public class Win extends JFrame {
 
     class ImagePanel extends JPanel {
         private Image backgroundImage;
-        private HoverButton button;
+        private HoverButton buttonRoom;
+        private HoverButton buttonMain;
 
         public ImagePanel() {
             backgroundImage = new ImageIcon("Images\\Win.png").getImage();
             setLayout(null);
-            button = new HoverButton("MENU", Color.BLACK);
-            button.setBounds(240, 158, 200, 60);
+            buttonRoom = new HoverButton("ROOMS", Color.BLACK);
+            buttonRoom.setBounds(225, 110, 250, 60);
             Font buttonFont = new Font("Baskerville Old Face", Font.BOLD, 50);
-            button.setFont(buttonFont);
-            button.addActionListener(e -> {
+            buttonRoom.setFont(buttonFont);
+            buttonRoom.addActionListener(e -> {
+                /*
                 switch (FileManager.user.getLevel()) {
                     case CONTRACT -> FileManager.user.setHeartsNum(3);
                     case BUDGET -> FileManager.user.setHeartsNum(2);
                     case GRANT -> FileManager.user.setHeartsNum(1);
                 }
+
+                 */
                 Test.mainMenu.levelMenu.roomMenu.setVisible(true);
             });
-            add(button);
+            buttonMain = new HoverButton("MAIN", Color.BLACK);
+            buttonMain.setBounds(240, 190, 200, 60);
+            buttonMain.setFont(buttonFont);
+            buttonMain.addActionListener(e -> {
+                Test.mainMenu.setVisible(true);
+            });
+            add(buttonRoom);
+            add(buttonMain);
         }
 
         @Override
