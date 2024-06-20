@@ -80,16 +80,16 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                         mainCharacter.setEKeyPressed(true);
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {
+                            switch (FileManager.user.getLevel()) {
+                                case CONTRACT -> FileManager.user.setHeartsNum(3);
+                                case BUDGET -> FileManager.user.setHeartsNum(2);
+                                case GRANT -> FileManager.user.setHeartsNum(1);
+                            }
                             FileManager.user.setStatus(Status.GLYBOVETS);
                             stopBackgroundMusic();
-                            /*
                             Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
-                            Test.mainMenu.levelMenu.roomMenu.hallFrame.setVisible(true);
-                            Test.mainMenu.levelMenu.roomMenu.hall.startBackgroundMusic();
                             Test.mainMenu.levelMenu.roomMenu.hall.getVozniukDoor().setBlocked(true);
                             Test.mainMenu.levelMenu.roomMenu.hall.changeObjectsForGlybovetsScene();
-
-                             */
                             Test.mainMenu.levelMenu.roomMenu.setVisible(true);
                             Test.mainMenu.levelMenu.roomMenu.addRooms(new Status[]{Status.PECHKUROVA, Status.VOZNIUK, Status.CURRENT});
                         }
@@ -304,6 +304,10 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
     public void unlockTheDoor() {
         Door door = (Door) decorations[6];
         door.setBlocked(false);
+    }
+    public void removeHearts() {
+        if (hearts != null)
+            remove(hearts);
     }
 
     private int timeRemaining;

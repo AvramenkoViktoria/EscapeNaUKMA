@@ -2,12 +2,15 @@ package SuperSwing;
 
 import Data.FileManager;
 import Data.Test;
+import Menu.RoomMenu;
+import Enums.Status;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+
 
 public class Win extends JFrame {
     Clip backgroundMusicClip ;
@@ -71,15 +74,15 @@ public class Win extends JFrame {
             Font buttonFont = new Font("Baskerville Old Face", Font.BOLD, 50);
             buttonRoom.setFont(buttonFont);
             buttonRoom.addActionListener(e -> {
-                /*
                 switch (FileManager.user.getLevel()) {
                     case CONTRACT -> FileManager.user.setHeartsNum(3);
                     case BUDGET -> FileManager.user.setHeartsNum(2);
                     case GRANT -> FileManager.user.setHeartsNum(1);
                 }
-
-                 */
+                Test.mainMenu.levelMenu.roomMenu = new RoomMenu();
+                Test.mainMenu.levelMenu.roomMenu. addRooms(new Status[]{Status.PECHKUROVA, Status.VOZNIUK, Status.GLYBOVETS});
                 Test.mainMenu.levelMenu.roomMenu.setVisible(true);
+                this.setVisible(false);
             });
             buttonMain = new HoverButton("MAIN", Color.BLACK);
             buttonMain.setBounds(240, 190, 200, 60);

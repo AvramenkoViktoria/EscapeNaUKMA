@@ -63,6 +63,7 @@ public class CiscoBinaryGame extends JFrame {
             public void windowClosing(WindowEvent e) {
                 if (done) {
                     dispose();
+                    Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoom.removeHearts();
                     Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(true);
                 }
             }

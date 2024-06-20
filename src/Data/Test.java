@@ -1,7 +1,6 @@
 package Data;
 
 import Menu.MainMenu;
-import SuperSwing.Win;
 
 //Please handle clarification panel for Vozniuk
 

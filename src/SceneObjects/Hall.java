@@ -70,7 +70,6 @@ public class Hall extends ImageBackground {
                     case KeyEvent.VK_D -> mainCharacter.turnRight();
                     case KeyEvent.VK_A -> mainCharacter.turnLeft();
                     case KeyEvent.VK_E -> {
-                        stopBackgroundMusic();
                         mainCharacter.setEKeyPressed(true);
                         Door interaction = mainCharacter.touchTheDoor(decorations);
                         if (interaction != null && !interaction.isBlocked()) {

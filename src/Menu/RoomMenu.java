@@ -99,13 +99,12 @@ public class RoomMenu extends JFrame {
                     Warning warning = new Warning("Previous room wasn't passed", 230, this);
                     break;
                 case PECHKUROVA, VOZNIUK, GLYBOVETS:
+                    if (clarificationPanel != null) {
+                        clarificationPanel.setVisible(false);
+                    }
+                    addClarification();
                     if (mainmenu != null) {
                         mainmenu.stopBackgroundMusic(); // Stop the music
-                    }
-                    if (clarificationPanel != null) {
-                        clarificationPanel.setVisible(true);
-                    } else {
-                        addClarification();
                     }
                     break;
                 case CURRENT:
@@ -181,16 +180,48 @@ public class RoomMenu extends JFrame {
         button.setBounds(240, 90, 80, 40);
         button.addActionListener(e -> {
             setVisible(false);
-            monologueFrame = new JFrame();
-            monologueFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            monologueFrame.setLayout(null);
-            monologueFrame.setSize(1214, 890);
-            monologueFrame.setLocationRelativeTo(null);
-            monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
-            monologue.setBounds(0, 0, 1200, 853);
-            monologueFrame.add(monologue);
-            monologueFrame.setLocationRelativeTo(null);
-            monologueFrame.setVisible(true);
+            switch(FileManager.user.getStatus()) {
+                case PECHKUROVA :
+                    monologueFrame = new JFrame();
+                    monologueFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    monologueFrame.setLayout(null);
+                    monologueFrame.setSize(1214, 890);
+                    monologueFrame.setLocationRelativeTo(null);
+                    monologue = new PechkurovaMonologue("Images\\PechkurovaRoom.png");
+                    monologue.setBounds(0, 0, 1200, 853);
+                    monologueFrame.add(monologue);
+                    monologueFrame.setLocationRelativeTo(null);
+                    monologueFrame.setVisible(true);
+                    break;
+                case VOZNIUK :
+                    hallFrame = new JFrame();
+                    hallFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                    hallFrame.setLayout(null);
+                    hallFrame.setResizable(false);
+                    hallFrame.setSize(814, 435);
+                    hallFrame.setLocationRelativeTo(null);
+                    hall = new Hall("Images\\Hall.png");
+                    Test.mainMenu.levelMenu.roomMenu.hall.startBackgroundMusic();
+                    hall.setBounds(0, 0, 800, 400);
+                    hallFrame.add(hall);
+                    hallFrame.setVisible(true);
+                    break;
+                case GLYBOVETS:
+                    hallFrame = new JFrame();
+                    hallFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                    hallFrame.setLayout(null);
+                    hallFrame.setResizable(false);
+                    hallFrame.setSize(814, 435);
+                    hallFrame.setLocationRelativeTo(null);
+                    hall = new Hall("Images\\Hall.png");
+                    Test.mainMenu.levelMenu.roomMenu.hall.startBackgroundMusic();
+                    hall.thoughtCounter = 1;
+                    hall.setBounds(0, 0, 800, 400);
+                    hall.changeObjectsForGlybovetsScene();
+                    hall.getVozniukDoor().setBlocked(true);
+                    hallFrame.add(hall);
+                    hallFrame.setVisible(true);
+            }
         });
         clarificationPanel.add(text1);
         clarificationPanel.add(text2);
