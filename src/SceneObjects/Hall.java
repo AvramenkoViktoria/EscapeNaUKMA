@@ -40,8 +40,7 @@ public class Hall extends ImageBackground {
             mainCharacter = new MainCharacter("Images\\MainCharUp.png", 680, 150, 90, 90);
         } else if (!exitScene) {
             mainCharacter = new MainCharacter("Images\\MainCharUp.png", 100, 100, 90, 90);
-        }
-        else {
+        } else {
             mainCharacter = new MainCharacter("Images\\MainCharUp.png", 100, 100, 90, 90);
         }
         initialiazeDecorationsList();
@@ -123,6 +122,7 @@ public class Hall extends ImageBackground {
         System.out.println("Starting background music."); // Debug statement
         playBackgroundMusic("Audio\\Bob.wav");
     }
+
     private void initialiazeDecorationsList() {
         decorations = new Decoration[8];
         decorations[0] = new Desk(-30, -10, 47, 500, null);
@@ -165,7 +165,18 @@ public class Hall extends ImageBackground {
         return (Door) decorations[7];
     }
 
+    public void changeObjectsForVozniukScene() {
+        System.out.println("changeObjectsForVozniukScene");
+        glybovetsScene = false;
+        exitScene = false;
+        decorations[4] = new Desk(17, 133, 14, 140, "The exit. Will pass through this door again.. i hope.");
+        decorations[5] = new Desk(160, 19, 134, 16, "I need to get there but can't remember the code");
+        getVozniukDoor().setBlocked(false);
+    }
+
+
     public void changeObjectsForGlybovetsScene() {
+        System.out.println("changeObjectsForGlybovetsScene");
         decorations[5] = new Door(160, 19, 134, 16, false);
         glybovetsScene = true;
     }
@@ -194,6 +205,7 @@ public class Hall extends ImageBackground {
             ex.printStackTrace();
         }
     }
+
     public void stopBackgroundMusic() {
         if (backgroundMusicClip != null) {
             backgroundMusicClip.stop();

@@ -88,8 +88,8 @@ public class VozniukRoom extends ImageBackground implements ActionListener {
                             FileManager.user.setStatus(Status.GLYBOVETS);
                             stopBackgroundMusic();
                             Test.mainMenu.levelMenu.roomMenu.hall.vozniukRoomFrame.setVisible(false);
-                            Test.mainMenu.levelMenu.roomMenu.hall.getVozniukDoor().setBlocked(true);
-                            Test.mainMenu.levelMenu.roomMenu.hall.changeObjectsForGlybovetsScene();
+                            //Test.mainMenu.levelMenu.roomMenu.hall.getVozniukDoor().setBlocked(true);
+                            //Test.mainMenu.levelMenu.roomMenu.hall.changeObjectsForGlybovetsScene();
                             Test.mainMenu.levelMenu.roomMenu.setVisible(true);
                             Test.mainMenu.levelMenu.roomMenu.addRooms(new Status[]{Status.PECHKUROVA, Status.VOZNIUK, Status.CURRENT});
                         }

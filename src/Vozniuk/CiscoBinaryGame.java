@@ -290,7 +290,7 @@ public class CiscoBinaryGame extends JFrame {
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setFont(new Font("Baskerville Old Face", Font.BOLD, 30));
         timeLabel.setFont(timeLabel.getFont().deriveFont(30.0f));
-        timeRemaining = 10;
+        timeRemaining = 120;
         timer = new Timer(1000, e -> {
             if (timeRemaining > 0) {
                 timeRemaining--;
@@ -411,7 +411,7 @@ public class CiscoBinaryGame extends JFrame {
             repaint();
             consoleText.setText("");
             timeLabel.setForeground(Color.BLACK);
-            timeRemaining = 10;
+            timeRemaining = 120;
             timer.start();
         });
         add(retry);

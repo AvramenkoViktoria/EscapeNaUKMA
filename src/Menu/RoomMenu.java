@@ -102,7 +102,7 @@ public class RoomMenu extends JFrame {
                     if (clarificationPanel != null) {
                         clarificationPanel.setVisible(false);
                     }
-                    addClarification();
+                    addClarification(status);
                     if (mainmenu != null) {
                         mainmenu.stopBackgroundMusic(); // Stop the music
                     }
@@ -165,7 +165,7 @@ public class RoomMenu extends JFrame {
         background.repaint();
     }
 
-    private void addClarification() {
+    private void addClarification(Status status) {
         clarificationPanel = new RoundedPanel(30, Color.WHITE);
         clarificationPanel.setLayout(null);
         clarificationPanel.setBounds((FRAME_WIDTH - 340) / 2, 560, 340, 160);
@@ -180,7 +180,7 @@ public class RoomMenu extends JFrame {
         button.setBounds(240, 90, 80, 40);
         button.addActionListener(e -> {
             setVisible(false);
-            switch(FileManager.user.getStatus()) {
+            switch(status) {
                 case PECHKUROVA :
                     monologueFrame = new JFrame();
                     monologueFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -201,7 +201,8 @@ public class RoomMenu extends JFrame {
                     hallFrame.setSize(814, 435);
                     hallFrame.setLocationRelativeTo(null);
                     hall = new Hall("Images\\Hall.png");
-                    Test.mainMenu.levelMenu.roomMenu.hall.startBackgroundMusic();
+                    hall.startBackgroundMusic();
+                    hall.changeObjectsForVozniukScene();
                     hall.setBounds(0, 0, 800, 400);
                     hallFrame.add(hall);
                     hallFrame.setVisible(true);

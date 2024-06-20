@@ -122,7 +122,7 @@ public class ChatGPT extends ImageBackground implements ActionListener {
     }
 
     private void checkWin() {
-        if (points == 20) {
+        if (points == 100) {
             timer.stop();
             stopBackgroundMusic();
             Test.mainMenu.levelMenu.roomMenu.hall.glybovetsRoom.rule.quest.setVisible(false);
